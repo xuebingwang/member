@@ -7,6 +7,8 @@
  */
 namespace Notadd\Member;
 use Notadd\Extension\Abstracts\ExtensionRegistrar;
+use Notadd\Member\Foundation\Driver;
+use Notadd\Member\Listeners\RouteRegistrar;
 /**
  * Class Extension
  * @package Notadd\Member
@@ -28,7 +30,9 @@ class Extension extends ExtensionRegistrar {
      * @return void
      */
     public function register() {
-        $this->container->make('member')->extend('notadd', function() {
+        $this->events->subscribe(RouteRegistrar::class);
+        $this->container->make('member')->extend('notadd', function($app) {
+            return new Driver($app, $app['events']);
         });
     }
 }
