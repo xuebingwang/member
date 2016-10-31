@@ -1,32 +1,1 @@
-{
-    "name": "notadd/member",
-    "description": "The Notadd Module.",
-    "keywords": ["notadd", "cms", "framework", "member"],
-    "homepage": "https://notadd.com",
-    "license": "Apache-2.0",
-    "type": "notadd-extension",
-    "authors": [
-        {
-            "name": "twilroad",
-            "email": "269044570@qq.com"
-        }
-    ],
-    "autoload": {
-        "psr-4": {
-            "Notadd\\Member\\": "src/"
-        }
-    },
-    "autoload-dev": {
-        "psr-4": {
-            "Tests\\": "tests/"
-        }
-    },
-    "require": {
-        "php": ">=5.6.4"
-    },
-    "require-dev": {
-    },
-    "config": {
-        "preferred-install": "dist"
-    }
-}
+{    "name": "notadd/member",    "description": "The Notadd Module.",    "keywords": ["notadd", "cms", "framework", "member"],    "homepage": "https://notadd.com",    "license": "Apache-2.0",    "type": "notadd-extension",    "authors": [        {            "name": "twilroad",            "email": "269044570@qq.com"        }    ],    "autoload": {        "psr-4": {            "Notadd\\Member\\": "src/"        }    }}
