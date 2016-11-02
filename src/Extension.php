@@ -7,7 +7,7 @@
  */
 namespace Notadd\Member;
 use Notadd\Foundation\Extension\Abstracts\ExtensionRegistrar;
-use Notadd\Member\Foundation\Driver;
+use Notadd\Foundation\Member\MemberManagement;
 use Notadd\Member\Listeners\RouteRegistrar;
 /**
  * Class Extension
@@ -27,12 +27,13 @@ class Extension extends ExtensionRegistrar {
         return realpath(__DIR__ . '/../');
     }
     /**
-     * @return void
+     * @param \Notadd\Foundation\Member\MemberManagement $management
      */
-    public function register() {
+    public function register(MemberManagement $management) {
+        $manager = new Manager($this->container['events'], $this->container['router']);
+        $management->registerManager($manager);
         $this->events->subscribe(RouteRegistrar::class);
         $this->container->make('member')->extend('notadd', function($app) {
-            return new Driver($app, $app['events']);
         });
     }
 }
