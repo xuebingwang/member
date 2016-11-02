@@ -6,18 +6,10 @@
  * @datetime 2016-10-14 14:58
  */
 namespace Notadd\Member\Models;
-use Notadd\Foundation\Member\Models\Member as BaseMember;
+use Notadd\Foundation\Member\Member as BaseMember;
 /**
  * Class Member
  * @package Notadd\Member\Models
  */
 class Member extends BaseMember {
-    /**
-     * @var array
-     */
-    protected $fillable = [];
-    /**
-     * @var array
-     */
-    protected $hidden = [];
 }

@@ -7,57 +7,51 @@
  */
 namespace Notadd\Member;
 use Notadd\Foundation\Member\Abstracts\Manager as AbstractManager;
+use Notadd\Member\Models\Member;
 /**
  * Class Manager
  * @package Notadd\Member
  */
 class Manager extends AbstractManager {
     /**
-     * @param array $data
+     * @param int $id
      * @param bool $force
      * @return mixed
      */
-    public function create(array $data, $force = false) {
-        // TODO: Implement create() method.
+    public function delete(int $id, $force = false) {
+        $member = Member::query()->find($id);
+        if($member) {
+            return $force ? $member->forceDelete() : $member->delete();
+        } else {
+            return false;
+        }
+    }
+    /**
+     * @param int $id
+     * @return mixed
+     */
+    public function find(int $id) {
+        return Member::query()->find($id);
     }
     /**
      * @param array $data
-     * @param bool $force
      * @return mixed
      */
-    public function delete(array $data, $force = false) {
-        // TODO: Implement delete() method.
+    public function store(array $data) {
+        return Member::create($data);
     }
     /**
+     * @param int $id
      * @param array $data
      * @param bool $force
      * @return mixed
      */
-    public function edit(array $data, $force = false) {
-        // TODO: Implement edit() method.
-    }
-    /**
-     * @param array $data
-     * @param bool $force
-     * @return mixed
-     */
-    public function find(array $data, $force = false) {
-        // TODO: Implement find() method.
-    }
-    /**
-     * @param array $data
-     * @param bool $force
-     * @return mixed
-     */
-    public function store(array $data, $force = false) {
-        // TODO: Implement store() method.
-    }
-    /**
-     * @param array $data
-     * @param bool $force
-     * @return mixed
-     */
-    public function update(array $data, $force = false) {
-        // TODO: Implement update() method.
+    public function update(int $id, array $data, $force = false) {
+        $member = Member::query()->find($id);
+        if($member) {
+            return $force ? $member->updateOrCreate($data) : $member->update($data);
+        } else {
+            return false;
+        }
     }
 }
