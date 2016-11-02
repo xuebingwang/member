@@ -33,7 +33,5 @@ class Extension extends ExtensionRegistrar {
         $manager = new Manager($this->container['events'], $this->container['router']);
         $management->registerManager($manager);
         $this->events->subscribe(RouteRegistrar::class);
-        $this->container->make('member')->extend('notadd', function($app) {
-        });
     }
 }
