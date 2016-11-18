@@ -1,6 +1,7 @@
 <?php
 /**
  * This file is part of Notadd.
+ *
  * @author TwilRoad <269044570@qq.com>
  * @copyright (c) 2016, iBenchu.org
  * @datetime 2016-10-14 13:49
@@ -23,6 +24,7 @@ class Extension extends ExtensionRegistrar
     {
         return 'notadd/member';
     }
+
     /**
      * @return string
      */
@@ -30,6 +32,7 @@ class Extension extends ExtensionRegistrar
     {
         return realpath(__DIR__ . '/../');
     }
+
     /**
      * @param \Notadd\Foundation\Member\MemberManagement $management
      */
