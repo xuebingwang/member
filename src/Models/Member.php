@@ -6,10 +6,13 @@
  * @datetime 2016-10-14 14:58
  */
 namespace Notadd\Member\Models;
+
 use Notadd\Foundation\Member\Member as BaseMember;
+
 /**
  * Class Member
  * @package Notadd\Member\Models
  */
-class Member extends BaseMember {
+class Member extends BaseMember
+{
 }

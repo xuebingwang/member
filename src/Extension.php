@@ -6,30 +6,36 @@
  * @datetime 2016-10-14 13:49
  */
 namespace Notadd\Member;
+
 use Notadd\Foundation\Extension\Abstracts\ExtensionRegistrar;
 use Notadd\Foundation\Member\MemberManagement;
 use Notadd\Member\Listeners\RouteRegistrar;
+
 /**
  * Class Extension
  * @package Notadd\Member
  */
-class Extension extends ExtensionRegistrar {
+class Extension extends ExtensionRegistrar
+{
     /**
      * @return string
      */
-    public function getExtensionName() {
+    public function getExtensionName()
+    {
         return 'notadd/member';
     }
     /**
      * @return string
      */
-    public function getExtensionPath() {
+    public function getExtensionPath()
+    {
         return realpath(__DIR__ . '/../');
     }
     /**
      * @param \Notadd\Foundation\Member\MemberManagement $management
      */
-    public function register(MemberManagement $management) {
+    public function register(MemberManagement $management)
+    {
         $manager = new Manager($this->container['events'], $this->container['router']);
         $management->registerManager($manager);
         $this->events->subscribe(RouteRegistrar::class);

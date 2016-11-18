@@ -6,16 +6,20 @@
  * @datetime 2016-10-14 13:59
  */
 namespace Notadd\Member\Controllers;
+
 use Notadd\Foundation\Routing\Abstracts\Controller;
+
 /**
  * Class MemberController
  * @package Notadd\Member\Controllers
  */
-class MemberController extends Controller {
+class MemberController extends Controller
+{
     /**
      * @return \Illuminate\Contracts\View\View
      */
-    public function index() {
+    public function index()
+    {
         return $this->view('');
     }
 }
