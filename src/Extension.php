@@ -12,8 +12,7 @@ use Notadd\Foundation\Member\MemberManagement;
 use Notadd\Member\Listeners\RouteRegistrar;
 
 /**
- * Class Extension
- * @package Notadd\Member
+ * Class Extension.
  */
 class Extension extends ExtensionRegistrar
 {

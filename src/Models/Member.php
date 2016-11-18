@@ -10,8 +10,7 @@ namespace Notadd\Member\Models;
 use Notadd\Foundation\Member\Member as BaseMember;
 
 /**
- * Class Member
- * @package Notadd\Member\Models
+ * Class Member.
  */
 class Member extends BaseMember
 {

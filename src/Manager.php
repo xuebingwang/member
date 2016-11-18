@@ -11,8 +11,7 @@ use Notadd\Foundation\Member\Abstracts\Manager as AbstractManager;
 use Notadd\Member\Models\Member;
 
 /**
- * Class Manager
- * @package Notadd\Member
+ * Class Manager.
  */
 class Manager extends AbstractManager
 {

@@ -10,8 +10,7 @@ namespace Notadd\Member\Controllers;
 use Notadd\Foundation\Routing\Abstracts\Controller;
 
 /**
- * Class MemberController
- * @package Notadd\Member\Controllers
+ * Class MemberController.
  */
 class MemberController extends Controller
 {

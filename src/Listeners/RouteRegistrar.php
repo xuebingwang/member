@@ -11,8 +11,7 @@ use Notadd\Foundation\Routing\Abstracts\RouteRegistrar as AbstractRouteRegistrar
 use Notadd\Member\Controllers\MemberController;
 
 /**
- * Class RouteRegistrar
- * @package Notadd\Member\Listeners
+ * Class RouteRegistrar.
  */
 class RouteRegistrar extends AbstractRouteRegistrar
 {
