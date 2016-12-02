@@ -11,6 +11,11 @@
             "email": "269044570@qq.com"
         }
     ],
+    "require": {
+        "php": ">=7.0",
+        "composer/installers": "~1.0",
+        "notadd/framework": "0.1.*"
+    },
     "autoload": {
         "psr-4": {
             "Notadd\\Member\\": "src/"
