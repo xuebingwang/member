@@ -13,7 +13,7 @@
     ],
     "require": {
         "php": ">=7.0",
-        "notadd/framework": "0.1.*"
+        "notadd/installers": "0.1.*"
     },
     "autoload": {
         "psr-4": {
