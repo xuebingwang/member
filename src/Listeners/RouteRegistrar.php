@@ -17,7 +17,7 @@ use Notadd\Member\Controllers\MemberController;
 class RouteRegistrar extends AbstractRouteRegistrar
 {
     /**
-     * TODO: Method handle Description
+     * Handle Route Registrar.
      */
     public function handle()
     {
