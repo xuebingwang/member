@@ -17,10 +17,12 @@ use Notadd\Member\Models\Member;
 class Manager extends AbstractManager
 {
     /**
+     * TODO: Method delete Description
+     *
      * @param int  $id
      * @param bool $force
      *
-     * @return mixed
+     * @return bool|mixed|null
      */
     public function delete(int $id, $force = false)
     {
@@ -33,6 +35,8 @@ class Manager extends AbstractManager
     }
 
     /**
+     * TODO: Method find Description
+     *
      * @param int $id
      *
      * @return mixed
@@ -43,6 +47,8 @@ class Manager extends AbstractManager
     }
 
     /**
+     * TODO: Method store Description
+     *
      * @param array $data
      *
      * @return mixed
@@ -53,6 +59,8 @@ class Manager extends AbstractManager
     }
 
     /**
+     * TODO: Method update Description
+     *
      * @param int   $id
      * @param array $data
      * @param bool  $force
