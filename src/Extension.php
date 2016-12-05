@@ -51,7 +51,7 @@ class Extension extends ExtensionRegistrar
     }
 
     /**
-     * TODO: Method register Description
+     * Extension's register.
      *
      * @param \Notadd\Foundation\Member\MemberManagement $management
      */
