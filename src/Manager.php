@@ -17,7 +17,7 @@ use Notadd\Member\Models\Member;
 class Manager extends AbstractManager
 {
     /**
-     * TODO: Method delete Description
+     * Delete a member.
      *
      * @param int  $id
      * @param bool $force
@@ -35,7 +35,7 @@ class Manager extends AbstractManager
     }
 
     /**
-     * TODO: Method find Description
+     * Find a member.
      *
      * @param int $id
      *
@@ -47,7 +47,7 @@ class Manager extends AbstractManager
     }
 
     /**
-     * TODO: Method store Description
+     * Store a member.
      *
      * @param array $data
      *
@@ -59,7 +59,7 @@ class Manager extends AbstractManager
     }
 
     /**
-     * TODO: Method update Description
+     * Update a member.
      *
      * @param int   $id
      * @param array $data
