@@ -15,7 +15,7 @@ use Notadd\Member\Listeners\RouteRegistrar;
 /**
  * Class Extension.
  */
-class Extension extends ExtensionRegistrar
+class ModuleServiceProvider extends ExtensionRegistrar
 {
     /**
      * Info for extension.
