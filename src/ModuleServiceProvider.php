@@ -8,57 +8,25 @@
  */
 namespace Notadd\Member;
 
-use Notadd\Foundation\Extension\Abstracts\ExtensionRegistrar;
+use Illuminate\Events\Dispatcher;
+use Illuminate\Support\ServiceProvider;
 use Notadd\Foundation\Member\MemberManagement;
 use Notadd\Member\Listeners\RouteRegistrar;
 
 /**
  * Class Extension.
  */
-class ModuleServiceProvider extends ExtensionRegistrar
+class ModuleServiceProvider extends ServiceProvider
 {
     /**
-     * Info for extension.
-     *
-     * @return array
-     */
-    public function getExtensionInfo()
-    {
-        return [
-            'author'      => 'twilroad <269044570@qq.com>',
-            'description' => 'A module for Notadd',
-        ];
-    }
-
-    /**
-     * Name for extension.
-     *
-     * @return string
-     */
-    public function getExtensionName()
-    {
-        return 'notadd/member';
-    }
-
-    /**
-     * Path for extension.
-     *
-     * @return string
-     */
-    public function getExtensionPath()
-    {
-        return realpath(__DIR__ . '/../');
-    }
-
-    /**
-     * Extension's register.
+     * Boot service provider.
      *
      * @param \Notadd\Foundation\Member\MemberManagement $management
      */
-    public function register(MemberManagement $management)
+    public function boot(MemberManagement $management)
     {
-        $manager = new Manager($this->container['events'], $this->container['router']);
+        $manager = new Manager($this->app['events'], $this->app['router']);
         $management->registerManager($manager);
-        $this->events->subscribe(RouteRegistrar::class);
+        $this->app->make(Dispatcher::class)->subscribe(RouteRegistrar::class);
     }
 }
