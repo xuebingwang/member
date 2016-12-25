@@ -1,6 +1,6 @@
 {
     "name": "notadd/member",
-    "description": "The Notadd Module.",
+    "description": "Notadd's Member Module.",
     "keywords": ["notadd", "cms", "framework", "member"],
     "homepage": "https://notadd.com",
     "license": "Apache-2.0",
