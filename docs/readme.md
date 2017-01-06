@@ -1,6 +1,6 @@
 # Notadd Member
 
-Notadd Framework 的一个插件。
+Notadd Framework 的用户模块。
 
 ## 主要特性
 
