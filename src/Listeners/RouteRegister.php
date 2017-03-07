@@ -8,7 +8,9 @@
  */
 namespace Notadd\Member\Listeners;
 
+use Notadd\Foundation\Member\Middleware\AdminPermission;
 use Notadd\Foundation\Routing\Abstracts\RouteRegister as AbstractRouteRegister;
+use Notadd\Member\Controllers\Admin\HomeController;
 use Notadd\Member\Controllers\MemberController;
 use Notadd\Member\Controllers\Admin\UserController;
 use Notadd\Member\Controllers\Admin\GroupController;
@@ -16,6 +18,8 @@ use Notadd\Member\Controllers\Admin\TopicController;
 use Notadd\Member\Controllers\Admin\PermissionController;
 use Notadd\Member\Controllers\Admin\ActionPointsController;
 use Notadd\Member\Controllers\UserController as FrontendUserController;
+use Notadd\Member\Middleware\Group;
+use Notadd\Member\Middleware\Permission;
 
 /**
  * Class RouteRegistrar.
