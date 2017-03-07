@@ -9,6 +9,8 @@
 
 namespace Notadd\Member;
 
+use Notadd\Member\Models\ActionPoints;
+
 class PointsManager
 {
     const PATH_PERFIX = 'action-points.paths.';
@@ -40,5 +42,10 @@ class PointsManager
     public function getFilePaths()
     {
         return app('config')->get(rtrim(static::PATH_PERFIX, '.'), []);
+    }
+
+    public function get(string $name)
+    {
+        return ActionPoints::findByName($name);
     }
 }
