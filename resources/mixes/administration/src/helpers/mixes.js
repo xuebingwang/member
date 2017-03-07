@@ -1,3 +1,5 @@
+import Dashboard from '../components/Dashboard'
+import Layout from '../components/Layout'
 export function headerMixin (Core) {
   Core.header = function (menu) {
     menu.push({
@@ -16,12 +18,12 @@ export function installMixin (Core) {
 export function routerMixin (Core) {
   Core.router = function (router) {
     router.modules.push({
-      path: '/content',
-      component: ContentLayout,
+      path: '/member',
+      component: Layout,
       children: [
         {
           path: '/',
-          component: ContentDashboard,
+          component: Dashboard,
           beforeEnter: router.auth
         }
       ]
