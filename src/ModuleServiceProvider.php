@@ -11,7 +11,7 @@ namespace Notadd\Member;
 use Illuminate\Events\Dispatcher;
 use Illuminate\Support\ServiceProvider;
 use Notadd\Foundation\Member\MemberManagement;
-use Notadd\Member\Listeners\RouteRegistrar;
+use Notadd\Member\Listeners\RouteRegister;
 
 /**
  * Class Extension.
@@ -27,6 +27,6 @@ class ModuleServiceProvider extends ServiceProvider
     {
         $manager = new Manager($this->app['events'], $this->app['router']);
         $management->registerManager($manager);
-        $this->app->make(Dispatcher::class)->subscribe(RouteRegistrar::class);
+        $this->app->make(Dispatcher::class)->subscribe(RouteRegister::class);
     }
 }
