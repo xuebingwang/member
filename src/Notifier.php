@@ -18,4 +18,19 @@ class Notifier
     {
         return Notification::notify($type, $sender, $toUser, $subject, $subjectType, $reply);
     }
+
+    public function atNotify(Member $sender, Member $toUser, $subject = null, $subjectType = null, $reply = null)
+    {
+        return $this->notify('at', $sender, $toUser, $subject, $subjectType, $reply);
+    }
+
+    public function likeNotify(Member $sender, Member $toUser, $subject = null, $subjectType = null)
+    {
+        return $this->notify('like', $sender, $toUser, $subject, $subjectType);
+    }
+
+    public function newReplyNotify(Member $sender, Member $toUser, $subject = null, $subjectType = null, $reply = null)
+    {
+        return $this->notify('new_reply', $sender, $toUser, $subject, $subjectType, $reply);
+    }
 }
