@@ -24,8 +24,8 @@ class ModuleServiceProvider extends Module
     public function boot()
     {
         $manager = new Manager($this->app['events'], $this->app['router']);
-        $this->app->make(MemberManagement::class)->registerManager($manager);
         $this->app->make(Dispatcher::class)->subscribe(RouteRegister::class);
+        $this->app->make(MemberManagement::class)->registerManager($manager);
     }
 
     /**
