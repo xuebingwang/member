@@ -10,7 +10,6 @@
 namespace Notadd\Member\Listeners;
 
 use Notadd\Member\Events\CheckIn;
-use Notadd\Member\Models\ActionPoints;
 use Notadd\Member\Models\Registration;
 use Notadd\Member\Events\PublishedTopic;
 use Notadd\Member\Models\GetPointsRecord;
@@ -26,7 +25,7 @@ class UserMetadataUpdater
 
     public function publishedTopic(PublishedTopic $event)
     {
-        $topicPoints = ActionPoints::findByName('public-topic');
+        $topicPoints = app('points')->get('public-topic');
 
         $user = $event->user;
         if ($topicPoints && $topicPoints->exists && $user) {
@@ -53,7 +52,7 @@ class UserMetadataUpdater
             return;
         }
 
-        $signAction = ActionPoints::findByName('sign');
+        $signAction = app('points')->get('sign');
 
         if (! $signAction) {
             return;

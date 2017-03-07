@@ -44,6 +44,13 @@ class PointsManager
         return app('config')->get(rtrim(static::PATH_PERFIX, '.'), []);
     }
 
+    /**
+     * 通过 name 来获取积分
+     *
+     * @param string $name
+     *
+     * @return mixed
+     */
     public function get(string $name)
     {
         return ActionPoints::findByName($name);
