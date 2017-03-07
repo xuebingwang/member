@@ -26,6 +26,9 @@ class ModuleServiceProvider extends Module
         $manager = new Manager($this->app['events'], $this->app['router']);
         $this->app->make(Dispatcher::class)->subscribe(RouteRegister::class);
         $this->app->make(MemberManagement::class)->registerManager($manager);
+        $this->publishes([
+            realpath(__DIR__ . '/../resources/mixes/administration/dist/assets/member/administration') => public_path('assets/member/administration')
+        ], 'public');
     }
 
     /**
@@ -36,6 +39,28 @@ class ModuleServiceProvider extends Module
     public function install()
     {
         return true;
+    }
+
+    /**
+     * Get script of extension.
+     *
+     * @return string
+     * @throws \Illuminate\Contracts\Container\BindingResolutionException
+     */
+    public static function script()
+    {
+        return asset('assets/member/administration/js/module.js');
+    }
+
+    /**
+     * Get stylesheet of extension.
+     *
+     * @return array
+     * @throws \Illuminate\Contracts\Container\BindingResolutionException
+     */
+    public static function stylesheet()
+    {
+        return [];
     }
 
     /**
