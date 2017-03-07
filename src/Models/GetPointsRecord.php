@@ -1,0 +1,35 @@
+<?php
+/**
+ * This file is part of Notadd.
+ *
+ * @author        Qiyueshiyi <qiyueshiyi@outlook.com>
+ * @copyright (c) 2017, iBenchu.org
+ * @datetime      2017-01-23 17:40
+ */
+
+namespace Notadd\Member\Models;
+
+use Notadd\Foundation\Database\Model;
+
+/**
+ * Class GetPointsRecord
+ *
+ * @property integer             $id
+ * @property integer             $user_id
+ * @property string              $action_display_name
+ * @property string              $action_name
+ * @property float               $points
+ * @property \Carbon\Carbon|null $created_at
+ *
+ * @package Notadd\Member\Models
+ */
+class GetPointsRecord extends Model
+{
+    protected $table = 'get_points_records';
+
+    protected $fillable = [
+        'user_id', 'action_display_name', 'action_name', 'points',
+    ];
+
+    protected $dates = ['created_at'];
+}

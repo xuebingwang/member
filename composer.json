@@ -18,6 +18,9 @@
     "autoload": {
         "psr-4": {
             "Notadd\\Member\\": "src/"
-        }
+        },
+        "files": [
+            "src/helpers.php"
+        ]
     }
 }
