@@ -9,24 +9,42 @@
 namespace Notadd\Member;
 
 use Illuminate\Events\Dispatcher;
-use Illuminate\Support\ServiceProvider;
 use Notadd\Foundation\Member\MemberManagement;
+use Notadd\Foundation\Module\Abstracts\Module;
 use Notadd\Member\Listeners\RouteRegister;
 
 /**
  * Class Extension.
  */
-class ModuleServiceProvider extends ServiceProvider
+class ModuleServiceProvider extends Module
 {
     /**
      * Boot service provider.
-     *
-     * @param \Notadd\Foundation\Member\MemberManagement $management
      */
-    public function boot(MemberManagement $management)
+    public function boot()
     {
         $manager = new Manager($this->app['events'], $this->app['router']);
-        $management->registerManager($manager);
+        $this->app->make(MemberManagement::class)->registerManager($manager);
         $this->app->make(Dispatcher::class)->subscribe(RouteRegister::class);
+    }
+
+    /**
+     * Install module.
+     *
+     * @return bool
+     */
+    public function install()
+    {
+        return true;
+    }
+
+    /**
+     * Uninstall module.
+     *
+     * @return mixed
+     */
+    public function uninstall()
+    {
+        return true;
     }
 }
