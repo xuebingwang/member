@@ -56,6 +56,10 @@ class ModuleServiceProvider extends ServiceProvider
             return new PointsManager;
         });
 
+        $this->app->singleton('notifier', function ($app) {
+            return new Notifier;
+        });
+
         $this->registerCommands();
     }
 
