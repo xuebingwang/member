@@ -82,7 +82,9 @@ class ModuleServiceProvider extends Module
      */
     public static function stylesheet()
     {
-        return [];
+        return [
+            asset('assets/member/administration/css/module.css'),
+        ];
     }
 
     /**
