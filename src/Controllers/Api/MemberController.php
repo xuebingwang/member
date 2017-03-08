@@ -30,6 +30,7 @@ class MemberController extends AbstractApiController
                 'age'        => $list->birth_date ? $list->birth_date->age : '',
                 'avatar'     => $list->avatar,
                 'points'     => $list->points,
+                'group'      => $list->cachedGroups()->implode('display_name', '|'),
                 'created_at' => $list->created_at->toDateTimeString(),
             ];
         });
@@ -51,6 +52,7 @@ class MemberController extends AbstractApiController
                 'age'        => $list->birth_date ? $list->birth_date->age : '',
                 'avatar'     => $list->avatar,
                 'points'     => $list->points,
+                'group'      => $list->cachedGroups()->implode('display_name', '|'),
                 'created_at' => $list->created_at->toDateTimeString(),
             ];
         });
