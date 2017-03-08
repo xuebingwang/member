@@ -26,6 +26,7 @@ class ModuleServiceProvider extends Module
         $manager = new Manager($this->app['events'], $this->app['router']);
         $this->app->make(Dispatcher::class)->subscribe(RouteRegister::class);
         $this->app->make(MemberManagement::class)->registerManager($manager);
+        $this->loadMigrationsFrom(realpath(__DIR__ . '/../databases/migrations'));
         $this->publishes([
             realpath(__DIR__ . '/../resources/mixes/administration/dist/assets/member/administration') => public_path('assets/member/administration')
         ], 'public');
