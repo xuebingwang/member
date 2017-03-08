@@ -12,6 +12,7 @@ use Illuminate\Events\Dispatcher;
 use Notadd\Foundation\Member\MemberManagement;
 use Notadd\Foundation\Module\Abstracts\Module;
 use Notadd\Member\Commands\PointsCommand;
+use Notadd\Member\Listeners\CsrfTokenRegister;
 use Notadd\Member\Listeners\RouteRegister;
 use Notadd\Member\Listeners\UserMetadataUpdater;
 
@@ -27,6 +28,7 @@ class ModuleServiceProvider extends Module
     {
         ini_set('display_errors', true);
         $manager = new Manager($this->app['events'], $this->app['router']);
+        $this->app->make(Dispatcher::class)->subscribe(CsrfTokenRegister::class);
         $this->app->make(Dispatcher::class)->subscribe(RouteRegister::class);
         $this->app->make(Dispatcher::class)->subscribe(UserMetadataUpdater::class);
         $this->app->make(MemberManagement::class)->registerManager($manager);
