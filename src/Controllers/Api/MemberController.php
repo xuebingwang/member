@@ -30,4 +30,23 @@ class MemberController extends AbstractApiController
             ];
         });
     }
+
+    public function show($member_id)
+    {
+        $member = Member::find(intval($member_id));
+
+        if (! $member || ! $member->exists) {
+            return $this->errorNotFound();
+        }
+
+        return $this->respondWithPaginator($member, function (Member $list) {
+            return [
+                'nick_name'  => $list->nick_name,
+                'sex'        => $list->sex,
+                'avatar'     => $list->avatar,
+                'points'     => $list->points,
+                'created_at' => $list->created_at->toDateTimeString(),
+            ];
+        });
+    }
 }
