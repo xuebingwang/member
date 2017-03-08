@@ -1,11 +1,14 @@
 import Dashboard from '../components/Dashboard'
+import Group from '../components/Group'
 import Layout from '../components/Layout'
+import Security from '../components/Security'
+import User from '../components/User'
 export function headerMixin (Core) {
   Core.header = function (menu) {
     menu.push({
       'text': '用户中心',
       'icon': 'icon icon-article',
-      'uri': '/content'
+      'uri': '/member'
     })
   }
 }
@@ -24,6 +27,21 @@ export function routerMixin (Core) {
         {
           path: '/',
           component: Dashboard,
+          beforeEnter: router.auth
+        },
+        {
+          path: 'group',
+          component: Group,
+          beforeEnter: router.auth
+        },
+        {
+          path: 'security',
+          component: Security,
+          beforeEnter: router.auth
+        },
+        {
+          path: 'user',
+          component: User,
           beforeEnter: router.auth
         }
       ]

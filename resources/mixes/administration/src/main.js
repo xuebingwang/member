@@ -1,3 +1,4 @@
+import './assets/style.less'
 import {headerMixin, installMixin, routerMixin} from './helpers/mixes'
 
 let Core = {}
