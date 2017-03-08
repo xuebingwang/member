@@ -47,7 +47,7 @@ class ModuleServiceProvider extends Module
      *
      * @return string
      */
-    public function description()
+    public static function description()
     {
         return 'Notadd 用户管理模块';
     }
@@ -67,7 +67,7 @@ class ModuleServiceProvider extends Module
      *
      * @return string
      */
-    public function name()
+    public static function name()
     {
         return '用户管理模块';
     }
