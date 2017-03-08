@@ -43,6 +43,7 @@ class RouteRegister extends AbstractRouteRegistrar
             $this->router->post('members/{member_id}/show', ApiMemberController::class . '@show');
 
             $this->router->post('groups/index', ApiGroupController::class . '@index');
+            $this->router->post('groups/{group_id}/show', ApiGroupController::class . '@show');
         });
        // 后台
        $this->router->group(['middleware' => 'web', 'prefix' => 'admin'], function () {

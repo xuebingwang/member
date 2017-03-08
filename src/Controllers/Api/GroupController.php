@@ -29,4 +29,22 @@ class GroupController extends AbstractApiController
             ];
         });
     }
+
+    public function show($group_id)
+    {
+        $group = Group::find(intval($group_id));
+
+        if (! $group || ! $group->exists) {
+            return $this->errorNotFound();
+        }
+
+        return $this->respondWithItem($group, function (Group $list) {
+            return [
+                'id'           => $list->id,
+                'name'         => $list->name,
+                'display_name' => $list->display_name,
+                'permission'   => $list->cachedPermissions()->implode('display_name', '|'),
+            ];
+        });
+    }
 }
