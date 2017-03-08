@@ -19,6 +19,7 @@ use Notadd\Foundation\Member\Middleware\AdminPermission;
 use Notadd\Member\Controllers\Admin\PermissionController;
 use Notadd\Member\Controllers\Admin\ActionPointsController;
 use Notadd\Member\Controllers\UserController as FrontendUserController;
+use Notadd\Member\Controllers\Api\GroupController as ApiGroupController;
 use Notadd\Member\Controllers\Api\MemberController as ApiMemberController;
 use Notadd\Foundation\Routing\Abstracts\RouteRegistrar as AbstractRouteRegistrar;
 
@@ -40,6 +41,8 @@ class RouteRegister extends AbstractRouteRegistrar
         $this->router->group(['middleware' => ['api'], 'prefix' => 'api/member'], function () {
             $this->router->post('members/index', ApiMemberController::class . '@index');
             $this->router->post('members/{member_id}/show', ApiMemberController::class . '@show');
+
+            $this->router->post('groups/index', ApiGroupController::class . '@index');
         });
        // 后台
        $this->router->group(['middleware' => 'web', 'prefix' => 'admin'], function () {

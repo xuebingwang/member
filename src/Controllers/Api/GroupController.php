@@ -9,8 +9,8 @@
 
 namespace Notadd\Member\Controllers\Api;
 
-use Notadd\Member\Abstracts\AbstractApiController;
 use Notadd\Member\Models\Group;
+use Notadd\Member\Abstracts\AbstractApiController;
 
 class GroupController extends AbstractApiController
 {
