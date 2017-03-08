@@ -9,17 +9,17 @@
 namespace Notadd\Member;
 
 use Illuminate\Events\Dispatcher;
-use Notadd\Foundation\Member\MemberManagement;
-use Notadd\Foundation\Module\Abstracts\Module;
+use Illuminate\Support\ServiceProvider;
 use Notadd\Member\Commands\PointsCommand;
-use Notadd\Member\Listeners\CsrfTokenRegister;
 use Notadd\Member\Listeners\RouteRegister;
+use Notadd\Member\Listeners\CsrfTokenRegister;
+use Notadd\Foundation\Member\MemberManagement;
 use Notadd\Member\Listeners\UserMetadataUpdater;
 
 /**
  * Class Extension.
  */
-class ModuleServiceProvider extends Module
+class ModuleServiceProvider extends ServiceProvider
 {
     /**
      * Boot service provider.
@@ -40,6 +40,8 @@ class ModuleServiceProvider extends Module
         ], 'public');
         $this->app['permission']->registerFilePath('user', __DIR__ . '/../config/permission.php');
         $this->app['points']->registerFilePath('user', __DIR__ . '/../config/action-points.php');
+
+        $this->loadViewsFrom(__DIR__ . '/../resources/views', 'admin');
     }
 
     /**

@@ -9,11 +9,10 @@
 
 namespace Notadd\Member\Controllers\Api;
 
-use Closure;
 use Notadd\Member\Models\Member;
-use Illuminate\Http\JsonResponse;
+use Notadd\Member\Abstracts\AbstractApiController;
 
-class MemberController
+class MemberController extends AbstractApiController
 {
     public function index()
     {
@@ -21,7 +20,7 @@ class MemberController
 
         $lists = $query->paginate(20);
 
-        return $this->responseWithPaginate($lists, function (Member $list) {
+        return $this->respondWithPaginator($lists, function (Member $list) {
             return [
                 'nick_name'  => $list->nick_name,
                 'sex'        => $list->sex,
@@ -30,24 +29,5 @@ class MemberController
                 'created_at' => $list->created_at->toDateTimeString(),
             ];
         });
-    }
-
-    protected function responseWithArray($data, $code = 200, $message = 'ok')
-    {
-        return new JsonResponse([
-            'code'    => 200,
-            'message' => 'ok',
-            'data'    => $data,
-        ], $code);
-    }
-
-    public function responseWithPaginate($data, Closure $handle)
-    {
-        $results = array_only($data->toArray(), ['total', 'per_page', 'current_page', 'last_page', 'next_page_url', 'prev_page_url', 'from', 'to']) + ['data' => []];
-        foreach ($data as $list) {
-            $results['data'][] = $handle($list);
-        }
-
-        return $this->responseWithArray($results);
     }
 }
