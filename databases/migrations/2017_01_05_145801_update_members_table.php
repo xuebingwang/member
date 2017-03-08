@@ -25,6 +25,7 @@ class UpdateMembersTable extends Migration
             $table->string('nick_name')->nullable()->comment('昵称');
             $table->string('real_name')->nullable()->comment('真实姓名');
             $table->tinyInteger('sex')->default(0)->comment('性别 0保密 1男 2女');
+            $table->date('birth_date')->nullable()->comment('出生日期');
             $table->string('signature')->nullable()->comment('签名');
             $table->string('introduction')->nullable()->comment('自我介绍');
             $table->string('avatar')->nullable()->comment('头像');
@@ -49,6 +50,7 @@ class UpdateMembersTable extends Migration
             $table->dropColumn('nick_name');
             $table->dropColumn('real_name');
             $table->dropColumn('sex');
+            $table->dropColumn('birth_date');
             $table->dropColumn('signature');
             $table->dropColumn('introduction');
             $table->dropColumn('avatar');
