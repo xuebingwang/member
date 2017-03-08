@@ -9,6 +9,7 @@
 
 namespace Notadd\Member\Abstracts;
 
+use Closure;
 use Notadd\Foundation\Routing\Abstracts\Controller;
 
 class AbstractApiController extends Controller
@@ -177,12 +178,15 @@ class AbstractApiController extends Controller
      *
      * @return mixed
      */
-    public function respondWithPaginator($paginator, $callback)
+    public function respondWithPaginator($paginator, Closure $callback)
     {
-        // $paginator->
+        $data = [];
+        foreach ($paginator as $item) {
+            $data[] = $callback($item);
+       }
 
-        return $this->setPagination(array_get($rootScope->toArray(), 'meta.pagination', []))
-            ->respondWithArray(array_get($rootScope->toArray(), 'data', []));
+        return $this->setPagination(array_except($paginator->toArray(), 'data', []))
+            ->respondWithArray($data);
     }
 
     /**
