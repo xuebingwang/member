@@ -18,12 +18,16 @@ class MemberController extends AbstractApiController
     {
         $query = Member::query();
 
+        $query->orderBy('created_at', 'desc');
+
         $lists = $query->paginate(20);
 
         return $this->respondWithPaginator($lists, function (Member $list) {
             return [
+                'id'         => $list->id,
                 'nick_name'  => $list->nick_name,
                 'sex'        => $list->sex,
+                'age'        => $list->birth_date ? $list->birth_date->age : '',
                 'avatar'     => $list->avatar,
                 'points'     => $list->points,
                 'created_at' => $list->created_at->toDateTimeString(),
@@ -41,8 +45,10 @@ class MemberController extends AbstractApiController
 
         return $this->respondWithItem($member, function (Member $list) {
             return [
+                'id'         => $list->id,
                 'nick_name'  => $list->nick_name,
                 'sex'        => $list->sex,
+                'age'        => $list->birth_date ? $list->birth_date->age : '',
                 'avatar'     => $list->avatar,
                 'points'     => $list->points,
                 'created_at' => $list->created_at->toDateTimeString(),
