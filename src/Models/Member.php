@@ -24,6 +24,7 @@ use Notadd\Foundation\Member\Member as BaseMember;
  * @property string              $nick_name
  * @property string              $real_name
  * @property string              $sex 0 1 2
+ * @property \Carbon\Carbon|null $birth_date
  * @property string              $signature
  * @property string              $introduction
  * @property string              $avatar
@@ -43,11 +44,17 @@ class Member extends BaseMember
     protected $table = 'members';
 
     protected $fillable = [
+        'nick_name',
+        'real_name',
         'phone',
         'name',
         'email',
+        'sex',
+        'birth_date',
         'password',
         'points',
+        'signature',
+        'introduction',
         'total_registration_count',
         'continue_registration_count',
     ];
@@ -56,6 +63,8 @@ class Member extends BaseMember
         'password',
         'remember_token',
     ];
+
+    protected $dates = ['created_at', 'updated_at', 'deleted_at', 'birth_date'];
 
     /**
      * 用户的用户组
