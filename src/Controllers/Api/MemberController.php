@@ -26,7 +26,7 @@ class MemberController extends AbstractApiController
             return [
                 'id'         => $list->id,
                 'nick_name'  => $list->nick_name,
-                'sex'        => $list->sex,
+                'sex'        => sex_trans($list->sex),
                 'age'        => $list->birth_date ? $list->birth_date->age : '',
                 'avatar'     => $list->avatar,
                 'points'     => $list->points,
@@ -48,7 +48,7 @@ class MemberController extends AbstractApiController
             return [
                 'id'         => $list->id,
                 'nick_name'  => $list->nick_name,
-                'sex'        => $list->sex,
+                'sex'        => sex_trans($list->sex),
                 'age'        => $list->birth_date ? $list->birth_date->age : '',
                 'avatar'     => $list->avatar,
                 'points'     => $list->points,
