@@ -47,4 +47,36 @@ class GroupController extends AbstractApiController
             ];
         });
     }
+
+    public function update()
+    {
+        $validator = $this->getValidationFactory()->make(
+            $this->request->all(),
+            [
+                'name'         => 'required|unique:groups',
+                'display_name' => 'required',
+            ],
+            [
+                'name.required'         => '请输入用户组名称.',
+                'name.unique'           => '用户组名称已经存在.',
+                'display_name.required' => '请输入用户组显示名称.',
+            ]
+        );
+
+        if ($validator->fails()) {
+            return $this->errorValidate($validator->getMessageBag()->toArray());
+        }
+
+        $group = Group::addGroup(
+            $this->request->input('name'),
+            $this->request->input('display_name'),
+            $this->request->input('description')
+        );
+
+        if ($group->exists) {
+            return $this->noContent();
+        }
+
+        return $this->errorInternal();
+    }
 }

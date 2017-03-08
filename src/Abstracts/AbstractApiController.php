@@ -282,7 +282,7 @@ class AbstractApiController extends Controller
     public function errorValidate(array $errors)
     {
         return $this->setStatusCode(422)
-            ->setMessage('Error')
+            ->setMessage('Validate Error')
             ->setErrors($errors)
             ->respondWithArray([]);
     }
