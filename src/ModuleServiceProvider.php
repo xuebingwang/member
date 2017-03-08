@@ -9,74 +9,89 @@
 namespace Notadd\Member;
 
 use Illuminate\Events\Dispatcher;
-use Illuminate\Support\ServiceProvider;
-use Notadd\Member\Listeners\RouteMatched;
-use Notadd\Member\Commands\PointsCommand;
-use Notadd\Member\Listeners\RouteRegistrar;
 use Notadd\Foundation\Member\MemberManagement;
+use Notadd\Foundation\Module\Abstracts\Module;
+use Notadd\Member\Commands\PointsCommand;
+use Notadd\Member\Listeners\CsrfTokenRegister;
+use Notadd\Member\Listeners\RouteRegister;
 use Notadd\Member\Listeners\UserMetadataUpdater;
 
 /**
  * Class Extension.
  */
-class ModuleServiceProvider extends ServiceProvider
+class ModuleServiceProvider extends Module
 {
     /**
      * Boot service provider.
-     *
-     * @param \Notadd\Foundation\Member\MemberManagement $management
      */
-    public function boot(MemberManagement $management)
+    public function boot()
     {
+        ini_set('display_errors', true);
         $manager = new Manager($this->app['events'], $this->app['router']);
-        $management->registerManager($manager);
-        $this->app->make(Dispatcher::class)->subscribe(RouteRegistrar::class);
-
-        $this->loadAdminConfig();
-        $this->loadAuthConfig();
-
-        $this->app['events']->subscribe(RouteMatched::class);
-
-        $this->app['events']->subscribe(UserMetadataUpdater::class);
-
-        $this->loadViewsFrom(__DIR__ . '/../resources/views', 'admin');
-
-        $this->loadMigrationsFrom(__DIR__ . '/../databases/migrations');
-
-        // 注册用户相关权限文件路径
+        $this->app->make(Dispatcher::class)->subscribe(CsrfTokenRegister::class);
+        $this->app->make(Dispatcher::class)->subscribe(RouteRegister::class);
+        $this->app->make(Dispatcher::class)->subscribe(UserMetadataUpdater::class);
+        $this->app->make(MemberManagement::class)->registerManager($manager);
+        $this->commands([
+            PointsCommand::class,
+        ]);
+        $this->loadMigrationsFrom(realpath(__DIR__ . '/../databases/migrations'));
+        $this->publishes([
+            realpath(__DIR__ . '/../resources/mixes/administration/dist/assets/member/administration') => public_path('assets/member/administration')
+        ], 'public');
         $this->app['permission']->registerFilePath('user', __DIR__ . '/../config/permission.php');
-
-        // 注册用户模块相关行为积分数据文件
         $this->app['points']->registerFilePath('user', __DIR__ . '/../config/action-points.php');
     }
 
+    /**
+     * Install module.
+     *
+     * @return bool
+     */
+    public function install()
+    {
+        return true;
+    }
+
+    /**
+     * Register module extra providers.
+     */
     public function register()
     {
         $this->app->bind('points', function ($app) {
             return new PointsManager;
         });
-
-        $this->app->singleton('notifier', function ($app) {
-            return new Notifier;
-        });
-
-        $this->registerCommands();
     }
 
-    public function loadAuthConfig()
+    /**
+     * Get script of extension.
+     *
+     * @return string
+     * @throws \Illuminate\Contracts\Container\BindingResolutionException
+     */
+    public static function script()
     {
-        $this->app['config']->set('auth', require __DIR__ . '/../config/auth.php');
+        return asset('assets/member/administration/js/module.js');
     }
 
-    protected function loadAdminConfig()
+    /**
+     * Get stylesheet of extension.
+     *
+     * @return array
+     * @throws \Illuminate\Contracts\Container\BindingResolutionException
+     */
+    public static function stylesheet()
     {
-        $this->app['config']->set('admin', require __DIR__ . '/../config/admin.php');
+        return [];
     }
 
-    public function registerCommands()
+    /**
+     * Uninstall module.
+     *
+     * @return mixed
+     */
+    public function uninstall()
     {
-        $this->commands([
-            PointsCommand::class,
-        ]);
+        return true;
     }
 }
