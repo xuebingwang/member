@@ -145,13 +145,9 @@ class AbstractApiController extends Controller
      *
      * @return mixed
      */
-    public function respondWithItem($item, $callback)
+    public function respondWithItem($item, Closure $callback)
     {
-        $resource = new Item($item, $callback);
-
-        $rootScope = $this->fractal->createData($resource);
-
-        return $this->respondWithArray(array_get($rootScope->toArray(), 'data', []));
+        return $this->respondWithArray($callback($item));
     }
 
     /**

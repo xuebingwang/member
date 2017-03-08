@@ -39,7 +39,7 @@ class MemberController extends AbstractApiController
             return $this->errorNotFound();
         }
 
-        return $this->respondWithPaginator($member, function (Member $list) {
+        return $this->respondWithItem($member, function (Member $list) {
             return [
                 'nick_name'  => $list->nick_name,
                 'sex'        => $list->sex,
