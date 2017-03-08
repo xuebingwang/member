@@ -26,7 +26,6 @@ class ModuleServiceProvider extends Module
      */
     public function boot()
     {
-        ini_set('display_errors', true);
         $manager = new Manager($this->app['events'], $this->app['router']);
         $this->app->make(Dispatcher::class)->subscribe(CsrfTokenRegister::class);
         $this->app->make(Dispatcher::class)->subscribe(RouteRegister::class);
@@ -44,6 +43,16 @@ class ModuleServiceProvider extends Module
     }
 
     /**
+     * Description of module
+     *
+     * @return string
+     */
+    public function description()
+    {
+        return 'Notadd 用户管理模块';
+    }
+
+    /**
      * Install module.
      *
      * @return bool
@@ -51,6 +60,16 @@ class ModuleServiceProvider extends Module
     public function install()
     {
         return true;
+    }
+
+    /**
+     * Name of module.
+     *
+     * @return string
+     */
+    public function name()
+    {
+        return '用户管理模块';
     }
 
     /**
