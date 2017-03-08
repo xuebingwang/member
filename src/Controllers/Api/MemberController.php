@@ -20,7 +20,7 @@ class MemberController extends AbstractApiController
 
         $query->orderBy('created_at', 'desc');
 
-        $lists = $query->paginate(20);
+        $lists = $query->paginate(intval($this->request->get('limit', 20)));
 
         return $this->respondWithPaginator($lists, function (Member $list) {
             return [
