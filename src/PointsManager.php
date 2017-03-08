@@ -18,6 +18,8 @@ class PointsManager
     /**
      * @param string $key
      * @param string $path
+     *
+     * @throws \Illuminate\Contracts\Container\BindingResolutionException
      */
     public function registerFilePath(string $key, string $path)
     {
@@ -30,6 +32,7 @@ class PointsManager
      * @param string $key
      *
      * @return string
+     * @throws \Illuminate\Contracts\Container\BindingResolutionException
      */
     public function getFilePath(string $key)
     {
@@ -38,6 +41,7 @@ class PointsManager
 
     /**
      * @return array
+     * @throws \Illuminate\Contracts\Container\BindingResolutionException
      */
     public function getFilePaths()
     {
