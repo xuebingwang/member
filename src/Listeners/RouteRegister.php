@@ -19,6 +19,7 @@ use Notadd\Foundation\Member\Middleware\AdminPermission;
 use Notadd\Member\Controllers\Admin\PermissionController;
 use Notadd\Member\Controllers\Admin\ActionPointsController;
 use Notadd\Member\Controllers\UserController as FrontendUserController;
+use Notadd\Member\Controllers\Api\MemberController as ApiMemberController;
 use Notadd\Foundation\Routing\Abstracts\RouteRegistrar as AbstractRouteRegistrar;
 
 /**
@@ -36,6 +37,9 @@ class RouteRegister extends AbstractRouteRegistrar
            $this->router->get('users/sign', FrontendUserController::class . '@sign')->name('users.sign');
        });
 
+        $this->router->group(['middleware' => ['api'], 'prefix' => 'api/member'], function () {
+            $this->router->post('members/index', ApiMemberController::class . '@index');
+        });
        // 后台
        $this->router->group(['middleware' => 'web', 'prefix' => 'admin'], function () {
            $this->router->get('clear_cache', HomeController::class . '@clearCache')->name('admin.clear_cache');

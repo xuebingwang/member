@@ -180,13 +180,10 @@ class AbstractApiController extends Controller
      */
     public function respondWithPaginator($paginator, Closure $callback)
     {
-        $data = [];
-        foreach ($paginator as $item) {
-            $data[] = $callback($item);
-       }
+        $data = $paginator->map($callback);
 
-        return $this->setPagination(array_except($paginator->toArray(), 'data', []))
-            ->respondWithArray($data);
+        return $this->setPagination(array_except($paginator->toArray(), 'data'))
+            ->respondWithArray($data->toArray());
     }
 
     /**
