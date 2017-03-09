@@ -101,6 +101,6 @@ class RouteRegister extends AbstractRouteRegistrar
 
         $this->router->middleware('group', Group::class);
         $this->router->middleware('permission', Permission::class);
-        $this->router->middleware('admin-permission', AdminPermission::class);
+        $this->router->middleware('permission.admin', AdminPermission::class);
     }
 }
