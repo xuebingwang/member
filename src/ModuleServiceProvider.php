@@ -9,7 +9,7 @@
 namespace Notadd\Member;
 
 use Illuminate\Events\Dispatcher;
-use Illuminate\Support\ServiceProvider;
+use Notadd\Foundation\Module\Abstracts\Module;
 use Notadd\Member\Commands\PointsCommand;
 use Notadd\Member\Injections\Installer;
 use Notadd\Member\Injections\Uninstaller;
@@ -21,7 +21,7 @@ use Notadd\Member\Listeners\UserMetadataUpdater;
 /**
  * Class Extension.
  */
-class ModuleServiceProvider extends ServiceProvider
+class ModuleServiceProvider extends Module
 {
     /**
      * Boot service provider.
@@ -118,5 +118,15 @@ class ModuleServiceProvider extends ServiceProvider
     public static function uninstall()
     {
         return Uninstaller::class;
+    }
+
+    /**
+     * Version of module.
+     *
+     * @return string
+     */
+    public static function version()
+    {
+        return '1.0.0';
     }
 }
