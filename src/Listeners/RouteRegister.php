@@ -10,7 +10,6 @@ namespace Notadd\Member\Listeners;
 
 use Notadd\Member\Middleware\Group;
 use Notadd\Member\Middleware\Permission;
-use Notadd\Member\Controllers\MemberController;
 use Notadd\Member\Controllers\Admin\HomeController;
 use Notadd\Member\Controllers\Admin\UserController;
 use Notadd\Member\Controllers\Admin\GroupController;
@@ -22,6 +21,7 @@ use Notadd\Member\Controllers\UserController as FrontendUserController;
 use Notadd\Member\Controllers\Api\GroupController as ApiGroupController;
 use Notadd\Member\Controllers\Api\MemberController as ApiMemberController;
 use Notadd\Foundation\Routing\Abstracts\RouteRegistrar as AbstractRouteRegistrar;
+use Notadd\Member\Controllers\Api\PermissionController as ApiPermissionController;
 
 /**
  * Class RouteRegistrar.
@@ -39,13 +39,19 @@ class RouteRegister extends AbstractRouteRegistrar
        });
 
         $this->router->group(['middleware' => ['api'], 'prefix' => 'api/member'], function () {
+            // 用户
             $this->router->post('members/index', ApiMemberController::class . '@index');
             $this->router->post('members/{member_id}/show', ApiMemberController::class . '@show');
 
+            // 用户组
             $this->router->post('groups/index', ApiGroupController::class . '@index');
             $this->router->post('groups/{group_id}/show', ApiGroupController::class . '@show');
             $this->router->patch('groups/store', ApiGroupController::class . '@store');
+
+            // 权限
+            $this->router->post('permissions/index', ApiPermissionController::class . '@index');
         });
+
        // 后台
        $this->router->group(['middleware' => 'web', 'prefix' => 'admin'], function () {
            $this->router->get('clear_cache', HomeController::class . '@clearCache')->name('admin.clear_cache');
