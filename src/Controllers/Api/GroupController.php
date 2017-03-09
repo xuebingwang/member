@@ -10,6 +10,7 @@
 namespace Notadd\Member\Controllers\Api;
 
 use Notadd\Member\Models\Group;
+use Notadd\Member\Models\Permission;
 use Notadd\Member\Abstracts\AbstractApiController;
 
 class GroupController extends AbstractApiController
@@ -49,17 +50,16 @@ class GroupController extends AbstractApiController
         });
     }
 
-    public function update($group_id)
+    public function store()
     {
         $validator = $this->getValidationFactory()->make(
             $this->request->all(),
             [
-                'name'         => 'required|unique:groups,name,',
+                'name'         => 'required',
                 'display_name' => 'required',
             ],
             [
                 'name.required'         => '请输入用户组名称.',
-                'name.unique'           => '用户组名称已经存在.',
                 'display_name.required' => '请输入用户组显示名称.',
             ]
         );
@@ -68,11 +68,19 @@ class GroupController extends AbstractApiController
             return $this->errorValidate($validator->getMessageBag()->toArray());
         }
 
+        // 添加或更新用户组
         $group = Group::addGroup(
             $this->request->input('name'),
             $this->request->input('display_name'),
             $this->request->input('description')
         );
+
+        // 判断权限是否存在
+        $requestPermissions = $this->request->input('permissions', []);
+        $permissions        = Permission::whereIn('id', $requestPermissions)->get()->pluck('id')->toArray();
+
+        // 更新用户组添加权限, 并删除不在当前权限数组中的权限关系
+        $group->permissions()->sync($permissions);
 
         if ($group->exists) {
             return $this->noContent();
