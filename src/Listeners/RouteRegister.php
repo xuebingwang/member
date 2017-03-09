@@ -50,6 +50,7 @@ class RouteRegister extends AbstractRouteRegistrar
 
             // 权限
             $this->router->post('permissions/index', ApiPermissionController::class . '@index');
+            $this->router->post('permissions/{perm_id}/show', ApiPermissionController::class . '@show');
         });
 
        // 后台

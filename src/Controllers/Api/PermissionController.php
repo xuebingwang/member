@@ -30,4 +30,23 @@ class PermissionController extends AbstractApiController
             ];
         });
     }
+
+    public function show($perm_id)
+    {
+        $perm = Permission::find(intval($perm_id));
+
+        if (! $perm || ! $perm->exists) {
+            return $this->errorNotFound();
+        }
+
+        return $this->respondWithItem($perm, function (Permission $list) {
+            return [
+                'id'           => $list->id,
+                'name'         => $list->name,
+                'display_name' => $list->display_name,
+                'description'  => $list->description,
+                'group'        => $list->groups->implode('display_name', '|'),
+            ];
+        });
+    }
 }
