@@ -46,8 +46,6 @@ class UserController extends AbstractAdminController
 
         $lists = $query->paginate(20);
 
-        dd($lists->toArray());
-
         $this->share('lists', $lists);
         $this->share('name', $name);
         $this->share('email', $email);
