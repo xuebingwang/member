@@ -43,17 +43,18 @@ class GroupController extends AbstractApiController
                 'id'           => $list->id,
                 'name'         => $list->name,
                 'display_name' => $list->display_name,
+                'description'  => $list->description,
                 'permission'   => $list->cachedPermissions()->implode('display_name', '|'),
             ];
         });
     }
 
-    public function update()
+    public function update($group_id)
     {
         $validator = $this->getValidationFactory()->make(
             $this->request->all(),
             [
-                'name'         => 'required|unique:groups',
+                'name'         => 'required|unique:groups,name,',
                 'display_name' => 'required',
             ],
             [
