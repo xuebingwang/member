@@ -11,6 +11,8 @@ namespace Notadd\Member;
 use Illuminate\Events\Dispatcher;
 use Illuminate\Support\ServiceProvider;
 use Notadd\Member\Commands\PointsCommand;
+use Notadd\Member\Injections\Installer;
+use Notadd\Member\Injections\Uninstaller;
 use Notadd\Member\Listeners\RouteRegister;
 use Notadd\Member\Listeners\CsrfTokenRegister;
 use Notadd\Foundation\Member\MemberManagement;
@@ -57,11 +59,11 @@ class ModuleServiceProvider extends ServiceProvider
     /**
      * Install module.
      *
-     * @return bool
+     * @return string
      */
-    public function install()
+    public static function install()
     {
-        return true;
+        return Installer::class;
     }
 
     /**
@@ -111,10 +113,10 @@ class ModuleServiceProvider extends ServiceProvider
     /**
      * Uninstall module.
      *
-     * @return mixed
+     * @return string
      */
-    public function uninstall()
+    public static function uninstall()
     {
-        return true;
+        return Uninstaller::class;
     }
 }
