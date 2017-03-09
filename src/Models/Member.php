@@ -52,11 +52,8 @@ class Member extends BaseMember
         'sex',
         'birth_date',
         'password',
-        'points',
         'signature',
         'introduction',
-        'total_registration_count',
-        'continue_registration_count',
     ];
 
     protected $hidden = [

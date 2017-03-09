@@ -42,6 +42,7 @@ class RouteRegister extends AbstractRouteRegistrar
             // 用户
             $this->router->post('members/index', ApiMemberController::class . '@index');
             $this->router->post('members/{member_id}/show', ApiMemberController::class . '@show');
+            $this->router->patch('members/{member_id}/update', ApiMemberController::class . '@update');
 
             // 用户组
             $this->router->post('groups/index', ApiGroupController::class . '@index');
