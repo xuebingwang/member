@@ -192,6 +192,16 @@ class AbstractApiController extends Controller
      */
     public function respondWithArray(array $array, array $headers = [])
     {
+        foreach ($array as $first_key => $first) {
+            if (is_array($first)) {
+                foreach ($first as $second_key => $second) {
+                    $array[$first_key][$second_key] = is_null($second) ? '' : $second;
+                }
+            } else {
+                $array[$first_key] = is_null($first) ? '' : $first;
+            }
+        }
+
         $results = [
             'code'       => $this->statusCode,
             'message'    => $this->message,
