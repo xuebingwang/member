@@ -18,17 +18,26 @@ class PermissionController extends AbstractApiController
     {
         $query = Permission::query()->with('groups');
 
-        $lists = $query->paginate(intval($this->request->get('limit', 20)));
+        $lists = $query->get()->groupBy(function ($item) {
+            list($client, $module, $function, $action) = explode('.', $item['name']);
 
-        return $this->respondWithPaginator($lists, function (Permission $list) {
-            return [
-                'id'           => $list->id,
-                'name'         => $list->name,
-                'display_name' => $list->display_name,
-                'description'  => $list->description,
-                'group'        => $list->groups->implode('display_name', '|'),
-            ];
+            return $action;
         });
+
+        $results = [];
+        foreach ($lists as $key => $list) {
+            foreach ($list as $item) {
+                $results[$key][] = [
+                    'id'           => $item->id,
+                    'name'         => $item->name,
+                    'display_name' => $item->display_name,
+                    'description'  => $item->description,
+                    'group'        => $item->groups->implode('display_name', '|'),
+                ];
+            }
+        }
+
+        return $this->respondWithArray($results);
     }
 
     public function show($perm_id)
