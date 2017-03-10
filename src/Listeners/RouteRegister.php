@@ -10,6 +10,7 @@ namespace Notadd\Member\Listeners;
 
 use Notadd\Member\Middleware\Group;
 use Notadd\Member\Middleware\Permission;
+use Notadd\Member\Middleware\FrontPermission;
 use Notadd\Member\Controllers\Admin\HomeController;
 use Notadd\Member\Controllers\Admin\UserController;
 use Notadd\Member\Controllers\Admin\GroupController;
@@ -52,6 +53,7 @@ class RouteRegister extends AbstractRouteRegister
             // 权限
             $this->router->post('permissions/index', ApiPermissionController::class . '@index');
             $this->router->post('permissions/{perm_id}/show', ApiPermissionController::class . '@show');
+            $this->router->patch('permissions/store', ApiPermissionController::class . '@store');
         });
 
        // 后台
@@ -103,5 +105,6 @@ class RouteRegister extends AbstractRouteRegister
         $this->router->middleware('group', Group::class);
         $this->router->middleware('permission', Permission::class);
         $this->router->middleware('permission.admin', AdminPermission::class);
+        $this->router->middleware('permission.front', FrontPermission::class);
     }
 }

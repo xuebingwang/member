@@ -179,6 +179,34 @@ class Member extends BaseMember
     }
 
     /**
+     * 是否有权限执行前台的权限判断
+     *
+     * @param      $permission
+     * @param bool $requireAll
+     *
+     * @return bool
+     */
+    public function frontMay($permission, $requireAll = false)
+    {
+        if (is_array($permission)) {
+            $permission = array_map(function ($val) {
+                if (ends_with($val, '*')) {
+                    return $val;
+                }
+
+                return Permission::FRONT_PREFIX . $val;
+
+            }, $permission);
+        } else {
+            if (! ends_with($permission, '*')) {
+                $permission = Permission::FRONT_PREFIX . $permission;
+            }
+        }
+
+        return $this->may($permission, $requireAll);
+    }
+
+    /**
      * Check if user has a admin permission by its name.
      *
      * @param string|array    $permission
@@ -188,11 +216,9 @@ class Member extends BaseMember
      */
     public function adminMay($permission, $requireAll = false)
     {
-        $adminPermission = $permission;
-
         if (is_array($permission)) {
-            $adminPermission = array_map(function ($val) {
-                if (str_contains($val, '*')) {
+            $permission = array_map(function ($val) {
+                if (ends_with($val, '*')) {
                     return $val;
                 }
 
@@ -200,12 +226,12 @@ class Member extends BaseMember
 
             }, $permission);
         } else {
-            if (! str_contains($permission, '*')) {
-                $adminPermission = Permission::ADMIN_PREFIX . $permission;
+            if (! ends_with($permission, '*')) {
+                $permission = Permission::ADMIN_PREFIX . $permission;
             }
         }
 
-        return $this->may($adminPermission, $requireAll);
+        return $this->may($permission, $requireAll);
     }
 
     public function save(array $options = [])

@@ -49,4 +49,36 @@ class PermissionController extends AbstractApiController
             ];
         });
     }
+
+    /**
+     * 权限添加和编辑方法
+     *
+     * @return mixed
+     */
+    public function store()
+    {
+        $validator = $this->getValidationFactory()->make(
+            $this->request->all(),
+            [
+                'name'         => 'required',
+                'display_name' => 'required',
+            ],
+            [
+                'name.required'         => '请输入名称.',
+                'display_name.required' => '请输入显示名称.',
+            ]
+        );
+
+        if ($validator->fails()) {
+            return $this->errorValidate($validator->getMessageBag()->toArray());
+        }
+
+        Permission::addPermission(
+            $this->request->name,
+            $this->request->display_name,
+            $this->request->input('description', null)
+        );
+
+        return $this->noContent();
+    }
 }
