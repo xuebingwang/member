@@ -25,8 +25,12 @@ class PermissionController extends AbstractApiController
         });
 
         $results = [];
+        $actionValues = ['create' => '创建', 'show' => '查看', 'update' => '编辑', 'delete' => '删除'];
         foreach ($lists as $key => $list) {
             foreach ($list as $item) {
+                if (array_key_exists($key, $actionValues)) {
+                    $key = $actionValues[$key];
+                }
                 $results[$key][] = [
                     'id'           => $item->id,
                     'name'         => $item->name,

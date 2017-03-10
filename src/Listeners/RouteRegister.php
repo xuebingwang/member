@@ -21,7 +21,7 @@ use Notadd\Member\Controllers\Admin\ActionPointsController;
 use Notadd\Member\Controllers\UserController as FrontendUserController;
 use Notadd\Member\Controllers\Api\GroupController as ApiGroupController;
 use Notadd\Member\Controllers\Api\MemberController as ApiMemberController;
-use Notadd\Foundation\Routing\Abstracts\RouteRegister as AbstractRouteRegister;
+use Notadd\Foundation\Routing\Abstracts\RouteRegistrar as AbstractRouteRegister;
 use Notadd\Member\Controllers\Api\PermissionController as ApiPermissionController;
 
 /**
