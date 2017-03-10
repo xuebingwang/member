@@ -23,6 +23,7 @@ use Notadd\Member\Controllers\Api\GroupController as ApiGroupController;
 use Notadd\Member\Controllers\Api\MemberController as ApiMemberController;
 use Notadd\Foundation\Routing\Abstracts\RouteRegistrar as AbstractRouteRegister;
 use Notadd\Member\Controllers\Api\PermissionController as ApiPermissionController;
+use Notadd\Member\Controllers\Api\ActionPointsController as ApiActionPointsController;
 
 /**
  * Class RouteRegistrar.
@@ -54,6 +55,9 @@ class RouteRegister extends AbstractRouteRegister
             $this->router->post('permissions/index', ApiPermissionController::class . '@index');
             $this->router->post('permissions/{perm_id}/show', ApiPermissionController::class . '@show');
             $this->router->patch('permissions/store', ApiPermissionController::class . '@store');
+
+            // 行为积分
+            $this->router->post('points/index', ApiActionPointsController::class . '@index');
         });
 
        // 后台
