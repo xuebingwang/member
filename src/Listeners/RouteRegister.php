@@ -10,6 +10,7 @@ namespace Notadd\Member\Listeners;
 
 use Notadd\Member\Middleware\Group;
 use Notadd\Member\Middleware\Permission;
+use Notadd\Member\Middleware\FrontPermission;
 use Notadd\Member\Controllers\Admin\HomeController;
 use Notadd\Member\Controllers\Admin\UserController;
 use Notadd\Member\Controllers\Admin\GroupController;
@@ -103,5 +104,6 @@ class RouteRegister extends AbstractRouteRegistrar
         $this->router->middleware('group', Group::class);
         $this->router->middleware('permission', Permission::class);
         $this->router->middleware('permission.admin', AdminPermission::class);
+        $this->router->middleware('permission.front', FrontPermission::class);
     }
 }
