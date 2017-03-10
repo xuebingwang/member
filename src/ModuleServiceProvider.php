@@ -75,7 +75,7 @@ class ModuleServiceProvider extends ServiceProvider
      */
     public static function name()
     {
-        return '用户管理模块';
+        return '用户中心';
     }
 
     /**
