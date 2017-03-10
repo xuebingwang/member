@@ -9,9 +9,9 @@
 
 return [
     // 前台权限
-    'frontend' => [
+    'front' => [
         [
-            'name'         => 'create-user',
+            'name'         => 'member.user.create',
             'display_name' => '添加用户',
             'description'  => '添加用户',
         ],
@@ -19,32 +19,32 @@ return [
     // 后台权限
     'admin' => [
         [
-            'name'         => 'create-user',
+            'name'         => 'member.user.create',
             'display_name' => '后台添加用户',
             'description'  => '后台添加用户',
         ],
         [
-            'name'         => 'update-user',
+            'name'         => 'member.user.update',
             'display_name' => '后台编辑用户',
             'description'  => '后台编辑用户',
         ],
         [
-            'name'         => 'delete-user',
+            'name'         => 'member.user.delete',
             'display_name' => '后台删除用户',
             'description'  => '后台删除用户',
         ],
         [
-            'name'         => 'create-group',
+            'name'         => 'member.group.create',
             'display_name' => '后台添加角色',
             'description'  => '后台添加角色',
         ],
         [
-            'name'         => 'update-group',
+            'name'         => 'member.group.update',
             'display_name' => '后台编辑角色',
             'description'  => '后台编辑角色',
         ],
         [
-            'name'         => 'delete-group',
+            'name'         => 'member.group.delete',
             'display_name' => '后台删除角色',
             'description'  => '后台删除角色',
         ],
