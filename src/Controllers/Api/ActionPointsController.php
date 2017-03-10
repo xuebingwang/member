@@ -30,4 +30,22 @@ class ActionPointsController extends AbstractApiController
             ];
         });
     }
+
+    public function show($points_id)
+    {
+        $points = ActionPoints::find(intval($points_id));
+        if (! $points || ! $points->exists) {
+            return $this->errorNotFound();
+        }
+
+        return $this->respondWithItem($points, function (ActionPoints $list) {
+            return [
+                'id'           => $list->id,
+                'name'         => $list->name,
+                'display_name' => $list->display_name,
+                'points'       => $list->points,
+                'description'  => $list->description,
+            ];
+        });
+    }
 }

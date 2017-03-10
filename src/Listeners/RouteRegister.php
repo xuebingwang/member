@@ -58,6 +58,7 @@ class RouteRegister extends AbstractRouteRegister
 
             // 行为积分
             $this->router->post('points/index', ApiActionPointsController::class . '@index');
+            $this->router->post('points/{points_id}/show', ApiActionPointsController::class . '@show');
         });
 
        // 后台
