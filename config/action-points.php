@@ -15,7 +15,7 @@ return [
         'description'  => '签到',
     ],
     [
-        'name'         => 'public-topic',
+        'name'         => 'public.topic',
         'points'       => 3,
         'display_name' => '发布话题',
         'description'  => '发布话题',
