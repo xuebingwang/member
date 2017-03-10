@@ -120,5 +120,7 @@ class MemberController extends AbstractApiController
         // 给用户添加用户组
         $member->groups()->sync($groups);
         $member->permissions()->sync($permissions);
+
+        return $this->noContent();
     }
 }
