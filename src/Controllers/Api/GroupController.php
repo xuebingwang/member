@@ -26,6 +26,7 @@ class GroupController extends AbstractApiController
                 'id'           => $list->id,
                 'name'         => $list->name,
                 'display_name' => $list->display_name,
+                'description'  => $list->description,
                 'permission'   => $list->cachedPermissions()->implode('display_name', '|'),
             ];
         });
@@ -76,8 +77,10 @@ class GroupController extends AbstractApiController
         );
 
         // 判断权限是否存在
-        $requestPermissions = $this->request->input('permissions', []);
-        $permissions        = Permission::whereIn('id', $requestPermissions)->get()->pluck('id')->toArray();
+        $permissions = Permission::whereIn('id', $this->request->input('permissions', []))
+            ->get()
+            ->pluck('id')
+            ->toArray();
 
         // 更新用户组添加权限, 并删除不在当前权限数组中的权限关系
         $group->permissions()->sync($permissions);
