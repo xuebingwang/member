@@ -4,10 +4,18 @@
     beforeCreate: function () {
       this.$options.components.Paginator = Core.instance.components.paginator
     },
+    beforeRouteEnter (to, from, next) {
+      Core.http.post(window.api + '/member/groups/index').then((response) => {
+        console.log(response)
+        next((vm) => {
+          vm.list = response.data.data
+        })
+      })
+    },
     data () {
       return {
-        groups: [],
         list: [],
+        modules: [],
         pagination: {
           last_page: 1
         }
@@ -171,52 +179,40 @@
 <template>
     <div class="box">
         <div class="box-header">
-            <div class="box-search input-group">
-                <input class="form-control pull-right" placeholder="请输入搜索关键字" v-model="keyword" type="text">
-                <div class="input-group-btn">
-                    <button class="btn btn-primary" @click="search">
-                        <i class="fa fa-search"></i>
-                    </button>
-                </div>
-            </div>
             <div class="box-extend">
                 <select class="form-control" @change="groupSelected">
-                    <option value="0">所有用户组</option>
-                    <option v-for="group in groups" :value="group.id">{{ group.title }}</option>
+                    <option value="0">全部用户组</option>
+                    <option v-for="module in modules" :value="group.id">{{ module.title }}</option>
                 </select>
             </div>
         </div>
         <div class="box-body table-responsive no-padding">
             <table class="table table-hover">
                 <colgroup>
-                    <col class="col-md-1">
                     <col class="col-md-2">
                     <col class="col-md-2">
-                    <col class="col-md-2">
-                    <col class="col-md-2">
-                    <col class="col-md-3">
+                    <col class="col-md-4">
+                    <col class="col-md-4">
                 </colgroup>
                 <tbody>
                 <tr>
                     <th>图标</th>
-                    <th>用户名称</th>
-                    <th>昵称</th>
-                    <th>性别</th>
-                    <th>年龄</th>
+                    <th>用户组名称</th>
+                    <th>权限</th>
                     <th>操作</th>
                 </tr>
-                <tr v-for="member in list">
+                <tr v-for="group in list">
                     <td>
-                        <img :src="member.avatar" class="img-responsive" v-show="member.avatar">
+                        <img :src="group.avatar" class="img-responsive" v-show="member.avatar">
                     </td>
-                    <td>{{ member.name }}</td>
-                    <td>{{ member.nick_name }}</td>
-                    <td>{{ member.sex }}</td>
-                    <td>{{ member.age || 0 }}</td>
+                    <td>{{ group.name }}</td>
+                    <td>{{ group.nick_name }}</td>
+                    <td>{{ group.sex }}</td>
+                    <td>{{ group.age || 0 }}</td>
                     <td>
                         <button class="btn btn-primary btn-sm">查看</button>
-                        <router-link :to="'/content/article/' + member.id + '/edit'" class="btn btn-info btn-sm">编辑</router-link>
-                        <button class="btn btn-danger btn-sm" @click="remove(member.id)">删除</button>
+                        <router-link :to="'/content/article/' + group.id + '/edit'" class="btn btn-info btn-sm">编辑</router-link>
+                        <button class="btn btn-danger btn-sm" @click="remove(group.id)">删除</button>
                     </td>
                 </tr>
                 </tbody>
