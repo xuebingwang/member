@@ -1,3 +1,237 @@
 <script>
-  export default {}
+  import Core from '../main'
+  export default {
+    beforeCreate: function () {
+      this.$options.components.Paginator = Core.instance.components.paginator
+    },
+    data () {
+      return {
+        groups: [],
+        list: [],
+        pagination: {
+          last_page: 1
+        }
+      }
+    },
+    methods: {
+      groupSelected: function (e) {},
+      paginator: function (page) {
+      }
+    }
+  }
 </script>
+<style scoped>
+    .box {
+        border-top: none;
+        padding-left: 40px;
+        padding-right: 40px;
+    }
+
+    .box-body {
+        border-bottom: 1px solid #eeeeee;
+        border-radius: 0;
+        border-top: 1px solid #eeeeee;
+    }
+
+    .box-body > .table > tbody > tr > td {
+        border-color: #eeeeee;
+        height: 60px;
+        vertical-align: middle;
+    }
+
+    .box-body > .table > tbody > tr > td:last-child {
+        letter-spacing: 6px;
+        text-align: right;
+    }
+
+    .box-body > .table > tbody > tr > td:last-child > .btn {
+        border-radius: 4px;
+        letter-spacing: 0;
+        padding: 5px 12px;
+    }
+
+    .box-footer {
+        text-align: right;
+    }
+
+    .box-footer,
+    .box-header {
+        height: 80px;
+        padding: 23px 0;
+        position: relative;
+    }
+
+    .box-header > .box-search {
+        float: left;
+        width: 320px;
+    }
+
+    .box-header > .box-search > .form-control {
+        border-bottom-left-radius: 18px;
+        border-color: #cccccc;
+        border-right-width: 0;
+        border-top-left-radius: 18px;
+    }
+
+    .box-header > .box-search > .input-group-btn {
+        border: 1px solid #cccccc;
+        border-bottom-right-radius: 18px;
+        border-left-width: 0;
+        border-top-right-radius: 18px;
+        overflow: hidden;
+    }
+
+    .box-header > .box-search > .input-group-btn > .btn {
+        padding-bottom: 6px;
+        padding-top: 6px;
+        width: 60px;
+    }
+
+    .box-header > .box-extend {
+        letter-spacing: 16px;
+        text-align: right;
+    }
+
+    .box-header > .box-extend > .btn {
+        border-radius: 6px;
+        padding: 6px 32px;
+    }
+
+    .box-header > .box-extend > .form-control {
+        display: inline-block;
+        vertical-align: middle;
+        width: 140px;
+    }
+
+    .box-body > .table > tbody > tr > td:last-child > .btn,
+    .box-header > .box-extend > .btn {
+        background: #ffffff;
+        border-width: 1px;
+        color: #000000;
+    }
+
+    .box-body > .table > tbody > tr > td:last-child > .btn-primary,
+    .box-header > .box-extend > .btn-primary {
+        border-color: #3498db;
+        color: #3498db;
+    }
+
+    .box-body > .table > tbody > tr > td:last-child > .btn-primary:hover,
+    .box-header > .box-extend > .btn-primary:hover {
+        background-color: #3498db;
+        border-color: #3498db;
+        color: #ffffff;
+    }
+
+    .box-body > .table > tbody > tr > td:last-child > .btn-info,
+    .box-header > .box-extend > .btn-info {
+        border-color: #8ba0ca;
+        color: #8ba0ca;
+    }
+
+    .box-body > .table > tbody > tr > td:last-child > .btn-info:hover,
+    .box-header > .box-extend > .btn-info:hover {
+        background-color: #8ba0ca;
+        border-color: #8ba0ca;
+        color: #ffffff;
+    }
+
+    .box-body > .table > tbody > tr > td:last-child > .btn-danger,
+    .box-header > .box-extend > .btn-danger {
+        border-color: #ef5151;
+        color: #ef5151;
+    }
+
+    .box-body > .table > tbody > tr > td:last-child > .btn-danger:hover,
+    .box-header > .box-extend > .btn-danger:hover {
+        background-color: #ef5151;
+        border-color: #ef5151;
+        color: #ffffff;
+    }
+
+    .box-header > .box-extend > .btn {
+        letter-spacing: 0;
+    }
+
+    .box-header > .box-extend > .btn-create {
+        background: #3498db;
+        color: #ffffff;
+        letter-spacing: 0;
+    }
+
+    .box-header > .box-extend > .btn-create:hover {
+        background: #258cd1;
+    }
+
+    .box-header > .box-extend > .btn-create:active,
+    .box-header > .box-extend > .btn-create:focus {
+        background: #2b7cb3;
+    }
+</style>
+<template>
+    <div class="box">
+        <div class="box-header">
+            <div class="box-search input-group">
+                <input class="form-control pull-right" placeholder="请输入搜索关键字" v-model="keyword" type="text">
+                <div class="input-group-btn">
+                    <button class="btn btn-primary" @click="search">
+                        <i class="fa fa-search"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="box-extend">
+                <select class="form-control" @change="groupSelected">
+                    <option value="0">所有用户组</option>
+                    <option v-for="group in groups" :value="group.id">{{ group.title }}</option>
+                </select>
+            </div>
+        </div>
+        <div class="box-body table-responsive no-padding">
+            <table class="table table-hover">
+                <colgroup>
+                    <col class="col-md-1">
+                    <col class="col-md-2">
+                    <col class="col-md-2">
+                    <col class="col-md-2">
+                    <col class="col-md-2">
+                    <col class="col-md-3">
+                </colgroup>
+                <tbody>
+                <tr>
+                    <th>图标</th>
+                    <th>用户名称</th>
+                    <th>昵称</th>
+                    <th>性别</th>
+                    <th>年龄</th>
+                    <th>操作</th>
+                </tr>
+                <tr v-for="member in list">
+                    <td>
+                        <img :src="member.avatar" class="img-responsive" v-show="member.avatar">
+                    </td>
+                    <td>{{ member.name }}</td>
+                    <td>{{ member.nick_name }}</td>
+                    <td>{{ member.sex }}</td>
+                    <td>{{ member.age || 0 }}</td>
+                    <td>
+                        <button class="btn btn-primary btn-sm">查看</button>
+                        <router-link :to="'/content/article/' + member.id + '/edit'" class="btn btn-info btn-sm">编辑</router-link>
+                        <button class="btn btn-danger btn-sm" @click="remove(member.id)">删除</button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="box-footer">
+            <paginator :pageCount="pagination.last_page"
+                       :pageRange="3"
+                       :marginPages="2"
+                       :clickHandler="paginator"
+                       prevText="上一页"
+                       nextText="下一页"
+                       containerClass="pagination no-margin"
+                       pageClass="'page-item'">
+            </paginator>
+        </div>
+    </div>
+</template>
