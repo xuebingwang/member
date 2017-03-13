@@ -6,12 +6,14 @@
  * @copyright (c) 2017, iBenchu.org
  * @datetime      2017-02-09 11:19
  */
-
 namespace Notadd\Member\Events;
 
 use Notadd\Member\Models\Topic;
 use Notadd\Member\Models\Member;
 
+/**
+ * Class PublishedTopic.
+ */
 class PublishedTopic
 {
     public $user;
@@ -20,7 +22,7 @@ class PublishedTopic
 
     public function __construct(Member $user, Topic $topic)
     {
-        $this->user  = $user;
+        $this->user = $user;
         $this->topic = $topic;
     }
 }

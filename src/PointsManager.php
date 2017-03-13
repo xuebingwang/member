@@ -6,11 +6,13 @@
  * @copyright (c) 2017, iBenchu.org
  * @datetime      2017-02-16 10:55
  */
-
 namespace Notadd\Member;
 
 use Notadd\Member\Models\ActionPoints;
 
+/**
+ * Class PointsManager.
+ */
 class PointsManager
 {
     const PATH_PERFIX = 'action-points.paths.';
@@ -23,7 +25,7 @@ class PointsManager
      */
     public function registerFilePath(string $key, string $path)
     {
-        if (! app('config')->has(static::PATH_PERFIX . $key)) {
+        if (!app('config')->has(static::PATH_PERFIX . $key)) {
             app('config')->set(static::PATH_PERFIX . $key, $path);
         }
     }

@@ -6,13 +6,12 @@
  * @copyright (c) 2017, iBenchu.org
  * @datetime      2017-02-07 15:19
  */
-
 namespace Notadd\Member\Models;
 
 use Notadd\Foundation\Database\Model;
 
 /**
- * Class Notification
+ * Class Notification.
  *
  * @property integer             $id
  * @property integer             $sender
@@ -25,15 +24,19 @@ use Notadd\Foundation\Database\Model;
  * @property \Carbon\Carbon|null $created_at
  * @property \Carbon\Carbon|null $updated_at
  * @property \Carbon\Carbon|null $read_at
- *
- * @package Notadd\Member\Models
  */
 class Notification extends Model
 {
     protected $table = 'notifications';
 
     protected $fillable = [
-        'sender_id', 'user_id', 'subject_id', 'subject_type', 'reply_id', 'body', 'type',
+        'sender_id',
+        'user_id',
+        'subject_id',
+        'subject_type',
+        'reply_id',
+        'body',
+        'type',
     ];
 
     protected $dates = ['read_at'];
@@ -68,8 +71,14 @@ class Notification extends Model
         return $this->belongsTo(Topic::class, 'subject_id', 'id');
     }
 
-    public static function notify($type, Member $sender, Member $toUser, $subject = null, $subjectType = null, $reply = null)
-    {
+    public static function notify(
+        $type,
+        Member $sender,
+        Member $toUser,
+        $subject = null,
+        $subjectType = null,
+        $reply = null
+    ) {
         if ($sender->id == $toUser->id) {
             return;
         }
@@ -91,7 +100,6 @@ class Notification extends Model
         switch ($this->type) {
             case 'new_reply':
                 $label = '回复了你的话题:';
-
                 if ($this->subject_type == 'article') {
                     $label = '回复了你的文章:';
                 }

@@ -6,7 +6,6 @@
  * @copyright (c) 2017, iBenchu.org
  * @datetime      2017-01-05 15:26
  */
-
 namespace Notadd\Member\Models;
 
 use Notadd\Member\Models\Permission;
@@ -14,7 +13,7 @@ use Notadd\Foundation\Database\Model;
 use Illuminate\Support\Facades\Cache;
 
 /**
- * Class Role
+ * Class Group.
  *
  * @property integer             $id
  * @property string              $name
@@ -22,8 +21,6 @@ use Illuminate\Support\Facades\Cache;
  * @property string              $description
  * @property \Carbon\Carbon|null $created_at
  * @property \Carbon\Carbon|null $updated_at
- *
- * @package Notadd\Member\Models
  */
 class Group extends Model
 {
@@ -66,7 +63,6 @@ class Group extends Model
     public function save(array $options = [])
     {
         $result = parent::save($options);
-
         Cache::forget($this->getCachePermissionKey());
 
         return $result;
@@ -75,7 +71,6 @@ class Group extends Model
     public function delete()
     {
         $result = parent::delete();
-
         Cache::forget($this->getCachePermissionKey());
 
         return $result;
@@ -84,7 +79,6 @@ class Group extends Model
     public static function boot()
     {
         parent::boot();
-
         static::deleting(function ($group) {
             $group->members()->sync([]);
             $group->permissions()->sync([]);
@@ -94,13 +88,11 @@ class Group extends Model
     public function hasPermission($name, $requireAll = false)
     {
         if (is_array($name)) {
-
             foreach ($name as $permissionName) {
                 $hasPermission = $this->hasPermission($permissionName);
-
-                if ($hasPermission && ! $requireAll) {
+                if ($hasPermission && !$requireAll) {
                     return true;
-                } elseif (! $hasPermission && $requireAll) {
+                } elseif (!$hasPermission && $requireAll) {
                     return false;
                 }
             }
@@ -120,7 +112,6 @@ class Group extends Model
     public function hasAdminPermission($name, $requireAll = false)
     {
         $adminName = $name;
-
         if (is_array($name)) {
             $adminName = array_map(function ($val) {
                 return Permission::ADMIN_PREFIX . $val;
@@ -135,11 +126,11 @@ class Group extends Model
     public static function addGroup($name, $display_name = null, $description = null)
     {
         $group = self::where('name', $name)->first();
-        if (! $group) {
+        if (!$group) {
             $group = new self(['name' => $name]);
         }
         $group->display_name = $display_name;
-        $group->description  = $description;
+        $group->description = $description;
         $group->save();
 
         return $group;
@@ -157,11 +148,9 @@ class Group extends Model
         if (is_object($permission)) {
             $permission = $permission->getKey();
         }
-
         if (is_array($permission)) {
             $permission = $permission['id'];
         }
-
         $this->permissions()->attach($permission);
     }
 
@@ -174,12 +163,12 @@ class Group extends Model
      */
     public function detachPermission($permission)
     {
-        if (is_object($permission))
+        if (is_object($permission)) {
             $permission = $permission->getKey();
-
-        if (is_array($permission))
+        }
+        if (is_array($permission)) {
             $permission = $permission['id'];
-
+        }
         $this->permissions()->detach($permission);
     }
 

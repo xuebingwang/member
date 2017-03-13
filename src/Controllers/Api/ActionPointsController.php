@@ -6,18 +6,19 @@
  * @copyright (c) 2017, iBenchu.org
  * @datetime      2017-03-10 17:30
  */
-
 namespace Notadd\Member\Controllers\Api;
 
 use Notadd\Member\Models\ActionPoints;
 use Notadd\Member\Abstracts\AbstractApiController;
 
+/**
+ * Class ActionPointsController.
+ */
 class ActionPointsController extends AbstractApiController
 {
     public function index()
     {
         $query = ActionPoints::query();
-
         $lists = $query->paginate($this->request->get('limit', 20));
 
         return $this->respondWithPaginator($lists, function (ActionPoints $list) {
@@ -34,7 +35,7 @@ class ActionPointsController extends AbstractApiController
     public function show($points_id)
     {
         $points = ActionPoints::find(intval($points_id));
-        if (! $points || ! $points->exists) {
+        if (!$points || !$points->exists) {
             return $this->errorNotFound();
         }
 

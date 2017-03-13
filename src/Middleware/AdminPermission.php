@@ -6,13 +6,15 @@
  * @copyright (c) 2017, iBenchu.org
  * @datetime      2017-02-17 17:33
  */
-
 namespace Notadd\Member\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 
+/**
+ * Class AdminPermission.
+ */
 class AdminPermission extends Permission
 {
     /**
@@ -26,11 +28,10 @@ class AdminPermission extends Permission
      */
     public function handle(Request $request, Closure $next, $permissions, $guard = 'admin')
     {
-        if ($this->auth->guard($guard)->guest() || ! $request->user($guard)->adminMay(explode('|', $permissions))) {
+        if ($this->auth->guard($guard)->guest() || !$request->user($guard)->adminMay(explode('|', $permissions))) {
             if ($this->wantsJson()) {
                 return new JsonResponse('Forbidden', 403);
             }
-
             abort(403);
         }
 

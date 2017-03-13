@@ -6,16 +6,21 @@
  * @copyright (c) 2017, iBenchu.org
  * @datetime      2017-02-07 17:04
  */
-
 namespace Notadd\Member\Models;
 
 use Notadd\Foundation\Database\Model;
 
+/**
+ * Class Reply.
+ */
 class Reply extends Model
 {
     protected $table = 'replies';
 
     protected $fillable = [
-        'user_id', 'topic_id', 'body', 'body_original',
+        'user_id',
+        'topic_id',
+        'body',
+        'body_original',
     ];
 }

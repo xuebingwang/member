@@ -39,9 +39,8 @@ class ModuleServiceProvider extends ServiceProvider
         ]);
         $this->loadMigrationsFrom(realpath(__DIR__ . '/../databases/migrations'));
         $this->publishes([
-            realpath(__DIR__ . '/../resources/mixes/administration/dist/assets/member/administration') => public_path('assets/member/administration')
+            realpath(__DIR__ . '/../resources/mixes/administration/dist/assets/member/administration') => public_path('assets/member/administration'),
         ], 'public');
-
         $this->app['permission']->registerFilePath('user', __DIR__ . '/../config/permission.php');
         $this->app['points']->registerFilePath('user', __DIR__ . '/../config/action-points.php');
     }

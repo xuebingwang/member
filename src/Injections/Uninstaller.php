@@ -15,7 +15,6 @@ use Notadd\Foundation\Module\Abstracts\Uninstaller as AbstractUninstaller;
  */
 class Uninstaller extends AbstractUninstaller
 {
-
     /**
      * @return mixed
      */

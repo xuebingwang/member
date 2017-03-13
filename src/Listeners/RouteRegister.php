@@ -33,22 +33,18 @@ class RouteRegister extends AbstractRouteRegister
             $this->router->post('members/index', ApiMemberController::class . '@index');
             $this->router->post('members/{member_id}/show', ApiMemberController::class . '@show');
             $this->router->patch('members/{member_id}/update', ApiMemberController::class . '@update');
-
             // 用户组
             $this->router->post('groups/index', ApiGroupController::class . '@index');
             $this->router->post('groups/{group_id}/show', ApiGroupController::class . '@show');
             $this->router->patch('groups/store', ApiGroupController::class . '@store');
-
             // 权限
             $this->router->post('permissions/index', ApiPermissionController::class . '@index');
             $this->router->post('permissions/{perm_id}/show', ApiPermissionController::class . '@show');
             $this->router->patch('permissions/store', ApiPermissionController::class . '@store');
-
             // 行为积分
             $this->router->post('points/index', ApiActionPointsController::class . '@index');
             $this->router->post('points/{points_id}/show', ApiActionPointsController::class . '@show');
         });
-
         $this->router->middleware('group', Group::class);
         $this->router->middleware('permission', Permission::class);
         $this->router->middleware('permission.admin', AdminPermission::class);

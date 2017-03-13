@@ -16,10 +16,12 @@ use Notadd\Foundation\Routing\Abstracts\Controller;
  */
 abstract class AbstractAdminController extends Controller
 {
+    /**
+     * AbstractAdminController constructor.
+     */
     public function __construct()
     {
         parent::__construct();
-
         $this->share('admin_theme', $this->request->cookie('admin-theme'));
     }
 

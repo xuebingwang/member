@@ -6,13 +6,12 @@
  * @copyright (c) 2017, iBenchu.org
  * @datetime      2017-01-23 16:09
  */
-
 namespace Notadd\Member\Models;
 
 use Notadd\Foundation\Database\Model;
 
 /**
- * Class ActionPoints
+ * Class ActionPoints.
  *
  * @property integer             $id
  * @property string              $name
@@ -21,15 +20,16 @@ use Notadd\Foundation\Database\Model;
  * @property string              $description
  * @property \Carbon\Carbon|null $created_at
  * @property \Carbon\Carbon|null $updated_at
- *
- * @package Notadd\Member\Models
  */
 class ActionPoints extends Model
 {
     protected $table = 'action_points';
 
     protected $fillable = [
-        'display_name', 'name', 'points', 'description',
+        'display_name',
+        'name',
+        'points',
+        'description',
     ];
 
     protected $dates = ['created_at', 'updated_at'];
@@ -41,14 +41,12 @@ class ActionPoints extends Model
     public static function addAction($name, $points, $displayName = null, $description = null)
     {
         $actionPoints = static::findByName($name);
-
-        if (! $actionPoints || ! $actionPoints->exists) {
+        if (!$actionPoints || !$actionPoints->exists) {
             $actionPoints = new static(['name' => $name]);
         }
-
-        $actionPoints->points       = $points;
+        $actionPoints->points = $points;
         $actionPoints->display_name = $displayName;
-        $actionPoints->description  = $description;
+        $actionPoints->description = $description;
         $actionPoints->save();
 
         return $actionPoints;

@@ -6,7 +6,6 @@
  * @copyright (c) 2017, iBenchu.org
  * @datetime      2017-01-05 15:01
  */
-
 namespace Notadd\Member\Models;
 
 use Carbon\Carbon;
@@ -15,7 +14,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Notadd\Foundation\Member\Member as BaseMember;
 
 /**
- * Class InvitationCode
+ * Class Member.
  *
  * @property integer             $id
  * @property string              $name
@@ -34,8 +33,6 @@ use Notadd\Foundation\Member\Member as BaseMember;
  * @property \Carbon\Carbon|null $created_at
  * @property \Carbon\Carbon|null $updated_at
  * @property \Carbon\Carbon|null $deleted_at
- *
- * @package Notadd\Member\Models
  */
 class Member extends BaseMember
 {
@@ -114,19 +111,16 @@ class Member extends BaseMember
     public function hasGroup($name, $requireAll = false)
     {
         if (is_array($name)) {
-
             foreach ($name as $groupName) {
                 $hasGroup = $this->hasGroup($groupName);
-
-                if ($hasGroup && ! $requireAll) {
+                if ($hasGroup && !$requireAll) {
                     return true;
-                } elseif (! $hasGroup && $requireAll) {
+                } elseif (!$hasGroup && $requireAll) {
                     return false;
                 }
             }
 
             return $requireAll;
-
         } else {
             foreach ($this->cachedGroups() as $group) {
                 if ($group->name == $name) {
@@ -141,8 +135,8 @@ class Member extends BaseMember
     /**
      * Check if user has a permission by its name.
      *
-     * @param string|array    $permission
-     * @param bool $requireAll
+     * @param string|array $permission
+     * @param bool         $requireAll
      *
      * @return bool
      */
@@ -151,15 +145,12 @@ class Member extends BaseMember
         if ($this->hasPermission($permission, $requireAll)) {
             return true;
         }
-
         if (is_array($permission)) {
-
             foreach ($permission as $permName) {
                 $hasPerm = $this->may($permName);
-
-                if ($hasPerm && ! $requireAll) {
+                if ($hasPerm && !$requireAll) {
                     return true;
-                } elseif (! $hasPerm && $requireAll) {
+                } elseif (!$hasPerm && $requireAll) {
                     return false;
                 }
             }
@@ -195,10 +186,9 @@ class Member extends BaseMember
                 }
 
                 return Permission::FRONT_PREFIX . $val;
-
             }, $permission);
         } else {
-            if (! ends_with($permission, '*')) {
+            if (!ends_with($permission, '*')) {
                 $permission = Permission::FRONT_PREFIX . $permission;
             }
         }
@@ -209,8 +199,8 @@ class Member extends BaseMember
     /**
      * Check if user has a admin permission by its name.
      *
-     * @param string|array    $permission
-     * @param bool $requireAll
+     * @param string|array $permission
+     * @param bool         $requireAll
      *
      * @return bool
      */
@@ -223,10 +213,9 @@ class Member extends BaseMember
                 }
 
                 return Permission::ADMIN_PREFIX . $val;
-
             }, $permission);
         } else {
-            if (! ends_with($permission, '*')) {
+            if (!ends_with($permission, '*')) {
                 $permission = Permission::ADMIN_PREFIX . $permission;
             }
         }
@@ -237,7 +226,6 @@ class Member extends BaseMember
     public function save(array $options = [])
     {
         $result = parent::save($options);
-
         Cache::forget($this->getCacheGroupKey());
 
         return $result;
@@ -246,7 +234,6 @@ class Member extends BaseMember
     public function delete()
     {
         $result = parent::delete();
-
         Cache::forget($this->getCacheGroupKey());
 
         return $result;
@@ -255,7 +242,6 @@ class Member extends BaseMember
     public function restore()
     {
         $result = parent::restore();
-
         Cache::forget($this->getCacheGroupKey());
 
         return $result;
@@ -264,10 +250,8 @@ class Member extends BaseMember
     public static function boot()
     {
         parent::boot();
-
         static::deleting(function ($user) {
-
-            if (! method_exists(static::class, 'bootSoftDeletes')) {
+            if (!method_exists(static::class, 'bootSoftDeletes')) {
                 $user->groups()->sync([]);
             }
 
@@ -292,31 +276,24 @@ class Member extends BaseMember
         if ($this->todaySigned()) {
             return;
         }
-
         $signAction = ActionPoints::where('name', 'sign')->first();
-
-        if (! $signAction) {
+        if (!$signAction) {
             return;
         }
-
         Registration::checkIn($this->id, $signAction->points);
-
         $this->points += $signAction->points;
         $this->total_registration_count += 1;
-
         if ($this->yesterdaySigned()) {
             $this->continue_registration_count += 1;
         } else {
             $this->continue_registration_count = 1;
         }
-
         $this->save();
-
         GetPointsRecord::create([
-            'user_id' => $this->id,
+            'user_id'             => $this->id,
             'action_display_name' => $signAction->display_name,
-            'action_name' => $signAction->name,
-            'points' => $signAction->points,
+            'action_name'         => $signAction->name,
+            'points'              => $signAction->points,
         ]);
     }
 
@@ -327,7 +304,7 @@ class Member extends BaseMember
      */
     public function todaySigned()
     {
-        return (bool) Registration::where('user_id', $this->id)
+        return (bool)Registration::where('user_id', $this->id)
             ->where('signed_at', '>=', Carbon::now()->startOfDay())
             ->where('signed_at', '<=', Carbon::now()->endOfDay())
             ->count();
@@ -340,7 +317,7 @@ class Member extends BaseMember
      */
     public function yesterdaySigned()
     {
-        return (bool) Registration::where('user_id', $this->id)
+        return (bool)Registration::where('user_id', $this->id)
             ->where('signed_at', '>=', Carbon::now()->subDay()->startOfDay())
             ->where('signed_at', '<=', Carbon::now()->subDay()->endOfDay())
             ->count();
@@ -351,11 +328,9 @@ class Member extends BaseMember
         if (is_object($group)) {
             $group = $group->getKey();
         }
-
         if (is_array($group)) {
             $group = $group['id'];
         }
-
         $this->groups()->attach($group);
     }
 
@@ -364,11 +339,9 @@ class Member extends BaseMember
         if (is_object($group)) {
             $group = $group->getKey();
         }
-
         if (is_array($group)) {
             $group = $group['id'];
         }
-
         $this->groups()->detach($group);
     }
 
@@ -381,9 +354,9 @@ class Member extends BaseMember
 
     public function detachGroups($groups = null)
     {
-        if (! $groups)
+        if (!$groups) {
             $groups = $this->groups()->get();
-
+        }
         foreach ($groups as $group) {
             $this->detachGroup($group);
         }

@@ -6,7 +6,6 @@
  * @copyright (c) 2017, iBenchu.org
  * @datetime      2017-03-08 12:00
  */
-
 namespace Notadd\Member\Controllers\Api;
 
 use Notadd\Member\Models\Group;
@@ -14,14 +13,15 @@ use Notadd\Member\Models\Member;
 use Notadd\Member\Models\Permission;
 use Notadd\Member\Abstracts\AbstractApiController;
 
+/**
+ * Class MemberController.
+ */
 class MemberController extends AbstractApiController
 {
     public function index()
     {
         $query = Member::query();
-
         $query->orderBy('created_at', 'desc');
-
         $lists = $query->paginate(intval($this->request->get('limit', 20)));
 
         return $this->respondWithPaginator($lists, function (Member $list) {
@@ -47,8 +47,7 @@ class MemberController extends AbstractApiController
     public function show($member_id)
     {
         $member = Member::find(intval($member_id));
-
-        if (! $member || ! $member->exists) {
+        if (!$member || !$member->exists) {
             return $this->errorNotFound();
         }
 
@@ -75,11 +74,9 @@ class MemberController extends AbstractApiController
     public function update($member_id)
     {
         $member = Member::find(intval($member_id));
-
-        if (! $member || ! $member->exists) {
+        if (!$member || !$member->exists) {
             return $this->errorNotFound();
         }
-
         $validator = $this->getValidationFactory()->make(
             $this->request->all(),
             [
@@ -98,25 +95,29 @@ class MemberController extends AbstractApiController
                 'birth_date.date' => '无效的出生日期.',
             ]
         );
-
         if ($validator->fails()) {
             return $this->errorValidate($validator->getMessageBag()->toArray());
         }
         $member->fill(array_only($this->request->all(), [
-            'name', 'email', 'phone', 'birth_date', 'sex', 'signature', 'introduction', 'nick_name', 'real_name',
+            'name',
+            'email',
+            'phone',
+            'birth_date',
+            'sex',
+            'signature',
+            'introduction',
+            'nick_name',
+            'real_name',
         ]));
         $member->save();
-
         $groups = Group::whereIn('id', $this->request->input('groups', []))
             ->get()
             ->pluck('id')
             ->toArray();
-
         $permissions = Permission::whereIn('id', $this->request->input('permissions', []))
             ->get()
             ->pluck('id')
             ->toArray();
-
         // 给用户添加用户组
         $member->groups()->sync($groups);
         $member->permissions()->sync($permissions);

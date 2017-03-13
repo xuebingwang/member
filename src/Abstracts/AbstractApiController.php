@@ -6,12 +6,15 @@
  * @copyright (c) 2017, iBenchu.org
  * @datetime      2017-03-08 14:47
  */
-
 namespace Notadd\Member\Abstracts;
 
 use Closure;
+use Illuminate\Support\Collection;
 use Notadd\Foundation\Routing\Abstracts\Controller;
 
+/**
+ * Class AbstractApiController.
+ */
 class AbstractApiController extends Controller
 {
     /**
@@ -155,12 +158,12 @@ class AbstractApiController extends Controller
      *
      * @param $collection
      * @param $callback
+     *
      * @return mixed
      */
     public function respondWithCollection($collection, $callback)
     {
         $resource = new Collection($collection, $callback);
-
         $rootScope = $this->fractal->createData($resource);
 
         return $this->respondWithArray(array_get($rootScope->toArray(), 'data', []));
@@ -201,7 +204,6 @@ class AbstractApiController extends Controller
                 $array[$first_key] = is_null($first) ? '' : $first;
             }
         }
-
         $results = [
             'code'       => $this->statusCode,
             'message'    => $this->message,
@@ -209,13 +211,11 @@ class AbstractApiController extends Controller
             'pagination' => $this->pagination,
             'data'       => $array,
         ];
-
         // foreach ($results as $key => $result) {
         //     if (empty($result)) {
         //         unset($results[$key]);
         //     }
         // }
-
         return response()->json($results, $this->statusCode, $headers);
     }
 
@@ -224,7 +224,7 @@ class AbstractApiController extends Controller
      *
      * @param  string $message
      *
-     * @return json
+     * @return array
      */
     public function errorForbidden($message = 'Forbidden')
     {
@@ -238,7 +238,7 @@ class AbstractApiController extends Controller
      *
      * @param  string $message
      *
-     * @return json
+     * @return array
      */
     public function errorInternal($message = 'Internal Error')
     {
@@ -252,7 +252,7 @@ class AbstractApiController extends Controller
      *
      * @param  string $message
      *
-     * @return json
+     * @return array
      */
     public function errorNotFound($message = 'Resource Not Found')
     {
@@ -266,7 +266,7 @@ class AbstractApiController extends Controller
      *
      * @param  string $message
      *
-     * @return json
+     * @return array
      */
     public function errorUnauthorized($message = 'Unauthorized')
     {
@@ -280,7 +280,7 @@ class AbstractApiController extends Controller
      *
      * @param  string $message
      *
-     * @return json
+     * @return array
      */
     public function errorWrongArgs($message = 'Wrong Arguments')
     {
@@ -300,10 +300,10 @@ class AbstractApiController extends Controller
     /**
      * Respond the error message.
      *
+     * @param null    $statusCode
      * @param  string $message
-     * @param  string $errorCode
      *
-     * @return json
+     * @return array
      */
     protected function respondWithError($statusCode = null, $message = null)
     {
@@ -313,15 +313,12 @@ class AbstractApiController extends Controller
                 E_USER_WARNING
             );
         }
-
         if ($message) {
             $this->setMessage($message);
         }
-
         if ($statusCode) {
             $this->setStatusCode($statusCode);
         }
-
         if ($message) {
             $this->setErrors([$message]);
         } else {

@@ -6,17 +6,17 @@
  * @copyright (c) 2017, iBenchu.org
  * @datetime      2017-01-23 11:07
  */
-
 namespace Notadd\Member\Middleware;
 
+/**
+ * Class AbstractAuthenticate.
+ */
 abstract class AbstractAuthenticate
 {
     protected $auth;
 
     /**
-     * Creates a new instance of the middleware.
-     *
-     * @param Guard $auth
+     * AbstractAuthenticate constructor.
      */
     public function __construct()
     {

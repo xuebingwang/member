@@ -6,29 +6,28 @@
  * @copyright (c) 2017, iBenchu.org
  * @datetime      2017-02-08 18:22
  */
-
 namespace Notadd\Member\Models;
 
 use Notadd\Foundation\Database\Model;
 
 /**
- * Class Registration
+ * Class Registration.
  *
  * @property integer             $id
  * @property integer             $user_id
  * @property float               $points
  * @property \Carbon\Carbon|null $signed_at
  * @property \Carbon\Carbon|null $created_at
- * @property \Carbon\Carbon|null $updated_at
- *
- * @package Notadd\Member\Models
+ * @property \Carbon\Carbon|null $updated_at.
  */
 class Registration extends Model
 {
     protected $table = 'registrations';
 
     protected $fillable = [
-        'user_id', 'points', 'signed_at',
+        'user_id',
+        'points',
+        'signed_at',
     ];
 
     protected $dates = ['signed_at'];

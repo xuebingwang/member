@@ -15,7 +15,6 @@ use Notadd\Foundation\Module\Abstracts\Installer as AbstractInstaller;
  */
 class Installer extends AbstractInstaller
 {
-
     /**
      * @return bool
      */

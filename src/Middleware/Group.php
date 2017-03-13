@@ -6,13 +6,15 @@
  * @copyright (c) 2017, iBenchu.org
  * @datetime      2017-01-23 11:33
  */
-
 namespace Notadd\Member\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 
+/**
+ * Class Group.
+ */
 class Group extends AbstractAuthenticate
 {
     /**
@@ -26,11 +28,10 @@ class Group extends AbstractAuthenticate
      */
     public function handle(Request $request, Closure $next, $groups)
     {
-        if ($this->auth->guest() || ! $request->user()->hasGroup(explode('|', $groups))) {
+        if ($this->auth->guest() || !$request->user()->hasGroup(explode('|', $groups))) {
             if ($this->wantsJson()) {
                 return new JsonResponse('Forbidden', 403);
             }
-
             abort(403);
         }
 

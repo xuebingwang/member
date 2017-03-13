@@ -6,13 +6,15 @@
  * @copyright (c) 2017, iBenchu.org
  * @datetime      2017-01-23 11:38
  */
-
 namespace Notadd\Member\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 
+/**
+ * Class Ability.
+ */
 class Ability extends AbstractAuthenticate
 {
     /**
@@ -28,12 +30,12 @@ class Ability extends AbstractAuthenticate
      */
     public function handle(Request $request, Closure $next, $roles, $permissions, $validateAll = false)
     {
-        if ($this->auth->guest() || ! $request->user()->ability(explode('|', $roles), explode('|', $permissions), ['validate_all' => $validateAll])) {
-
+        if ($this->auth->guest() || !$request->user()->ability(explode('|', $roles), explode('|', $permissions),
+                ['validate_all' => $validateAll])
+        ) {
             if ($this->wantsJson()) {
                 return new JsonResponse('Forbidden', 403);
             }
-
             abort(403);
         }
 
