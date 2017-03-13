@@ -1,5 +1,17 @@
 <script>
+  import Core from '../main'
   export default {
+    beforeCreate: function () {
+      this.$options.components.Paginator = Core.instance.components.paginator
+    },
+    beforeRouteEnter (to, from, next) {
+      Core.http.post(window.api + '/member/members/index').then((response) => {
+        console.log(response)
+        next((vm) => {
+          vm.list = response.data.data
+        })
+      })
+    },
     data () {
       return {
         groups: [],
@@ -101,15 +113,6 @@
         width: 140px;
     }
 
-    .box-body > .table > tbody > tr > td:first-child {
-        background: url("../../static/images/unselected.svg") 10px center no-repeat;
-        padding-left: 50px;
-    }
-
-    .box-body > .table > tbody > tr > td:first-child.checked {
-        background: url("../../static/images/selected.svg") 10px center no-repeat;
-    }
-
     .box-body > .table > tbody > tr > td:last-child > .btn,
     .box-header > .box-extend > .btn {
         background: #ffffff;
@@ -196,27 +199,33 @@
         <div class="box-body table-responsive no-padding">
             <table class="table table-hover">
                 <colgroup>
-                    <col class="col-md-4">
+                    <col class="col-md-1">
                     <col class="col-md-2">
                     <col class="col-md-2">
                     <col class="col-md-2">
                     <col class="col-md-2">
+                    <col class="col-md-3">
                 </colgroup>
                 <tbody>
                 <tr>
                     <th>头像</th>
+                    <th>用户名</th>
                     <th>昵称</th>
                     <th>性别</th>
                     <th>年龄</th>
                     <th>操作</th>
                 </tr>
                 <tr v-for="member in list">
-                    <td>{{ member.title }}</td>
-                    <td>{{ member.category }}</td>
-                    <td>{{ member.created_at }}</td>
+                    <td>
+                        <img :src="member.avatar" class="img-responsive" v-show="member.avatar">
+                    </td>
+                    <td>{{ member.name }}</td>
+                    <td>{{ member.nick_name }}</td>
+                    <td>{{ member.sex }}</td>
+                    <td>{{ member.age || 0 }}</td>
                     <td>
                         <button class="btn btn-primary btn-sm">查看</button>
-                        <router-link :to="'/content/article/' + article.id + '/edit'" class="btn btn-info btn-sm">编辑</router-link>
+                        <router-link :to="'/content/article/' + member.id + '/edit'" class="btn btn-info btn-sm">编辑</router-link>
                         <button class="btn btn-danger btn-sm" @click="remove(member.id)">删除</button>
                     </td>
                 </tr>
