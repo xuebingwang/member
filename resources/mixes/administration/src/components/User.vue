@@ -28,6 +28,9 @@
       },
       search: function () {}
     }
+    mounted () {
+      this.$store.commit('title', '用户管理 - 用户中心 - Notadd Administration')
+    }
   }
 </script>
 <style scoped>
