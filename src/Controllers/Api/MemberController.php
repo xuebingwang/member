@@ -175,4 +175,16 @@ class MemberController extends AbstractApiController
 
         return $this->noContent();
     }
+
+    public function destroy($id)
+    {
+        $member = Member::find($id);
+        if (! $member || ! $member->exists) {
+            return $this->errorNotFound();
+        }
+
+        $member->delete();
+
+        return $this->noContent();
+    }
 }
