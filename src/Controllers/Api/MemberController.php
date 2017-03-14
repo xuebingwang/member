@@ -78,7 +78,9 @@ class MemberController extends AbstractApiController
             'real_name',
         ]));
 
-        $member->save();
+        if (! $member->save()) {
+            return $this->errorInternal();
+        }
 
         $groups = Group::whereIn('id', $this->request->input('groups', []))
             ->get()
@@ -131,6 +133,7 @@ class MemberController extends AbstractApiController
         if (! $member || ! $member->exists) {
             return $this->errorNotFound();
         }
+
         $validator = $this->getValidationFactory()->make(
             $this->request->all(),
             [
@@ -146,9 +149,11 @@ class MemberController extends AbstractApiController
                 'birth_date.date' => '无效的出生日期.',
             ]
         );
+
         if ($validator->fails()) {
             return $this->errorValidate($validator->getMessageBag()->toArray());
         }
+
         $member->fill(array_only($this->request->all(), [
             'name',
             'email',
@@ -160,15 +165,21 @@ class MemberController extends AbstractApiController
             'nick_name',
             'real_name',
         ]));
-        $member->save();
-        $groups      = Group::whereIn('id', $this->request->input('groups', []))
+
+        if (! $member->save()) {
+            return $this->errorInternal();
+        }
+
+        $groups = Group::whereIn('id', $this->request->input('groups', []))
             ->get()
             ->pluck('id')
             ->toArray();
+
         $permissions = Permission::whereIn('id', $this->request->input('permissions', []))
             ->get()
             ->pluck('id')
             ->toArray();
+
         // 给用户添加用户组
         $member->groups()->sync($groups);
         $member->permissions()->sync($permissions);
@@ -183,7 +194,9 @@ class MemberController extends AbstractApiController
             return $this->errorNotFound();
         }
 
-        $member->delete();
+        if (! $member->delete()) {
+            return $this->errorInternal();
+        }
 
         return $this->noContent();
     }
