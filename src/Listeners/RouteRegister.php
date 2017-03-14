@@ -45,9 +45,10 @@ class RouteRegister extends AbstractRouteRegister
             $this->router->post('points/index', ApiActionPointsController::class . '@index');
             $this->router->post('points/{points_id}/show', ApiActionPointsController::class . '@show');
         });
-        $this->router->middleware('group', Group::class);
-        $this->router->middleware('permission', Permission::class);
-        $this->router->middleware('permission.admin', AdminPermission::class);
-        $this->router->middleware('permission.front', FrontPermission::class);
+
+        $this->router->aliasMiddleware('group', Group::class);
+        $this->router->aliasMiddleware('permission', Permission::class);
+        $this->router->aliasMiddleware('permission.admin', AdminPermission::class);
+        $this->router->aliasMiddleware('permission.front', FrontPermission::class);
     }
 }

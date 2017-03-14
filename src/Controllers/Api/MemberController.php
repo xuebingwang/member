@@ -44,6 +44,62 @@ class MemberController extends AbstractApiController
         });
     }
 
+    public function create()
+    {
+        $validator = $this->getValidationFactory()->make(
+            $this->request->all(),
+            [
+                'name'       => 'required|unique:members,name',
+                'email'      => 'required|unique:members,email',
+                'phone'      => 'required|unique:members,phone',
+                'birth_date' => 'date',
+            ],
+            [
+                'name.required'   => '请输入用户名.',
+                'name.unique'     => '用户名已经存在.',
+                'email.required'  => '请输入邮箱.',
+                'email.unique'    => '邮箱已经存在.',
+                'phone.required'  => '请输入手机号.',
+                'phone.unique'    => '手机号已经存在.',
+                'birth_date.date' => '无效的出生日期.',
+            ]
+        );
+
+        if ($validator->fails()) {
+            return $this->errorValidate($validator->getMessageBag()->toArray());
+        }
+
+        $member = new Member(array_only($this->request->all(), [
+            'name',
+            'email',
+            'phone',
+            'birth_date',
+            'sex',
+            'signature',
+            'introduction',
+            'nick_name',
+            'real_name',
+        ]));
+
+        $member->save();
+
+        $groups = Group::whereIn('id', $this->request->input('groups', []))
+            ->get()
+            ->pluck('id')
+            ->toArray();
+
+        $permissions = Permission::whereIn('id', $this->request->input('permissions', []))
+            ->get()
+            ->pluck('id')
+            ->toArray();
+
+        // 给用户添加用户组
+        $member->groups()->sync($groups);
+        $member->permissions()->sync($permissions);
+
+        return $this->noContent();
+    }
+
     public function show($member_id)
     {
         $member = Member::find(intval($member_id));

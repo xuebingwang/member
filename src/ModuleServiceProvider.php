@@ -9,20 +9,19 @@
 namespace Notadd\Member;
 
 use Illuminate\Events\Dispatcher;
-use Illuminate\Support\ServiceProvider;
-use Notadd\Member\Commands\PointsCommand;
 use Notadd\Member\Injections\Installer;
+use Notadd\Member\Commands\PointsCommand;
 use Notadd\Member\Injections\Uninstaller;
 use Notadd\Member\Listeners\RouteRegister;
 use Notadd\Member\Listeners\CsrfTokenRegister;
 use Notadd\Foundation\Member\MemberManagement;
-// use Notadd\Foundation\Module\Abstracts\Module;
+use Notadd\Foundation\Module\Abstracts\Module;
 use Notadd\Member\Listeners\UserMetadataUpdater;
 
 /**
  * Class Extension.
  */
-class ModuleServiceProvider extends ServiceProvider
+class ModuleServiceProvider extends Module
 {
     /**
      * Boot service provider.
@@ -62,8 +61,7 @@ class ModuleServiceProvider extends ServiceProvider
      */
     public static function install()
     {
-        // return Installer::class;
-        return true;
+        return Installer::class;
     }
 
     /**
@@ -117,8 +115,7 @@ class ModuleServiceProvider extends ServiceProvider
      */
     public static function uninstall()
     {
-        // return Uninstaller::class;
-        return true;
+        return Uninstaller::class;
     }
 
     /**
