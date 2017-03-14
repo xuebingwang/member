@@ -184,6 +184,7 @@
                     <option value="0">全部用户组</option>
                     <option v-for="module in modules" :value="group.id">{{ module.title }}</option>
                 </select>
+                <router-link to="/member/group/create" class="btn btn-primary btn-create">添加用户组</router-link>
             </div>
         </div>
         <div class="box-body table-responsive no-padding">
