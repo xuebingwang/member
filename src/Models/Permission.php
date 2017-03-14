@@ -15,6 +15,15 @@ use Notadd\Foundation\Member\Permission as BasePermission;
  */
 class Permission extends BasePermission
 {
+    public static function boot()
+    {
+        parent::boot();
+
+        static::deleting(function ($perm) {
+            $perm->groups()->sync([]);
+        });
+    }
+
     public function groups()
     {
         return $this->belongsToMany(Group::class, 'group_permission', 'permission_id', 'group_id');

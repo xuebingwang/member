@@ -34,14 +34,20 @@ class RouteRegister extends AbstractRouteRegister
             $this->router->post('members/create', ApiMemberController::class . '@create');
             $this->router->post('members/{member_id}/show', ApiMemberController::class . '@show');
             $this->router->patch('members/{member_id}/update', ApiMemberController::class . '@update');
+            $this->router->delete('members/{member_id}/delete', ApiMemberController::class . '@destroy');
+
             // 用户组
             $this->router->post('groups/index', ApiGroupController::class . '@index');
             $this->router->post('groups/{group_id}/show', ApiGroupController::class . '@show');
             $this->router->patch('groups/store', ApiGroupController::class . '@store');
+            $this->router->delete('groups/{group_id}/delete', ApiGroupController::class . '@destroy');
+
             // 权限
             $this->router->post('permissions/index', ApiPermissionController::class . '@index');
             $this->router->post('permissions/{perm_id}/show', ApiPermissionController::class . '@show');
             $this->router->patch('permissions/store', ApiPermissionController::class . '@store');
+            $this->router->delete('permissions/{perm_id}/delete', ApiPermissionController::class . '@destroy');
+
             // 行为积分
             $this->router->post('points/index', ApiActionPointsController::class . '@index');
             $this->router->post('points/{points_id}/show', ApiActionPointsController::class . '@show');

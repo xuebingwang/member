@@ -9,7 +9,6 @@
 namespace Notadd\Member\Abstracts;
 
 use Closure;
-use Illuminate\Support\Collection;
 use Notadd\Foundation\Routing\Abstracts\Controller;
 
 /**
