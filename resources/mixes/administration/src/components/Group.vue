@@ -52,7 +52,6 @@
 
     .box-body > .table > tbody > tr > td:last-child {
         letter-spacing: 6px;
-        text-align: right;
     }
 
     .box-body > .table > tbody > tr > td:last-child > .btn {
@@ -184,7 +183,7 @@
         <div class="box-header">
             <div class="box-extend">
                 <select class="form-control" @change="groupSelected">
-                    <option value="0">全部用户组</option>
+                    <option value="0">按照模块筛选</option>
                     <option v-for="module in modules" :value="group.id">{{ module.title }}</option>
                 </select>
                 <router-link to="/member/group/create" class="btn btn-primary btn-create">添加用户组</router-link>
@@ -195,26 +194,25 @@
                 <colgroup>
                     <col class="col-md-2">
                     <col class="col-md-2">
+                    <col class="col-md-2">
                     <col class="col-md-4">
-                    <col class="col-md-4">
+                    <col class="col-md-2">
                 </colgroup>
                 <thead>
                 <tr>
                     <th>图标</th>
                     <th>用户组名称</th>
+                    <th>用户组标识</th>
                     <th>权限</th>
                     <th>操作</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr v-for="group in list">
-                    <td>
-                        <img :src="group.avatar" class="img-responsive" v-show="member.avatar">
-                    </td>
+                    <td></td>
+                    <td>{{ group.display_name }}</td>
                     <td>{{ group.name }}</td>
-                    <td>{{ group.nick_name }}</td>
-                    <td>{{ group.sex }}</td>
-                    <td>{{ group.age || 0 }}</td>
+                    <td></td>
                     <td>
                         <button class="btn btn-primary btn-sm">查看</button>
                         <router-link :to="'/content/article/' + group.id + '/edit'" class="btn btn-info btn-sm">编辑</router-link>
