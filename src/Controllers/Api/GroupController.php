@@ -86,4 +86,16 @@ class GroupController extends AbstractApiController
 
         return $this->errorInternal();
     }
+
+    public function destroy($id)
+    {
+        $group = Group::find($id);
+        if (! $group || ! $group->exists) {
+            return $this->errorNotFound();
+        }
+
+        $group->delete();
+
+        return $this->noContent();
+    }
 }
