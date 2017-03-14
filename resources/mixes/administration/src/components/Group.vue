@@ -25,7 +25,7 @@
       groupSelected: function (e) {},
       paginator: function (page) {
       }
-    }
+    },
     mounted () {
       this.$store.commit('title', '用户组管理 - 用户中心 - Notadd Administration')
     }
