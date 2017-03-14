@@ -213,7 +213,7 @@ class AbstractApiController extends Controller
                 'data'       => $array,
             ];
 
-            return response()->json($results, $this->statusCode, $headers);
+            return $this->respondWithJson($results, $this->statusCode, $headers);
 
         } catch (\Exception $e) {
 
@@ -223,8 +223,13 @@ class AbstractApiController extends Controller
                 'trace'   => $e->getTrace(),
             ];
 
-            return response()->json($results, $e->getCode());
+            return $this->respondWithJson($results, $e->getCode());
         }
+    }
+
+    public function respondWithJson($data, $code = 200, array $headers = [])
+    {
+        return response()->json($data, $code, $headers);
     }
 
     /**
