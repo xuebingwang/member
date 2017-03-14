@@ -91,4 +91,18 @@ class PermissionController extends AbstractApiController
 
         return $this->noContent();
     }
+
+    public function destroy($id)
+    {
+        $perm = Permission::find($id);
+        if (! $perm || ! $perm->exists) {
+            return $this->errorNotFound();
+        }
+
+        if (! $perm->delete()) {
+            return $this->errorInternal();
+        }
+
+        return $this->noContent();
+    }
 }

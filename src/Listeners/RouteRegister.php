@@ -46,6 +46,8 @@ class RouteRegister extends AbstractRouteRegister
             $this->router->post('permissions/index', ApiPermissionController::class . '@index');
             $this->router->post('permissions/{perm_id}/show', ApiPermissionController::class . '@show');
             $this->router->patch('permissions/store', ApiPermissionController::class . '@store');
+            $this->router->delete('permissions/{perm_id}/delete', ApiPermissionController::class . '@destroy');
+
             // 行为积分
             $this->router->post('points/index', ApiActionPointsController::class . '@index');
             $this->router->post('points/{points_id}/show', ApiActionPointsController::class . '@show');

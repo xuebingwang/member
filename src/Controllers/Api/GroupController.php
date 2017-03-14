@@ -94,7 +94,9 @@ class GroupController extends AbstractApiController
             return $this->errorNotFound();
         }
 
-        $group->delete();
+        if (! $group->delete()) {
+            return $this->errorInternal();
+        }
 
         return $this->noContent();
     }
