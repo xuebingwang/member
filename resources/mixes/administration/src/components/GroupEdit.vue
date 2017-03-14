@@ -26,6 +26,25 @@
     },
     methods: {
       submit: function () {
+        let _this = this
+        _this.$validator.validateAll()
+        if (_this.errors.any()) {
+          return false
+        }
+        _this.$http.patch(window.api + '/member/groups/store', {
+          name: _this.group.identification,
+          display_name: _this.group.display,
+          description: _this.group.description
+        }).then((response) => {
+          if (response.status === 204) {
+            _this.$router.push('/member/group')
+            _this.$store.commit('message', {
+              show: true,
+              type: 'notice',
+              text: '编辑用户组成功！'
+            })
+          }
+        })
       }
     },
     mounted () {
