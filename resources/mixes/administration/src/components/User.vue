@@ -206,7 +206,7 @@
                     <col class="col-md-2">
                     <col class="col-md-3">
                 </colgroup>
-                <tbody>
+                <thead>
                 <tr>
                     <th>头像</th>
                     <th>用户名</th>
@@ -215,6 +215,8 @@
                     <th>年龄</th>
                     <th>操作</th>
                 </tr>
+                </thead>
+                <tbody>
                 <tr v-for="member in list">
                     <td>
                         <img :src="member.avatar" class="img-responsive" v-show="member.avatar">

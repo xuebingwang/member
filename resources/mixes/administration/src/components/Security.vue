@@ -175,20 +175,20 @@
         <div class="box-body table-responsive no-padding">
             <table class="table table-hover">
                 <colgroup>
-                    <col class="col-md-1">
-                    <col class="col-md-2">
-                    <col class="col-md-2">
-                    <col class="col-md-2">
-                    <col class="col-md-2">
+                    <col class="col-md-3">
+                    <col class="col-md-3">
+                    <col class="col-md-3">
                     <col class="col-md-3">
                 </colgroup>
-                <tbody>
+                <thead>
                 <tr>
                     <th>信息</th>
                     <th>是否启用</th>
                     <th>数值</th>
                     <th>备注</th>
                 </tr>
+                </thead>
+                <tbody>
                 <tr>
                     <th></th>
                     <th></th>

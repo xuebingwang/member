@@ -194,13 +194,15 @@
                     <col class="col-md-4">
                     <col class="col-md-4">
                 </colgroup>
-                <tbody>
+                <thead>
                 <tr>
                     <th>图标</th>
                     <th>用户组名称</th>
                     <th>权限</th>
                     <th>操作</th>
                 </tr>
+                </thead>
+                <tbody>
                 <tr v-for="group in list">
                     <td>
                         <img :src="group.avatar" class="img-responsive" v-show="member.avatar">
