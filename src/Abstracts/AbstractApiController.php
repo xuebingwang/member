@@ -163,10 +163,9 @@ class AbstractApiController extends Controller
      */
     public function respondWithCollection($collection, $callback)
     {
-        $resource  = new Collection($collection, $callback);
-        $rootScope = $this->fractal->createData($resource);
+        $data = $collection->map($callback);
 
-        return $this->respondWithArray(array_get($rootScope->toArray(), 'data', []));
+        return $this->respondWithArray(array_get($data->toArray(), 'data', []));
     }
 
     /**
