@@ -163,7 +163,7 @@ class AbstractApiController extends Controller
      */
     public function respondWithCollection($collection, $callback)
     {
-        $resource = new Collection($collection, $callback);
+        $resource  = new Collection($collection, $callback);
         $rootScope = $this->fractal->createData($resource);
 
         return $this->respondWithArray(array_get($rootScope->toArray(), 'data', []));
@@ -195,28 +195,37 @@ class AbstractApiController extends Controller
      */
     public function respondWithArray(array $array, array $headers = [])
     {
-        foreach ($array as $first_key => $first) {
-            if (is_array($first)) {
-                foreach ($first as $second_key => $second) {
-                    $array[$first_key][$second_key] = is_null($second) ? '' : $second;
+        try {
+            foreach ($array as $first_key => $first) {
+                if (is_array($first)) {
+                    foreach ($first as $second_key => $second) {
+                        $array[$first_key][$second_key] = is_null($second) ? '' : $second;
+                    }
+                } else {
+                    $array[$first_key] = is_null($first) ? '' : $first;
                 }
-            } else {
-                $array[$first_key] = is_null($first) ? '' : $first;
             }
+
+            $results = [
+                'code'       => $this->statusCode,
+                'message'    => $this->message,
+                'errors'     => $this->errors,
+                'pagination' => $this->pagination,
+                'data'       => $array,
+            ];
+
+            return response()->json($results, $this->statusCode, $headers);
+
+        } catch (\Exception $e) {
+
+            $results = [
+                'code'    => $e->getCode(),
+                'message' => $e->getMessage(),
+                'trace'   => $e->getTrace(),
+            ];
+
+            return response()->json($results, $e->getCode());
         }
-        $results = [
-            'code'       => $this->statusCode,
-            'message'    => $this->message,
-            'errors'     => $this->errors,
-            'pagination' => $this->pagination,
-            'data'       => $array,
-        ];
-        // foreach ($results as $key => $result) {
-        //     if (empty($result)) {
-        //         unset($results[$key]);
-        //     }
-        // }
-        return response()->json($results, $this->statusCode, $headers);
     }
 
     /**
