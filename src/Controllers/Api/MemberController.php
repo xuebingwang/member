@@ -51,7 +51,6 @@ class MemberController extends AbstractApiController
             [
                 'name'       => 'required|unique:members,name',
                 'email'      => 'required|unique:members,email',
-                'phone'      => 'required|unique:members,phone',
                 'birth_date' => 'date',
             ],
             [
@@ -59,8 +58,6 @@ class MemberController extends AbstractApiController
                 'name.unique'     => '用户名已经存在.',
                 'email.required'  => '请输入邮箱.',
                 'email.unique'    => '邮箱已经存在.',
-                'phone.required'  => '请输入手机号.',
-                'phone.unique'    => '手机号已经存在.',
                 'birth_date.date' => '无效的出生日期.',
             ]
         );
@@ -103,7 +100,7 @@ class MemberController extends AbstractApiController
     public function show($member_id)
     {
         $member = Member::find(intval($member_id));
-        if (!$member || !$member->exists) {
+        if (! $member || ! $member->exists) {
             return $this->errorNotFound();
         }
 
@@ -117,6 +114,7 @@ class MemberController extends AbstractApiController
                 'real_name'    => $list->real_name,
                 'sex'          => sex_trans($list->sex),
                 'age'          => $list->birth_date ? $list->birth_date->age : '',
+                'birth_date'   => $list->birth_date ? $list->birth_date->toDateString() : '',
                 'avatar'       => $list->avatar,
                 'points'       => $list->points,
                 'signature'    => $list->signature,
@@ -130,7 +128,7 @@ class MemberController extends AbstractApiController
     public function update($member_id)
     {
         $member = Member::find(intval($member_id));
-        if (!$member || !$member->exists) {
+        if (! $member || ! $member->exists) {
             return $this->errorNotFound();
         }
         $validator = $this->getValidationFactory()->make(
@@ -138,7 +136,6 @@ class MemberController extends AbstractApiController
             [
                 'name'       => 'required|unique:members,name,' . $member->id,
                 'email'      => 'required|unique:members,email,' . $member->id,
-                'phone'      => 'required|unique:members,phone,' . $member->id,
                 'birth_date' => 'date',
             ],
             [
@@ -146,8 +143,6 @@ class MemberController extends AbstractApiController
                 'name.unique'     => '用户名已经存在.',
                 'email.required'  => '请输入邮箱.',
                 'email.unique'    => '邮箱已经存在.',
-                'phone.required'  => '请输入手机号.',
-                'phone.unique'    => '手机号已经存在.',
                 'birth_date.date' => '无效的出生日期.',
             ]
         );
@@ -166,7 +161,7 @@ class MemberController extends AbstractApiController
             'real_name',
         ]));
         $member->save();
-        $groups = Group::whereIn('id', $this->request->input('groups', []))
+        $groups      = Group::whereIn('id', $this->request->input('groups', []))
             ->get()
             ->pluck('id')
             ->toArray();
