@@ -15,7 +15,6 @@
     },
     methods: {
       submit: function () {
-
       }
     },
     mounted () {
