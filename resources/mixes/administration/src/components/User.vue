@@ -28,6 +28,9 @@
       },
       search: function () {}
     }
+    mounted () {
+      this.$store.commit('title', '用户管理 - 用户中心 - Notadd Administration')
+    }
   }
 </script>
 <style scoped>
@@ -194,6 +197,7 @@
                     <option value="0">所有用户组</option>
                     <option v-for="group in groups" :value="group.id">{{ group.title }}</option>
                 </select>
+                <router-link to="/member/user/create" class="btn btn-primary btn-create">添加用户</router-link>
             </div>
         </div>
         <div class="box-body table-responsive no-padding">
