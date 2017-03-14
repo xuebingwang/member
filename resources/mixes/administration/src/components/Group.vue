@@ -24,6 +24,8 @@
     methods: {
       groupSelected: function (e) {},
       paginator: function (page) {
+      },
+      remove: function (group) {
       }
     },
     mounted () {
@@ -215,8 +217,8 @@
                     <td></td>
                     <td>
                         <button class="btn btn-primary btn-sm">查看</button>
-                        <router-link :to="'/content/article/' + group.id + '/edit'" class="btn btn-info btn-sm">编辑</router-link>
-                        <button class="btn btn-danger btn-sm" @click="remove(group.id)">删除</button>
+                        <router-link :to="'/member/group/' + group.id + '/edit'" class="btn btn-info btn-sm">编辑</router-link>
+                        <button class="btn btn-danger btn-sm" @click="remove(group)">删除</button>
                     </td>
                 </tr>
                 </tbody>

@@ -1,6 +1,7 @@
 import Dashboard from '../components/Dashboard'
 import Group from '../components/Group'
 import GroupCreate from '../components/GroupCreate'
+import GroupEdit from '../components/GroupEdit'
 import Layout from '../components/Layout'
 import Security from '../components/Security'
 import User from '../components/User'
@@ -39,6 +40,11 @@ export function routerMixin (Core) {
         {
           path: 'group/create',
           component: GroupCreate,
+          beforeEnter: router.auth
+        },
+        {
+          path: 'group/:id/edit',
+          component: GroupEdit,
           beforeEnter: router.auth
         },
         {
