@@ -20,7 +20,7 @@ class MemberController extends AbstractApiController
 {
     public function index()
     {
-        $query = Member::query();
+        $query = Member::query()->with('groups');
         $query->orderBy('created_at', 'desc');
         $lists = $query->paginate(intval($this->request->get('limit', 20)));
 
@@ -38,7 +38,7 @@ class MemberController extends AbstractApiController
                 'points'       => $list->points,
                 'signature'    => $list->signature,
                 'introduction' => $list->introduction,
-                'group'        => $list->cachedGroups()->implode('display_name', '|'),
+                'group'        => $list->groups ? $list->groups->implode('display_name', '|') : '',
                 'created_at'   => $list->created_at->toDateTimeString(),
             ];
         });
