@@ -38,6 +38,11 @@ class Member extends BaseMember
 {
     use SoftDeletes;
 
+    /**
+     * Founder role
+     */
+    const ROLE_FOUNDER = 'founder';
+
     protected $table = 'members';
 
     protected $fillable = [
