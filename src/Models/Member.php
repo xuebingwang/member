@@ -30,6 +30,7 @@ use Notadd\Foundation\Member\Member as BaseMember;
  * @property integer             $points
  * @property integer             $total_registration_count
  * @property integer             $continue_registration_count
+ * @property string              $is_banned
  * @property \Carbon\Carbon|null $created_at
  * @property \Carbon\Carbon|null $updated_at
  * @property \Carbon\Carbon|null $deleted_at
@@ -118,9 +119,9 @@ class Member extends BaseMember
         if (is_array($name)) {
             foreach ($name as $groupName) {
                 $hasGroup = $this->hasGroup($groupName);
-                if ($hasGroup && !$requireAll) {
+                if ($hasGroup && ! $requireAll) {
                     return true;
-                } elseif (!$hasGroup && $requireAll) {
+                } elseif (! $hasGroup && $requireAll) {
                     return false;
                 }
             }
@@ -153,9 +154,9 @@ class Member extends BaseMember
         if (is_array($permission)) {
             foreach ($permission as $permName) {
                 $hasPerm = $this->may($permName);
-                if ($hasPerm && !$requireAll) {
+                if ($hasPerm && ! $requireAll) {
                     return true;
-                } elseif (!$hasPerm && $requireAll) {
+                } elseif (! $hasPerm && $requireAll) {
                     return false;
                 }
             }
@@ -193,7 +194,7 @@ class Member extends BaseMember
                 return Permission::FRONT_PREFIX . $val;
             }, $permission);
         } else {
-            if (!ends_with($permission, '*')) {
+            if (! ends_with($permission, '*')) {
                 $permission = Permission::FRONT_PREFIX . $permission;
             }
         }
@@ -220,7 +221,7 @@ class Member extends BaseMember
                 return Permission::ADMIN_PREFIX . $val;
             }, $permission);
         } else {
-            if (!ends_with($permission, '*')) {
+            if (! ends_with($permission, '*')) {
                 $permission = Permission::ADMIN_PREFIX . $permission;
             }
         }
@@ -256,7 +257,7 @@ class Member extends BaseMember
     {
         parent::boot();
         static::deleting(function ($user) {
-            if (!method_exists(static::class, 'bootSoftDeletes')) {
+            if (! method_exists(static::class, 'bootSoftDeletes')) {
                 $user->groups()->sync([]);
             }
 
@@ -282,7 +283,7 @@ class Member extends BaseMember
             return;
         }
         $signAction = ActionPoints::where('name', 'sign')->first();
-        if (!$signAction) {
+        if (! $signAction) {
             return;
         }
         Registration::checkIn($this->id, $signAction->points);
@@ -309,7 +310,7 @@ class Member extends BaseMember
      */
     public function todaySigned()
     {
-        return (bool)Registration::where('user_id', $this->id)
+        return (bool) Registration::where('user_id', $this->id)
             ->where('signed_at', '>=', Carbon::now()->startOfDay())
             ->where('signed_at', '<=', Carbon::now()->endOfDay())
             ->count();
@@ -322,7 +323,7 @@ class Member extends BaseMember
      */
     public function yesterdaySigned()
     {
-        return (bool)Registration::where('user_id', $this->id)
+        return (bool) Registration::where('user_id', $this->id)
             ->where('signed_at', '>=', Carbon::now()->subDay()->startOfDay())
             ->where('signed_at', '<=', Carbon::now()->subDay()->endOfDay())
             ->count();
@@ -359,7 +360,7 @@ class Member extends BaseMember
 
     public function detachGroups($groups = null)
     {
-        if (!$groups) {
+        if (! $groups) {
             $groups = $this->groups()->get();
         }
         foreach ($groups as $group) {

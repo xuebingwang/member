@@ -34,6 +34,8 @@ class UpdateMembersTable extends Migration
             $table->integer('total_registration_count')->unsigned()->default(0)->index()->comment('用户总的签到天数');
             $table->integer('continue_registration_count')->unsigned()->default(0)->index()->comment('连续签到天数');
 
+            $table->enum('is_banned', ['yes', 'no'])->default('no')->comment('是否禁止');
+
             $table->softDeletes();
         });
     }
