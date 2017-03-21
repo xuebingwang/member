@@ -33,7 +33,7 @@ class NotificationController extends AbstractApiController
         });
     }
 
-    public function create()
+    public function systemNotify()
     {
         $validator = $this->getValidationFactory()->make(
             [
@@ -51,7 +51,7 @@ class NotificationController extends AbstractApiController
         }
 
         $notify = $this->getContainer()->make('notifier')->systemNotify(
-            Member::find($this->request->input('user_id')),
+            $this->request->input('user_id'),
             $this->request->input('body')
         );
 

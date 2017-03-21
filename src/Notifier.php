@@ -21,11 +21,11 @@ class Notifier
         return Notification::notify($type, $sender, $toUser, $subject, $subjectType, $reply);
     }
 
-    public function systemNotify(Member $toUser, $body)
+    public function systemNotify($toUser, $body)
     {
         return Notification::create([
             'sender_id'    => 0,
-            'user_id'      => $toUser->id,
+            'user_id'      => $toUser,
             'subject_id'   => 0,
             'subject_type' => null,
             'body'         => $body,
