@@ -83,6 +83,10 @@ class ModuleServiceProvider extends Module
         $this->app->bind('points', function ($app) {
             return new PointsManager;
         });
+
+        $this->app->singleton('notifier', function ($app) {
+            return new Notifier;
+        });
     }
 
     /**

@@ -39,12 +39,10 @@ class NotificationController extends AbstractApiController
             [
                 'user_id' => 'required',
                 'body'    => 'required',
-                // 'type'    => 'required',
             ],
             [
                 'user_id' => '通知人不能为空.',
                 'body'    => '通知内容不能为空.',
-                // 'type' => ''
             ]
         );
 
@@ -52,9 +50,7 @@ class NotificationController extends AbstractApiController
             return $this->errorValidate($validator->getMessageBag()->toArray());
         }
 
-        $notify = Notification::notify(
-            'system',
-            $this->request()->user(),
+        $notify = $this->getContainer()->make('notifier')->systemNotify(
             Member::find($this->request->input('user_id')),
             $this->request->input('body')
         );
