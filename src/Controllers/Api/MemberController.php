@@ -18,6 +18,32 @@ use Notadd\Member\Abstracts\AbstractApiController;
  */
 class MemberController extends AbstractApiController
 {
+    protected $form_rules = [
+        'name'       => 'required|unique:members,name',
+        'email'      => 'required|unique:members,email',
+        'birth_date' => 'nullable|date',
+    ];
+
+    protected $form_messages = [
+        'name.required'   => '请输入用户名.',
+        'name.unique'     => '用户名已经存在.',
+        'email.required'  => '请输入邮箱.',
+        'email.unique'    => '邮箱已经存在.',
+        'birth_date.date' => '无效的出生日期.',
+    ];
+
+    protected function filterFormRules($member = null)
+    {
+        $rules = $this->form_rules;
+
+        if ($member && $member->exists) {
+            $rules['name'] .= ',' . $member->id;
+            $rules['email'] .= ',' . $member->id;
+        }
+
+        return $rules;
+    }
+
     public function index()
     {
         $query = Member::query()->with('groups');
@@ -48,18 +74,8 @@ class MemberController extends AbstractApiController
     {
         $validator = $this->getValidationFactory()->make(
             $this->request->all(),
-            [
-                'name'       => 'required|unique:members,name',
-                'email'      => 'required|unique:members,email',
-                'birth_date' => 'nullable|date',
-            ],
-            [
-                'name.required'   => '请输入用户名.',
-                'name.unique'     => '用户名已经存在.',
-                'email.required'  => '请输入邮箱.',
-                'email.unique'    => '邮箱已经存在.',
-                'birth_date.date' => '无效的出生日期.',
-            ]
+            $this->filterFormRules(),
+            $this->form_messages
         );
 
         if ($validator->fails()) {
@@ -136,18 +152,8 @@ class MemberController extends AbstractApiController
 
         $validator = $this->getValidationFactory()->make(
             $this->request->all(),
-            [
-                'name'       => 'required|unique:members,name,' . $member->id,
-                'email'      => 'required|unique:members,email,' . $member->id,
-                'birth_date' => 'nullable|date',
-            ],
-            [
-                'name.required'   => '请输入用户名.',
-                'name.unique'     => '用户名已经存在.',
-                'email.required'  => '请输入邮箱.',
-                'email.unique'    => '邮箱已经存在.',
-                'birth_date.date' => '无效的出生日期.',
-            ]
+            $this->filterFormRules($member),
+            $this->form_messages
         );
 
         if ($validator->fails()) {
