@@ -2,9 +2,9 @@
 /**
  * This file is part of Notadd.
  *
- * @author TwilRoad <269044570@qq.com>
+ * @author        TwilRoad <269044570@qq.com>
  * @copyright (c) 2016, iBenchu.org
- * @datetime 2016-10-14 13:56
+ * @datetime      2016-10-14 13:56
  */
 namespace Notadd\Member\Listeners;
 
@@ -17,6 +17,7 @@ use Notadd\Member\Controllers\Api\MemberController as ApiMemberController;
 use Notadd\Foundation\Routing\Abstracts\RouteRegister as AbstractRouteRegister;
 use Notadd\Member\Controllers\Api\PermissionController as ApiPermissionController;
 use Notadd\Member\Controllers\Api\ActionPointsController as ApiActionPointsController;
+use Notadd\Member\Controllers\Api\NotificationController as ApiNotificationController;
 
 /**
  * Class RouteRegistrar.
@@ -51,6 +52,11 @@ class RouteRegister extends AbstractRouteRegister
             // 行为积分
             $this->router->post('points/index', ApiActionPointsController::class . '@index');
             $this->router->post('points/{points_id}/show', ApiActionPointsController::class . '@show');
+
+            // 发送系统通知
+            $this->router->post('notifies/system_notify', ApiNotificationController::class . '@systemNotify');
+            // 批量发送系统通知
+            $this->router->post('notifies/batch_system_notify', ApiNotificationController::class . '@batchSystemNotify');
         });
 
         $this->router->aliasMiddleware('group', Group::class);
