@@ -8,6 +8,7 @@
  */
 namespace Notadd\Member\Controllers\Api;
 
+use Notadd\Member\Models\Member;
 use Notadd\Member\Models\Notification;
 use Notadd\Member\Abstracts\AbstractApiController;
 
@@ -30,5 +31,38 @@ class NotificationController extends AbstractApiController
                 'read_at' => $list->read_at ? $list->read_at->toDateTimeString() : '',
             ];
         });
+    }
+
+    public function create()
+    {
+        $validator = $this->getValidationFactory()->make(
+            [
+                'user_id' => 'required',
+                'body'    => 'required',
+                // 'type'    => 'required',
+            ],
+            [
+                'user_id' => '通知人不能为空.',
+                'body'    => '通知内容不能为空.',
+                // 'type' => ''
+            ]
+        );
+
+        if ($validator->fails()) {
+            return $this->errorValidate($validator->getMessageBag()->toArray());
+        }
+
+        $notify = Notification::notify(
+            'system',
+            $this->request()->user(),
+            Member::find($this->request->input('user_id')),
+            $this->request->input('body')
+        );
+
+        if (! $notify || ! $notify->exists) {
+            return $this->errorInternal();
+        }
+
+        return $this->noContent();
     }
 }

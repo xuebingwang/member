@@ -21,6 +21,19 @@ class Notifier
         return Notification::notify($type, $sender, $toUser, $subject, $subjectType, $reply);
     }
 
+    public function systemNotify(Member $toUser, $body)
+    {
+        return Notification::create([
+            'sender_id'    => 0,
+            'user_id'      => $toUser->id,
+            'subject_id'   => 0,
+            'subject_type' => null,
+            'body'         => $body,
+            'reply_id'     => 0,
+            'type'         => 'system',
+        ]);
+    }
+
     public function atNotify(Member $sender, Member $toUser, $subject = null, $subjectType = null, $reply = null)
     {
         return $this->notify('at', $sender, $toUser, $subject, $subjectType, $reply);
