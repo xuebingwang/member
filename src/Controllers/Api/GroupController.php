@@ -19,7 +19,7 @@ class GroupController extends AbstractApiController
 {
     public function index()
     {
-        $query = Group::query();
+        $query = Group::query()->with('permissions');
         $lists = $query->paginate(intval($this->request->get('limit', 20)));
 
         return $this->respondWithPaginator($lists, function (Group $list) {
@@ -28,7 +28,7 @@ class GroupController extends AbstractApiController
                 'name'         => $list->name,
                 'display_name' => $list->display_name,
                 'description'  => $list->description,
-                'permission'   => $list->cachedPermissions()->implode('display_name', '|'),
+                'permission'   => $list->premissions ? $list->premissions->implode('display_name', '|') : '',
             ];
         });
     }
@@ -36,7 +36,7 @@ class GroupController extends AbstractApiController
     public function show($group_id)
     {
         $group = Group::find(intval($group_id));
-        if (!$group || !$group->exists) {
+        if (! $group || ! $group->exists) {
             return $this->errorNotFound();
         }
 
