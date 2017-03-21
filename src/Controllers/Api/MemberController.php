@@ -51,7 +51,7 @@ class MemberController extends AbstractApiController
             [
                 'name'       => 'required|unique:members,name',
                 'email'      => 'required|unique:members,email',
-                'birth_date' => 'date',
+                'birth_date' => 'nullable|date',
             ],
             [
                 'name.required'   => '请输入用户名.',
@@ -139,7 +139,7 @@ class MemberController extends AbstractApiController
             [
                 'name'       => 'required|unique:members,name,' . $member->id,
                 'email'      => 'required|unique:members,email,' . $member->id,
-                'birth_date' => 'date',
+                'birth_date' => 'nullable|date',
             ],
             [
                 'name.required'   => '请输入用户名.',

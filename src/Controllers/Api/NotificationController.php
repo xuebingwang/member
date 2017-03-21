@@ -23,9 +23,9 @@ class NotificationController extends AbstractApiController
 
         return $this->respondWithPaginator($lists, function (Notification $list) {
             return [
-                'seeder'  => $list->sender ? $list->sender->name : '',
+                'seeder'  => $list->sender ? $list->sender->name : '系统通知',
                 'user'    => $list->user ? $list->user->name : '',
-                'type'    => $list->labelUp(),
+                'label'   => $list->labelUp(),
                 'body'    => $list->body,
                 'read_at' => $list->read_at ? $list->read_at->toDateTimeString() : '',
             ];
