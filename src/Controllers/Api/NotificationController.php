@@ -8,7 +8,6 @@
  */
 namespace Notadd\Member\Controllers\Api;
 
-use Notadd\Member\Models\Member;
 use Notadd\Member\Models\Notification;
 use Notadd\Member\Abstracts\AbstractApiController;
 
@@ -33,6 +32,10 @@ class NotificationController extends AbstractApiController
         });
     }
 
+    /**
+     * Notify a person
+     * @return array|mixed
+     */
     public function systemNotify()
     {
         $validator = $this->getValidationFactory()->make(
@@ -52,6 +55,40 @@ class NotificationController extends AbstractApiController
 
         $notify = $this->getContainer()->make('notifier')->systemNotify(
             $this->request->input('user_id'),
+            $this->request->input('body')
+        );
+
+        if (! $notify || ! $notify->exists) {
+            return $this->errorInternal();
+        }
+
+        return $this->noContent();
+    }
+
+    /**
+     * Notify some people
+     *
+     * @return array|mixed
+     */
+    public function batchSystemNotify()
+    {
+        $validator = $this->getValidationFactory()->make(
+            [
+                'user_ids' => 'required',
+                'body'    => 'required',
+            ],
+            [
+                'user_id' => '通知人不能为空.',
+                'body'    => '通知内容不能为空.',
+            ]
+        );
+
+        if ($validator->fails()) {
+            return $this->errorValidate($validator->getMessageBag()->toArray());
+        }
+
+        $notify = $this->getContainer()->make('notifier')->batchSystemNotify(
+            $this->request->input('user_ids'),
             $this->request->input('body')
         );
 
