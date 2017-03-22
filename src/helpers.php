@@ -37,3 +37,27 @@ if (! function_exists('current_action')) {
         return ['controller' => $class, 'method' => $method];
     }
 }
+
+if (! function_exists('current_controller_name')) {
+
+    /**
+     * 获取当前控制器的名称，包括命名空间
+     *
+     * @return string
+     */
+    function current_controller_name() {
+        return current_action()['controller'];
+    }
+}
+
+if (! function_exists('current_controller_method_name')) {
+
+    /**
+     * 获取当前控制器的方法的名称
+     *
+     * @return string
+     */
+    function current_controller_method_name() {
+        return current_action()['method'];
+    }
+}
