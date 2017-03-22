@@ -30,14 +30,14 @@ class AdminPermission extends Permission
     {
         if ($this->auth->guard($guard)->guest() || ! $request->user($guard)->adminMay(explode('|', $permissions))) {
             if ($this->wantsJson()) {
-                return new JsonResponse('Forbidden', 403);
-                // $method = current_controller_method_name() . 'DeniedMessage';
-                // return new JsonResponse([
-                //     'code'    => 403,
-                //     'message' => current_controller_instance()->$method(),
-                // ], 403);
+                return new JsonResponse([
+                    'code'    => 403,
+                    'data'    => [],
+                    'message' => '你没有权限执行此操作.',
+                ], 403);
             }
-            abort(403);
+
+            abort(403, '你没有权限执行此操作.');
         }
 
         return $next($request);
