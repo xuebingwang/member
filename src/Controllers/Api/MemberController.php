@@ -115,11 +115,6 @@ class MemberController extends AbstractApiController
         return $this->noContent();
     }
 
-    // public function createDeniedMessage()
-    // {
-    //     return '你没有权限执行用户添加操作.';
-    // }
-
     public function show($member_id)
     {
         $member = Member::find(intval($member_id));

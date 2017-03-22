@@ -31,9 +31,14 @@ class Permission extends BasePermission
     {
         if ($this->auth->guest() || !$request->user()->may(explode('|', $permissions))) {
             if ($this->wantsJson()) {
-                return new JsonResponse('Forbidden', 403);
+                return new JsonResponse([
+                    'code'    => 403,
+                    'data'    => [],
+                    'message' => '你没有权限执行此操作.',
+                ], 403);
             }
-            abort(403);
+
+            abort(403, '你没有权限执行此操作.');
         }
 
         return $next($request);
