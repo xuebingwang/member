@@ -61,3 +61,15 @@ if (! function_exists('current_controller_method_name')) {
         return current_action()['method'];
     }
 }
+
+if (! function_exists('current_controller_instance')) {
+
+    /**
+     * 获取当前控制器实例
+     *
+     * @return mixed
+     */
+    function current_controller_instance() {
+        return app('router')->current()->getController();
+    }
+}
