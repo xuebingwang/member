@@ -23,3 +23,17 @@ if (! function_exists('sex_trans')) {
         return $sex_arr[0];
     }
 }
+
+if (! function_exists('current_action')) {
+    /**
+     * 获取当前路由的控制器和控制器方法
+     *
+     * @return array
+     */
+    function current_action() {
+        $action = app('router')->current()->getActionName();
+        list($class, $method) = explode('@', $action);
+
+        return ['controller' => $class, 'method' => $method];
+    }
+}

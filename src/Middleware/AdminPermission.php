@@ -26,11 +26,16 @@ class AdminPermission extends Permission
      *
      * @return mixed
      */
-    public function handle(Request $request, Closure $next, $permissions, $guard = 'admin')
+    public function handle(Request $request, Closure $next, $permissions, $guard = null)
     {
-        if ($this->auth->guard($guard)->guest() || !$request->user($guard)->adminMay(explode('|', $permissions))) {
+        if ($this->auth->guard($guard)->guest() || ! $request->user($guard)->adminMay(explode('|', $permissions))) {
             if ($this->wantsJson()) {
                 return new JsonResponse('Forbidden', 403);
+                // $method = current_controller_method_name() . 'DeniedMessage';
+                // return new JsonResponse([
+                //     'code'    => 403,
+                //     'message' => current_controller_instance()->$method(),
+                // ], 403);
             }
             abort(403);
         }

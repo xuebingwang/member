@@ -42,7 +42,7 @@ class ModuleServiceProvider extends Module
         $this->app['permission']->registerFilePath('user', __DIR__ . '/../config/permission.php');
         $this->app['points']->registerFilePath('user', __DIR__ . '/../config/action-points.php');
 
-        Passport::routes();
+        // Passport::routes();
     }
 
     /**

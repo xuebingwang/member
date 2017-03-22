@@ -11,7 +11,7 @@ namespace Notadd\Member\Listeners;
 use Notadd\Member\Middleware\Group;
 use Notadd\Member\Middleware\Permission;
 use Notadd\Member\Middleware\FrontPermission;
-use Notadd\Foundation\Member\Middleware\AdminPermission;
+use Notadd\Member\Middleware\AdminPermission;
 use Notadd\Member\Controllers\Api\GroupController as ApiGroupController;
 use Notadd\Member\Controllers\Api\MemberController as ApiMemberController;
 use Notadd\Foundation\Routing\Abstracts\RouteRegister as AbstractRouteRegister;
@@ -32,7 +32,7 @@ class RouteRegister extends AbstractRouteRegister
         $this->router->group(['middleware' => ['api'], 'prefix' => 'api/member'], function () {
             // 用户
             $this->router->post('members/index', ApiMemberController::class . '@index');
-            $this->router->post('members/create', ApiMemberController::class . '@create');
+            $this->router->post('members/create', ApiMemberController::class . '@create')->middleware('permission.admin:member.user.create');
             $this->router->post('members/{member_id}/show', ApiMemberController::class . '@show');
             $this->router->patch('members/{member_id}/update', ApiMemberController::class . '@update');
             $this->router->delete('members/{member_id}/delete', ApiMemberController::class . '@destroy');
