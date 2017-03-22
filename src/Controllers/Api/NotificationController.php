@@ -34,6 +34,7 @@ class NotificationController extends AbstractApiController
 
     /**
      * Notify a person
+     *
      * @return array|mixed
      */
     public function systemNotify()
@@ -44,8 +45,8 @@ class NotificationController extends AbstractApiController
                 'body'    => 'required',
             ],
             [
-                'user_id' => '通知人不能为空.',
-                'body'    => '通知内容不能为空.',
+                'user_id.required' => '通知人不能为空.',
+                'body.required'    => '通知内容不能为空.',
             ]
         );
 
@@ -74,12 +75,13 @@ class NotificationController extends AbstractApiController
     {
         $validator = $this->getValidationFactory()->make(
             [
-                'user_ids' => 'required',
-                'body'    => 'required',
+                'user_ids' => 'required|array',
+                'body'     => 'required',
             ],
             [
-                'user_id' => '通知人不能为空.',
-                'body'    => '通知内容不能为空.',
+                'user_ids.required' => '通知人不能为空.',
+                'user_ids.array'    => '通知人不能为空.',
+                'body.required'     => '通知内容不能为空.',
             ]
         );
 
