@@ -30,9 +30,14 @@ class Group extends AbstractAuthenticate
     {
         if ($this->auth->guest() || !$request->user()->hasGroup(explode('|', $groups))) {
             if ($this->wantsJson()) {
-                return new JsonResponse('Forbidden', 403);
+                return new JsonResponse([
+                    'code'    => 403,
+                    'data'    => [],
+                    'message' => '你没有权限执行此操作.',
+                ], 403);
             }
-            abort(403);
+
+            abort(403, '你没有权限执行此操作.');
         }
 
         return $next($request);
