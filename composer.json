@@ -12,7 +12,9 @@
         }
     ],
     "require": {
-        "php": ">=7.0",
+        "php": ">=7.0"
+    },
+    "require-dev": {
         "notadd/installers": "0.1.*"
     },
     "autoload": {
