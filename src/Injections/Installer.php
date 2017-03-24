@@ -24,10 +24,10 @@ class Installer extends AbstractInstaller
     }
 
     /**
-     * @return bool
+     * @return array
      */
     public function require ()
     {
-        return true;
+        return [];
     }
 }
