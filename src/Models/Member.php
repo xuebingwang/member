@@ -23,7 +23,7 @@ use Notadd\Foundation\Member\Member as BaseMember;
  * @property string              $nick_name
  * @property string              $real_name
  * @property string              $sex 0 1 2
- * @property \Carbon\Carbon|null $birth_date
+ * @property \Carbon\Carbon|null $birthday
  * @property string              $signature
  * @property string              $introduction
  * @property string              $avatar
@@ -53,7 +53,7 @@ class Member extends BaseMember
         'name',
         'email',
         'sex',
-        'birth_date',
+        'birthday',
         'password',
         'signature',
         'introduction',
@@ -64,7 +64,7 @@ class Member extends BaseMember
         'remember_token',
     ];
 
-    protected $dates = ['created_at', 'updated_at', 'deleted_at', 'birth_date'];
+    protected $dates = ['created_at', 'updated_at', 'deleted_at', 'birthday'];
 
     /**
      * 用户的用户组

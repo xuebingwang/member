@@ -19,17 +19,17 @@ use Notadd\Member\Abstracts\AbstractApiController;
 class MemberController extends AbstractApiController
 {
     protected $form_rules = [
-        'name'       => 'required|unique:members,name',
-        'email'      => 'required|unique:members,email',
-        'birth_date' => 'nullable|date',
+        'name'     => 'required|unique:members,name',
+        'email'    => 'required|unique:members,email',
+        'birthday' => 'nullable|date',
     ];
 
     protected $form_messages = [
-        'name.required'   => '请输入用户名.',
-        'name.unique'     => '用户名已经存在.',
-        'email.required'  => '请输入邮箱.',
-        'email.unique'    => '邮箱已经存在.',
-        'birth_date.date' => '无效的出生日期.',
+        'name.required'  => '请输入用户名.',
+        'name.unique'    => '用户名已经存在.',
+        'email.required' => '请输入邮箱.',
+        'email.unique'   => '邮箱已经存在.',
+        'birthday.date'  => '无效的出生日期.',
     ];
 
     protected function filterFormRules($member = null)
@@ -59,7 +59,7 @@ class MemberController extends AbstractApiController
                 'nick_name'    => $list->nick_name,
                 'real_name'    => $list->real_name,
                 'sex'          => sex_trans($list->sex),
-                'age'          => $list->birth_date ? $list->birth_date->age : '',
+                'age'          => $list->birthday ? $list->birthday->age : '',
                 'avatar'       => $list->avatar,
                 'points'       => $list->points,
                 'signature'    => $list->signature,
@@ -86,7 +86,7 @@ class MemberController extends AbstractApiController
             'name',
             'email',
             'phone',
-            'birth_date',
+            'birthday',
             'sex',
             'signature',
             'introduction',
@@ -131,8 +131,8 @@ class MemberController extends AbstractApiController
                 'nick_name'    => $list->nick_name,
                 'real_name'    => $list->real_name,
                 'sex'          => sex_trans($list->sex),
-                'age'          => $list->birth_date ? $list->birth_date->age : '',
-                'birth_date'   => $list->birth_date ? $list->birth_date->toDateString() : '',
+                'age'          => $list->birthday ? $list->birthday->age : '',
+                'birthday'     => $list->birthday ? $list->birthday->toDateString() : '',
                 'avatar'       => $list->avatar,
                 'points'       => $list->points,
                 'signature'    => $list->signature,
@@ -164,7 +164,7 @@ class MemberController extends AbstractApiController
             'name',
             'email',
             'phone',
-            'birth_date',
+            'birthday',
             'sex',
             'signature',
             'introduction',
