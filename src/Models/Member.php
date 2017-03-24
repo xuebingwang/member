@@ -39,6 +39,41 @@ class Member extends BaseMember
 {
     use SoftDeletes;
 
+    protected static $withs = [];
+
+    /**
+     * @param string $key
+     *
+     * @return bool
+     */
+    public function hasWith($key)
+    {
+        return array_key_exists($key, static::$withs);
+    }
+
+    /**
+     * @param string $key
+     *
+     * @return \Closure|null
+     */
+    public function getWith($key)
+    {
+        if ($this->hasWith($key)) {
+            return static::$withs[$key];
+        }
+
+        return null;
+    }
+
+    /**
+     * @param string   $key
+     * @param \Closure $handle
+     */
+    public static function registerWith($key, \Closure $handle)
+    {
+        static::$withs[$key] = $handle;
+    }
+
     /**
      * Founder role
      */
@@ -366,5 +401,16 @@ class Member extends BaseMember
         foreach ($groups as $group) {
             $this->detachGroup($group);
         }
+    }
+
+    public function __call($method, $parameters)
+    {
+        if ($this->hasWith($method)) {
+            $relationHandle = $this->getWith($method);
+
+            return $relationHandle($this);
+        }
+
+        return parent::__call($method, $parameters);
     }
 }
