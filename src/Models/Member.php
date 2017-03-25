@@ -23,7 +23,7 @@ use Notadd\Foundation\Member\Member as BaseMember;
  * @property string              $nick_name
  * @property string              $real_name
  * @property string              $sex 0 1 2
- * @property \Carbon\Carbon|null $birth_date
+ * @property \Carbon\Carbon|null $birthday
  * @property string              $signature
  * @property string              $introduction
  * @property string              $avatar
@@ -39,6 +39,41 @@ class Member extends BaseMember
 {
     use SoftDeletes;
 
+    protected static $withs = [];
+
+    /**
+     * @param string $key
+     *
+     * @return bool
+     */
+    public function hasWith($key)
+    {
+        return array_key_exists($key, static::$withs);
+    }
+
+    /**
+     * @param string $key
+     *
+     * @return \Closure|null
+     */
+    public function getWith($key)
+    {
+        if ($this->hasWith($key)) {
+            return static::$withs[$key];
+        }
+
+        return null;
+    }
+
+    /**
+     * @param string   $key
+     * @param \Closure $handle
+     */
+    public static function registerWith($key, \Closure $handle)
+    {
+        static::$withs[$key] = $handle;
+    }
+
     /**
      * Founder role
      */
@@ -53,7 +88,7 @@ class Member extends BaseMember
         'name',
         'email',
         'sex',
-        'birth_date',
+        'birthday',
         'password',
         'signature',
         'introduction',
@@ -64,7 +99,7 @@ class Member extends BaseMember
         'remember_token',
     ];
 
-    protected $dates = ['created_at', 'updated_at', 'deleted_at', 'birth_date'];
+    protected $dates = ['created_at', 'updated_at', 'deleted_at', 'birthday'];
 
     /**
      * 用户的用户组
@@ -366,5 +401,16 @@ class Member extends BaseMember
         foreach ($groups as $group) {
             $this->detachGroup($group);
         }
+    }
+
+    public function __call($method, $parameters)
+    {
+        if ($this->hasWith($method)) {
+            $relationHandle = $this->getWith($method);
+
+            return $relationHandle($this);
+        }
+
+        return parent::__call($method, $parameters);
     }
 }

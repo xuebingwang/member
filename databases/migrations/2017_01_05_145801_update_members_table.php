@@ -25,7 +25,7 @@ class UpdateMembersTable extends Migration
             $table->string('nick_name')->nullable()->comment('昵称');
             $table->string('real_name')->nullable()->comment('真实姓名');
             $table->tinyInteger('sex')->default(0)->comment('性别 0保密 1男 2女');
-            $table->date('birth_date')->nullable()->comment('出生日期');
+            $table->date('birthday')->nullable()->comment('生日');
             $table->string('signature')->nullable()->comment('签名');
             $table->string('introduction')->nullable()->comment('自我介绍');
             $table->string('avatar')->nullable()->comment('头像');
