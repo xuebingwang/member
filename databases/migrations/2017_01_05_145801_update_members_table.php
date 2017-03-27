@@ -30,12 +30,9 @@ class UpdateMembersTable extends Migration
             $table->string('introduction')->nullable()->comment('自我介绍');
             $table->string('avatar')->nullable()->comment('头像');
             $table->float('points', 8, 2)->default(0)->comment('积分');
-
             $table->integer('total_registration_count')->unsigned()->default(0)->index()->comment('用户总的签到天数');
             $table->integer('continue_registration_count')->unsigned()->default(0)->index()->comment('连续签到天数');
-
             $table->enum('is_banned', ['yes', 'no'])->default('no')->comment('是否禁止');
-
             $table->softDeletes();
         });
     }
@@ -57,10 +54,9 @@ class UpdateMembersTable extends Migration
             $table->dropColumn('introduction');
             $table->dropColumn('avatar');
             $table->dropColumn('points');
-
             $table->dropColumn('total_registration_count');
             $table->dropColumn('continue_registration_count');
-
+            $table->dropColumn('is_banned');
             $table->dropColumn('deleted_at');
         });
     }
