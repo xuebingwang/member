@@ -49,7 +49,7 @@ class UpdateMembersTable extends Migration
             $table->dropColumn('nick_name');
             $table->dropColumn('real_name');
             $table->dropColumn('sex');
-            $table->dropColumn('birth_date');
+            $table->dropColumn('birthday');
             $table->dropColumn('signature');
             $table->dropColumn('introduction');
             $table->dropColumn('avatar');
