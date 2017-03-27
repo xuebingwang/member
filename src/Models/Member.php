@@ -39,41 +39,6 @@ class Member extends BaseMember
 {
     use SoftDeletes;
 
-    protected static $withs = [];
-
-    /**
-     * @param string $key
-     *
-     * @return bool
-     */
-    public function hasWith($key)
-    {
-        return array_key_exists($key, static::$withs);
-    }
-
-    /**
-     * @param string $key
-     *
-     * @return \Closure|null
-     */
-    public function getWith($key)
-    {
-        if ($this->hasWith($key)) {
-            return static::$withs[$key];
-        }
-
-        return null;
-    }
-
-    /**
-     * @param string   $key
-     * @param \Closure $handle
-     */
-    public static function registerWith($key, \Closure $handle)
-    {
-        static::$withs[$key] = $handle;
-    }
-
     /**
      * Founder role
      */
@@ -100,6 +65,46 @@ class Member extends BaseMember
     ];
 
     protected $dates = ['created_at', 'updated_at', 'deleted_at', 'birthday'];
+
+    /**
+     * The loaded relationships for the model.
+     *
+     * @var array
+     */
+    protected static $injectedRelations = [];
+
+    /**
+     * @param string $key
+     *
+     * @return bool
+     */
+    public function hasInjectedRelation($key)
+    {
+        return array_key_exists($key, static::$injectedRelations);
+    }
+
+    /**
+     * @param string $key
+     *
+     * @return \Closure|null
+     */
+    public function getInjectedRelation($key)
+    {
+        if ($this->hasInjectedRelation($key)) {
+            return static::$injectedRelations[$key];
+        }
+
+        return null;
+    }
+
+    /**
+     * @param string   $key
+     * @param \Closure $handle
+     */
+    public static function registerInjectedRelation($key, \Closure $handle)
+    {
+        static::$injectedRelations[$key] = $handle;
+    }
 
     /**
      * 用户的用户组
@@ -405,8 +410,8 @@ class Member extends BaseMember
 
     public function __call($method, $parameters)
     {
-        if ($this->hasWith($method)) {
-            $relationHandle = $this->getWith($method);
+        if ($this->hasInjectedRelation($method)) {
+            $relationHandle = $this->getInjectedRelation($method);
 
             return $relationHandle($this);
         }
