@@ -67,43 +67,48 @@ class Member extends BaseMember
     protected $dates = ['created_at', 'updated_at', 'deleted_at', 'birthday'];
 
     /**
-     * The loaded relationships for the model.
+     * The loaded functions for injected.
      *
      * @var array
      */
-    protected static $injectedRelations = [];
+    protected static $injectedFunctions = [];
 
     /**
+     * Is there a function for key
      * @param string $key
      *
      * @return bool
      */
-    public function hasInjectedRelation($key)
+    public function hasInjectedFunction($key)
     {
-        return array_key_exists($key, static::$injectedRelations);
+        return array_key_exists($key, static::$injectedFunctions);
     }
 
     /**
+     * Get a function for key
+     *
      * @param string $key
      *
      * @return \Closure|null
      */
-    public function getInjectedRelation($key)
+    public function getInjectedFunction($key)
     {
-        if ($this->hasInjectedRelation($key)) {
-            return static::$injectedRelations[$key];
+        if ($this->hasInjectedFunction($key)) {
+            return static::$injectedFunctions[$key];
         }
 
         return null;
     }
 
     /**
+     * Injection a function of key
+     *
      * @param string   $key
      * @param \Closure $handle
      */
-    public static function registerInjectedRelation($key, \Closure $handle)
+    public static function injectionFunction($key, \Closure $handle)
     {
-        static::$injectedRelations[$key] = $handle;
+        static::$injectedFunctions[$key] = $handle;
     }
 
     /**
@@ -410,10 +415,10 @@ class Member extends BaseMember
 
     public function __call($method, $parameters)
     {
-        if ($this->hasInjectedRelation($method)) {
-            $relationHandle = $this->getInjectedRelation($method);
+        if ($this->hasInjectedFunction($method)) {
+            $function = $this->getInjectedFunction($method);
 
-            return $relationHandle($this);
+            return $function($this, $parameters);
         }
 
         return parent::__call($method, $parameters);
