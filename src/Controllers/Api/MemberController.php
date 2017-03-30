@@ -148,17 +148,7 @@ class MemberController extends AbstractApiController
             return $this->errorValidate($validator->getMessageBag()->toArray());
         }
 
-        $member->fill(array_only($this->request->all(), [
-            'name',
-            'email',
-            'phone',
-            'birthday',
-            'sex',
-            'signature',
-            'introduction',
-            'nick_name',
-            'real_name',
-        ]));
+        $member->fill($this->request->all());
 
         if (! $member->save()) {
             return $this->errorInternal();
