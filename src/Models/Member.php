@@ -6,6 +6,7 @@
  * @copyright (c) 2017, iBenchu.org
  * @datetime      2017-01-05 15:01
  */
+
 namespace Notadd\Member\Models;
 
 use Carbon\Carbon;
@@ -39,41 +40,6 @@ class Member extends BaseMember
 {
     use SoftDeletes;
 
-    protected static $withs = [];
-
-    /**
-     * @param string $key
-     *
-     * @return bool
-     */
-    public function hasWith($key)
-    {
-        return array_key_exists($key, static::$withs);
-    }
-
-    /**
-     * @param string $key
-     *
-     * @return \Closure|null
-     */
-    public function getWith($key)
-    {
-        if ($this->hasWith($key)) {
-            return static::$withs[$key];
-        }
-
-        return null;
-    }
-
-    /**
-     * @param string   $key
-     * @param \Closure $handle
-     */
-    public static function registerWith($key, \Closure $handle)
-    {
-        static::$withs[$key] = $handle;
-    }
-
     /**
      * Founder role
      */
@@ -100,6 +66,52 @@ class Member extends BaseMember
     ];
 
     protected $dates = ['created_at', 'updated_at', 'deleted_at', 'birthday'];
+
+    /**
+     * The loaded functions for injected.
+     *
+     * @var array
+     */
+    protected static $injectedFunctions = [];
+
+    /**
+     * Is there a function of name
+     *
+     * @param string $name
+     *
+     * @return bool
+     */
+    public function hasInjectedFunction(string $name)
+    {
+        return array_key_exists($name, static::$injectedFunctions);
+    }
+
+    /**
+     * Get a function of name
+     *
+     * @param string $name
+     *
+     * @return \Closure|null
+     */
+    public function getInjectedFunction(string $name)
+    {
+        if ($this->hasInjectedFunction($name)) {
+            return static::$injectedFunctions[$name];
+        }
+
+        return null;
+    }
+
+    /**
+     * Injection a function of name
+     *
+     * @param string   $name
+     * @param \Closure $handle
+     */
+    public static function injectionFunction(string $name, \Closure $handle)
+    {
+        static::$injectedFunctions[$name] = $handle;
+    }
 
     /**
      * 用户的用户组
@@ -322,7 +334,7 @@ class Member extends BaseMember
             return;
         }
         Registration::checkIn($this->id, $signAction->points);
-        $this->points += $signAction->points;
+        $this->points                   += $signAction->points;
         $this->total_registration_count += 1;
         if ($this->yesterdaySigned()) {
             $this->continue_registration_count += 1;
@@ -405,10 +417,10 @@ class Member extends BaseMember
 
     public function __call($method, $parameters)
     {
-        if ($this->hasWith($method)) {
-            $relationHandle = $this->getWith($method);
+        if ($this->hasInjectedFunction($method)) {
+            $function = $this->getInjectedFunction($method);
 
-            return $relationHandle($this);
+            return $function($this, $parameters);
         }
 
         return parent::__call($method, $parameters);

@@ -43,6 +43,18 @@ class ModuleServiceProvider extends Module
         $this->app['points']->registerFilePath('user', __DIR__ . '/../config/action-points.php');
 
         // Passport::routes();
+
+        $this->app->make('setting')->set('member.user.create.rules', collect([
+            'name'     => 'required|unique:members,name',
+            'email'    => 'required|unique:members,email',
+            'birthday' => 'nullable|date',
+        ])->toJson());
+
+        $this->app->make('setting')->set('member.user.update.rules', collect([
+            'name'     => 'required|unique:members,name',
+            'email'    => 'required|unique:members,email',
+            'birthday' => 'nullable|date',
+        ])->toJson());
     }
 
     /**

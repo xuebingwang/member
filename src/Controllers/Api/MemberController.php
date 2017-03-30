@@ -6,6 +6,7 @@
  * @copyright (c) 2017, iBenchu.org
  * @datetime      2017-03-08 12:00
  */
+
 namespace Notadd\Member\Controllers\Api;
 
 use Notadd\Member\Models\Group;
@@ -18,12 +19,6 @@ use Notadd\Member\Abstracts\AbstractApiController;
  */
 class MemberController extends AbstractApiController
 {
-    protected $form_rules = [
-        'name'     => 'required|unique:members,name',
-        'email'    => 'required|unique:members,email',
-        'birthday' => 'nullable|date',
-    ];
-
     protected $form_messages = [
         'name.required'  => '请输入用户名.',
         'name.unique'    => '用户名已经存在.',
@@ -34,12 +29,15 @@ class MemberController extends AbstractApiController
 
     protected function filterFormRules($member = null)
     {
-        $rules = $this->form_rules;
-
         if ($member && $member->exists) {
-            $rules['name'] .= ',' . $member->id;
+            $rules = json_decode($this->getSetting()->get('member.user.update.rules'), true);
+            $rules['name']  .= ',' . $member->id;
             $rules['email'] .= ',' . $member->id;
+
+            return $rules;
         }
+
+        $rules = json_decode($this->getSetting()->get('member.user.create.rules'), true);
 
         return $rules;
     }
@@ -82,17 +80,7 @@ class MemberController extends AbstractApiController
             return $this->errorValidate($validator->getMessageBag()->toArray());
         }
 
-        $member = new Member(array_only($this->request->all(), [
-            'name',
-            'email',
-            'phone',
-            'birthday',
-            'sex',
-            'signature',
-            'introduction',
-            'nick_name',
-            'real_name',
-        ]));
+        $member = new Member($this->request->all());
 
         if (! $member->save()) {
             return $this->errorInternal();
@@ -160,17 +148,7 @@ class MemberController extends AbstractApiController
             return $this->errorValidate($validator->getMessageBag()->toArray());
         }
 
-        $member->fill(array_only($this->request->all(), [
-            'name',
-            'email',
-            'phone',
-            'birthday',
-            'sex',
-            'signature',
-            'introduction',
-            'nick_name',
-            'real_name',
-        ]));
+        $member->fill($this->request->all());
 
         if (! $member->save()) {
             return $this->errorInternal();

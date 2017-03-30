@@ -32,7 +32,7 @@ class RouteRegister extends AbstractRouteRegister
         $this->router->group(['middleware' => ['api'], 'prefix' => 'api/member'], function () {
             // 用户
             $this->router->post('members/index', ApiMemberController::class . '@index');
-            $this->router->post('members/create', ApiMemberController::class . '@create')->middleware('permission.admin:member.user.create');
+            $this->router->post('members/create', ApiMemberController::class . '@create');
             $this->router->post('members/{member_id}/show', ApiMemberController::class . '@show');
             $this->router->patch('members/{member_id}/update', ApiMemberController::class . '@update');
             $this->router->delete('members/{member_id}/delete', ApiMemberController::class . '@destroy');
