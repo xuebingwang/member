@@ -6,6 +6,7 @@
  * @copyright (c) 2017, iBenchu.org
  * @datetime      2017-01-05 15:01
  */
+
 namespace Notadd\Member\Models;
 
 use Carbon\Carbon;
@@ -75,7 +76,8 @@ class Member extends BaseMember
 
     /**
      * Is there a function of name
-     * @param string $key
+     *
+     * @param string $name
      *
      * @return bool
      */
@@ -332,7 +334,7 @@ class Member extends BaseMember
             return;
         }
         Registration::checkIn($this->id, $signAction->points);
-        $this->points += $signAction->points;
+        $this->points                   += $signAction->points;
         $this->total_registration_count += 1;
         if ($this->yesterdaySigned()) {
             $this->continue_registration_count += 1;

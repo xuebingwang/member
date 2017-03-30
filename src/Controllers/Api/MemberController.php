@@ -6,6 +6,7 @@
  * @copyright (c) 2017, iBenchu.org
  * @datetime      2017-03-08 12:00
  */
+
 namespace Notadd\Member\Controllers\Api;
 
 use Notadd\Member\Models\Group;
@@ -37,7 +38,7 @@ class MemberController extends AbstractApiController
         $rules = $this->form_rules;
 
         if ($member && $member->exists) {
-            $rules['name'] .= ',' . $member->id;
+            $rules['name']  .= ',' . $member->id;
             $rules['email'] .= ',' . $member->id;
         }
 
