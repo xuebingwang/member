@@ -74,41 +74,41 @@ class Member extends BaseMember
     protected static $injectedFunctions = [];
 
     /**
-     * Is there a function for key
+     * Is there a function of name
      * @param string $key
      *
      * @return bool
      */
-    public function hasInjectedFunction($key)
+    public function hasInjectedFunction(string $name)
     {
-        return array_key_exists($key, static::$injectedFunctions);
+        return array_key_exists($name, static::$injectedFunctions);
     }
 
     /**
-     * Get a function for key
+     * Get a function of name
      *
-     * @param string $key
+     * @param string $name
      *
      * @return \Closure|null
      */
-    public function getInjectedFunction($key)
+    public function getInjectedFunction(string $name)
     {
-        if ($this->hasInjectedFunction($key)) {
-            return static::$injectedFunctions[$key];
+        if ($this->hasInjectedFunction($name)) {
+            return static::$injectedFunctions[$name];
         }
 
         return null;
     }
 
     /**
-     * Injection a function of key
+     * Injection a function of name
      *
-     * @param string   $key
+     * @param string   $name
      * @param \Closure $handle
      */
-    public static function injectionFunction($key, \Closure $handle)
+    public static function injectionFunction(string $name, \Closure $handle)
     {
-        static::$injectedFunctions[$key] = $handle;
+        static::$injectedFunctions[$name] = $handle;
     }
 
     /**
