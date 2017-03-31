@@ -11,6 +11,7 @@ namespace Notadd\Member\Models;
 
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Cache;
+use Notadd\Member\Traits\InjectionFunction;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Notadd\Foundation\Member\Member as BaseMember;
 
@@ -38,7 +39,7 @@ use Notadd\Foundation\Member\Member as BaseMember;
  */
 class Member extends BaseMember
 {
-    use SoftDeletes;
+    use SoftDeletes, InjectionFunction;
 
     /**
      * Founder role
@@ -66,38 +67,6 @@ class Member extends BaseMember
     ];
 
     protected $dates = ['created_at', 'updated_at', 'deleted_at', 'birthday'];
-
-    /**
-     * The loaded functions for injected.
-     *
-     * @var array
-     */
-    protected static $injectedFunctions = [];
-
-    /**
-     * Is there a function of name
-     *
-     * @param string $name
-     *
-     * @return bool
-     */
-    public function hasInjectedFunction(string $name)
-    {
-        return isset(static::$injectedFunctions[$name]);
-    }
-
-    /**
-     * Injection a function of name
-     *
-     * @param string   $name
-     * @param \Closure $handle
-     *
-     * @return void
-     */
-    public static function injectionFunction(string $name, \Closure $handle)
-    {
-        static::$injectedFunctions[$name] = $handle;
-    }
 
     /**
      * 用户的用户组
@@ -399,16 +368,5 @@ class Member extends BaseMember
         foreach ($groups as $group) {
             $this->detachGroup($group);
         }
-    }
-
-    public function __call($method, $parameters)
-    {
-        if ($this->hasInjectedFunction($method)) {
-            $handle = static::$injectedFunctions[$method];
-
-            return $handle($this, $parameters);
-        }
-
-        return parent::__call($method, $parameters);
     }
 }
