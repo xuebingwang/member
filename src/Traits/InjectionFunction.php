@@ -46,9 +46,7 @@ trait InjectionFunction
     public function __call($method, $parameters)
     {
         if ($this->hasInjectedFunction($method)) {
-            $handle = static::$injectedFunctions[$method];
-
-            return $handle($this, $parameters);
+            return call_user_func(static::$injectedFunctions[$method], $this, $parameters);
         }
 
         return parent::__call($method, $parameters);
