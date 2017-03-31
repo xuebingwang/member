@@ -83,23 +83,7 @@ class Member extends BaseMember
      */
     public function hasInjectedFunction(string $name)
     {
-        return array_key_exists($name, static::$injectedFunctions);
-    }
-
-    /**
-     * Get a function of name
-     *
-     * @param string $name
-     *
-     * @return \Closure|null
-     */
-    public function getInjectedFunction(string $name)
-    {
-        if ($this->hasInjectedFunction($name)) {
-            return static::$injectedFunctions[$name];
-        }
-
-        return null;
+        return isset(static::$injectedFunctions[$name]);
     }
 
     /**
@@ -107,6 +91,8 @@ class Member extends BaseMember
      *
      * @param string   $name
      * @param \Closure $handle
+     *
+     * @return void
      */
     public static function injectionFunction(string $name, \Closure $handle)
     {
@@ -418,9 +404,9 @@ class Member extends BaseMember
     public function __call($method, $parameters)
     {
         if ($this->hasInjectedFunction($method)) {
-            $function = $this->getInjectedFunction($method);
+            $handle = static::$injectedFunctions[$method];
 
-            return $function($this, $parameters);
+            return $handle($this, $parameters);
         }
 
         return parent::__call($method, $parameters);
