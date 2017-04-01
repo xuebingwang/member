@@ -14,14 +14,14 @@ use Closure;
 trait InjectionFunction
 {
     /**
-     * The registered string functions.
+     * The injected string functions.
      *
      * @var array
      */
     protected static $injectedFunctions = [];
 
     /**
-     * Register a custom function.
+     * Injection a custom function.
      *
      * @param string   $name
      * @param callable $handle
@@ -34,7 +34,7 @@ trait InjectionFunction
     }
 
     /**
-     * Checks if function is registered.
+     * Checks if function is injected.
      *
      * @param string $name
      *
