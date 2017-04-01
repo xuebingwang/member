@@ -14,26 +14,14 @@ use Closure;
 trait InjectionFunction
 {
     /**
-     * The loaded functions for injected.
+     * The registered string functions.
      *
      * @var array
      */
     protected static $injectedFunctions = [];
 
     /**
-     * Is there a function of name
-     *
-     * @param string $name
-     *
-     * @return bool
-     */
-    public function hasInjectedFunction(string $name)
-    {
-        return isset(static::$injectedFunctions[$name]);
-    }
-
-    /**
-     * Injection a function of name
+     * Register a custom function.
      *
      * @param string   $name
      * @param callable $handle
@@ -45,6 +33,26 @@ trait InjectionFunction
         static::$injectedFunctions[$name] = $handle;
     }
 
+    /**
+     * Checks if function is registered.
+     *
+     * @param string $name
+     *
+     * @return bool
+     */
+    public function hasInjectedFunction(string $name)
+    {
+        return isset(static::$injectedFunctions[$name]);
+    }
+
+    /**
+     * Dynamically handle calls to the class.
+     *
+     * @param string $method
+     * @param array  $parameters
+     *
+     * @return mixed
+     */
     public function __call($method, $parameters)
     {
         if ($this->hasInjectedFunction($method)) {
