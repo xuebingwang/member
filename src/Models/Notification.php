@@ -61,16 +61,6 @@ class Notification extends Model
         return $this->belongsTo(Member::class, 'user_id', 'id');
     }
 
-    public function topic()
-    {
-        return $this->belongsTo(Topic::class, 'subject_id', 'id');
-    }
-
-    public function article()
-    {
-        return $this->belongsTo(Topic::class, 'subject_id', 'id');
-    }
-
     public static function notify(
         $type,
         Member $sender,
