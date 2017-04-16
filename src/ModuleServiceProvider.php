@@ -8,7 +8,6 @@
  */
 namespace Notadd\Member;
 
-use Laravel\Passport\Passport;
 use Illuminate\Events\Dispatcher;
 use Notadd\Member\Injections\Installer;
 use Notadd\Member\Commands\PointsCommand;
