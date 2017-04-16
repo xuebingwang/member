@@ -19,7 +19,7 @@ var webpackConfig = merge(baseWebpackConfig, {
     },
     output: {
         path: config.build.assetsRoot,
-        filename: utils.assetsPath('js/module.js'),
+        filename: utils.assetsPath('js/module.min.js'),
         library: 'notadd/member',
         libraryTarget: "umd"
     },
@@ -31,7 +31,7 @@ var webpackConfig = merge(baseWebpackConfig, {
             sourceMap: true
         }),
         new ExtractTextPlugin({
-            filename: utils.assetsPath('css/module.css')
+            filename: utils.assetsPath('css/module.min.css')
         }),
         new OptimizeCSSPlugin()
     ]
