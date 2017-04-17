@@ -6,6 +6,7 @@ import Layout from '../layouts/Layout';
 import Security from '../pages/Security';
 import User from '../pages/User';
 import UserCreate from '../pages/UserCreate';
+import UserEdit from '../pages/UserEdit';
 
 export default function (injection) {
     injection.useModuleRoute([
@@ -45,6 +46,11 @@ export default function (injection) {
                     beforeEnter: injection.middleware.requireAuth,
                     component: UserCreate,
                     path: 'user/create',
+                },
+                {
+                    beforeEnter: injection.middleware.requireAuth,
+                    component: UserEdit,
+                    path: 'user/:id/edit',
                 },
             ],
             component: Layout,
