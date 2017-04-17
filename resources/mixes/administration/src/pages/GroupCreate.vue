@@ -3,9 +3,10 @@
 
     export default {
         beforeRouteEnter(to, from, next) {
-            injection.sidebar.active('member');
-            next();
+            next(() => {
+                injection.sidebar.active('member');
+            });
         },
-    }
+    };
 </script>
 <template></template>

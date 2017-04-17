@@ -1,11 +1,11 @@
-import Dashboard from '../pages/Dashboard.vue';
-import Group from '../pages/Group.vue';
-import GroupCreate from '../pages/GroupCreate.vue';
-import GroupEdit from '../pages/GroupEdit.vue';
-import Layout from '../layouts/Layout.vue';
-import Security from '../pages/Security.vue';
-import User from '../pages/User.vue';
-import UserCreate from '../pages/UserCreate.vue';
+import Dashboard from '../pages/Dashboard';
+import Group from '../pages/Group';
+import GroupCreate from '../pages/GroupCreate';
+import GroupEdit from '../pages/GroupEdit';
+import Layout from '../layouts/Layout';
+import Security from '../pages/Security';
+import User from '../pages/User';
+import UserCreate from '../pages/UserCreate';
 
 export default function (injection) {
     injection.useModuleRoute([
