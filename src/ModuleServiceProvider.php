@@ -108,7 +108,7 @@ class ModuleServiceProvider extends Module
      */
     public static function script()
     {
-        return asset('assets/member/administration/js/module.js');
+        return asset('assets/member/administration/js/module.min.js');
     }
 
     /**
@@ -120,7 +120,7 @@ class ModuleServiceProvider extends Module
     public static function stylesheet()
     {
         return [
-            asset('assets/member/administration/css/module.css'),
+            asset('assets/member/administration/css/module.min.css'),
         ];
     }
 
