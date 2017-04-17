@@ -1,10 +1,10 @@
-var path = require('path');
-var utils = require('./utils');
-var config = require('../config');
-var vueLoaderConfig = require('./vue-loader.conf');
+var path = require('path')
+var utils = require('./utils')
+var config = require('../config')
+var vueLoaderConfig = require('./vue-loader.conf')
 
 function resolve(dir) {
-    return path.join(__dirname, '..', dir);
+    return path.join(__dirname, '..', dir)
 }
 
 module.exports = {
@@ -13,22 +13,15 @@ module.exports = {
     },
     output: {
         path: config.build.assetsRoot,
-        filename: '[name].js',
+        filename: utils.assetsPath('js/module.min.js'),
+        library: 'notadd/member',
+        libraryTarget: "umd",
         publicPath: process.env.NODE_ENV === 'production'
             ? config.build.assetsPublicPath
             : config.dev.assetsPublicPath
     },
     resolve: {
-        extensions: ['.js', '.vue', '.json'],
-        modules: [
-            resolve('src'),
-            resolve('node_modules')
-        ],
-        alias: {
-            'vue$': 'vue/dist/vue.common.js',
-            'src': resolve('src'),
-            'components': resolve('src/components')
-        }
+        extensions: ['.js', '.vue', '.json']
     },
     module: {
         rules: [
@@ -56,7 +49,7 @@ module.exports = {
                 loader: 'url-loader',
                 query: {
                     limit: 10000,
-                    name: utils.assetsPath('images/[name].[ext]')
+                    name: utils.assetsPath('img/[name].[hash:7].[ext]')
                 }
             },
             {
@@ -68,5 +61,5 @@ module.exports = {
                 }
             }
         ]
-    }
-};
+    },
+}

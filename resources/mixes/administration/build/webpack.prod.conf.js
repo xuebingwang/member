@@ -4,7 +4,6 @@ var webpack = require('webpack');
 var config = require('../config');
 var merge = require('webpack-merge');
 var baseWebpackConfig = require('./webpack.base.conf');
-var HtmlWebpackPlugin = require('html-webpack-plugin');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin');
 
@@ -17,23 +16,25 @@ var webpackConfig = merge(baseWebpackConfig, {
             extract: true
         })
     },
-    output: {
-        path: config.build.assetsRoot,
-        filename: utils.assetsPath('js/module.min.js'),
-        library: 'notadd/member',
-        libraryTarget: "umd"
-    },
+    devtool: config.build.productionSourceMap ? '#eval' : false,
     plugins: [
+        // http://vuejs.github.io/vue-loader/en/workflow/production.html
         new webpack.DefinePlugin({
             'process.env': env
         }),
         new webpack.optimize.UglifyJsPlugin({
+            compress: {
+                warnings: false
+            },
             sourceMap: true
         }),
+        // extract css into its own file
         new ExtractTextPlugin({
             filename: utils.assetsPath('css/module.min.css')
         }),
-        new OptimizeCSSPlugin()
+        // Compress extracted CSS. We are using this plugin so that possible
+        // duplicated CSS from different components can be deduped.
+        new OptimizeCSSPlugin(),
     ]
 });
 
