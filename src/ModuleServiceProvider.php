@@ -35,6 +35,7 @@ class ModuleServiceProvider extends Module
             PointsCommand::class,
         ]);
         $this->loadMigrationsFrom(realpath(__DIR__ . '/../databases/migrations'));
+        $this->loadTranslationsFrom(realpath(__DIR__ . '/../resources/translations'), 'member');
         $this->publishes([
             realpath(__DIR__ . '/../resources/mixes/administration/dist/assets/member/administration') => public_path('assets/member/administration'),
         ], 'public');
