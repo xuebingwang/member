@@ -6,6 +6,7 @@
             injection.loading.start();
             injection.http.post(`${window.api}/member/members/index`).then(response => {
                 next(vm => {
+                    window.console.log(response.data.data);
                     vm.list = response.data.data;
                     injection.loading.finish();
                     injection.sidebar.active('member');
@@ -21,13 +22,28 @@
                         width: 60,
                     },
                     {
-                        key: 'title',
+                        key: 'avatar',
+                        title: injection.trans('member.user.table.avatar'),
+                        width: 60,
+                    },
+                    {
+                        key: 'name',
                         title: injection.trans('member.user.table.title'),
+                        width: 100,
+                    },
+                    {
+                        key: 'status',
+                        title: injection.trans('member.user.table.status'),
+                        width: 100,
+                    },
+                    {
+                        key: 'group',
+                        title: injection.trans('member.user.table.group'),
+                        width: 100,
                     },
                     {
                         key: 'created_at',
                         title: injection.trans('member.user.table.date'),
-                        width: 200,
                     },
                     {
                         key: 'handle',
@@ -66,9 +82,18 @@
     };
 </script>
 <template>
-    <div class="article-wrap">
-        <div class="article-list">
+    <div class="member-warp">
+        <div class="member-list">
             <card>
+                <template slot="title">
+                    <i-input class="search" :placeholder="trans('content.global.search.placeholder')" v-model="keyword">
+                        <i-select v-model="select3" slot="prepend" style="width: 80px">
+                            <Option value="day">日活</Option>
+                            <Option value="month">月活</Option>
+                        </i-select>
+                        <i-button slot="append" icon="ios-search" @click.native="search"></i-button>
+                    </i-input>
+                </template>
                 <i-table :columns="columns" :context="self" :data="list" @on-selection-change="selection"></i-table>
             </card>
         </div>

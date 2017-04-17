@@ -1,0 +1,24 @@
+.member-warp {
+    > .member-list {
+        > .ivu-card {
+            > .ivu-card-head {
+                &:after {
+                    clear: both;
+                    content: " ";
+                    display: table;
+                    font-size: 0;
+                    height: 0;
+                }
+                &:before {
+                    clear: both;
+                    content: " ";
+                    display: table;
+                }
+                > .search {
+                    float: right;
+                    width: 300px;
+                }
+            }
+        }
+    }
+}
