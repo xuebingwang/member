@@ -1,4 +1,30 @@
 .member-warp {
+    > .group-list {
+        > .ivu-card {
+            > .ivu-card-head {
+                &:after {
+                    clear: both;
+                    content: " ";
+                    display: table;
+                    font-size: 0;
+                    height: 0;
+                }
+                &:before {
+                    clear: both;
+                    content: " ";
+                    display: table;
+                }
+                > .extend {
+                    float: right;
+                }
+                > .text {
+                    font-weight: bold;
+                    height: 32px;
+                    line-height: 32px;
+                }
+            }
+        }
+    }
     > .member-list {
         > .ivu-card {
             > .ivu-card-head {
