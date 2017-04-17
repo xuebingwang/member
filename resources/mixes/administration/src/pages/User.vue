@@ -72,6 +72,11 @@
             };
         },
         methods: {
+            edit(index) {
+                const self = this;
+                const article = self.list[index];
+                self.$router.push(`/member/user/${article.id}/edit`);
+            },
             selection(items) {
                 this.selections = items;
             },
@@ -86,6 +91,13 @@
         <div class="member-list">
             <card>
                 <template slot="title">
+                    <router-link to="/member/user/create">
+                        <i-button type="default">添加用户
+                        </i-button>
+                    </router-link>
+                    <i-button type="default">
+                        <router-link to="/member/user/add">导出数据</router-link>
+                    </i-button>
                     <i-input class="search" :placeholder="trans('content.global.search.placeholder')" v-model="keyword">
                         <i-select v-model="select3" slot="prepend" style="width: 80px">
                             <Option value="day">日活</Option>
