@@ -57,6 +57,7 @@ class Member extends BaseMember
         'email',
         'sex',
         'birthday',
+        'avatar',
         'password',
         'signature',
         'introduction',
