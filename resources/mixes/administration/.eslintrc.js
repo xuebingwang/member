@@ -28,6 +28,7 @@ module.exports = {
         'arrow-parens': [2, "as-needed", {
             "requireForBlockBody": false
         }],
+        'guard-for-in': 0,
         'indent': ['error', 4, {
             'SwitchCase': 1
         }],
@@ -46,6 +47,7 @@ module.exports = {
         'no-debugger': process.env.NODE_ENV === 'production' ? 2 : 0,
         'no-param-reassign': ['error', {
             'props': false
-        }]
+        }],
+        'no-restricted-syntax': ['error', 'WithStatement', "BinaryExpression[operator='in']"]
     }
 }

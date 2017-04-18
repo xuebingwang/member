@@ -15,6 +15,7 @@
         },
         data() {
             return {
+                action: `${window.api}/member/upload`,
                 form: {
                     age: '',
                     avatar: '',
@@ -32,6 +33,7 @@
                     sex: '',
                     signature: '',
                 },
+                loading: false,
                 sex: [
                     {
                         label: '男',
@@ -46,13 +48,85 @@
                         value: '保密',
                     },
                 ],
-                rules: {},
+                rules: {
+                    email: [
+                        {
+                            required: true,
+                            type: 'string',
+                            message: '请输入用户名',
+                            trigger: 'change',
+                        },
+                    ],
+                    name: [
+                        {
+                            required: true,
+                            type: 'string',
+                            message: '请输入用户名',
+                            trigger: 'change',
+                        },
+                    ],
+                },
                 trans: injection.trans,
             };
         },
         methods: {
             dateChange(val) {
-                this.form.date = val;
+                this.form.birthday = val;
+            },
+            removeAvatar() {
+                this.form.avatar = '';
+            },
+            submit() {
+                const self = this;
+                self.loading = true;
+                self.$refs.form.validate(valid => {
+                    if (valid) {
+                        const data = self.form;
+                        if (self.form.sex === '男') {
+                            data.sex = 1;
+                        } else if (self.form.sex === '女') {
+                            data.sex = 2;
+                        } else {
+                            data.sex = 0;
+                        }
+                        self.$http.patch(`${window.api}/member/members/${self.form.id}/update`, data).then(() => {
+                            self.$notice.open({
+                                title: '更新用户信息成功！',
+                            });
+                        });
+                    } else {
+                        self.$notice.error({
+                            title: '请正确填写用户信息',
+                        });
+                        self.loading = false;
+                    }
+                });
+            },
+            uploadBefore() {
+                injection.loading.start();
+            },
+            uploadError(error, data) {
+                const self = this;
+                injection.loading.error();
+                if (typeof data.message === 'object') {
+                    for (const p in data.message) {
+                        self.$notice.error({
+                            title: data.message[p],
+                        });
+                    }
+                } else {
+                    self.$notice.error({
+                        title: data.message,
+                    });
+                }
+            },
+            uploadSuccess(data) {
+                const self = this;
+                injection.loading.finish();
+                self.$notice.open({
+                    title: data.message,
+                });
+                self.form.avatar = data.data.path;
             },
         },
         mounted() {
@@ -77,12 +151,17 @@
                     <row>
                         <i-col span="14">
                             <form-item label="头像" prop="avatar">
-                                <upload ref="upload"
-                                        :show-upload-list="false"
-                                        :on-success="handleSuccess"
+                                <div class="image-preview" v-if="form.avatar">
+                                    <img :src="form.avatar">
+                                    <icon type="close" @click.native="removeAvatar"></icon>
+                                </div>
+                                <upload :action="action"
                                         :format="['jpg','jpeg','png']"
                                         :max-size="2048"
-                                        action="//jsonplaceholder.typicode.com/posts/"
+                                        :on-error="uploadError"
+                                        :on-success="uploadSuccess"
+                                        ref="upload"
+                                        :show-upload-list="false"
                                         v-if="form.avatar === ''">
                                 </upload>
                             </form-item>
@@ -90,8 +169,8 @@
                     </row>
                     <row>
                         <i-col span="14">
-                            <form-item label="E-mail" prop="mail">
-                                <i-input placeholder="请输入电子邮件" v-model="form.mail"></i-input>
+                            <form-item label="E-mail" prop="email">
+                                <i-input placeholder="请输入电子邮件" v-model="form.email"></i-input>
                             </form-item>
                         </i-col>
                     </row>
@@ -123,14 +202,16 @@
                         <i-col span="14">
                             <form-item label="生日">
                                 <date-picker :placeholder="trans('content.article.form.date.placeholder')"
-                                             type="date" @on-change="dateChange"></date-picker>
+                                             type="date"
+                                             :value="form.birthday"
+                                             @on-change="dateChange"></date-picker>
                             </form-item>
                         </i-col>
                     </row>
                     <row>
                         <i-col span="14">
                             <form-item label="自我介绍" prop="users">
-                                <i-input type="textarea" placeholder="请输入自我介绍" v-model="form.users"
+                                <i-input type="textarea" placeholder="请输入自我介绍" v-model="form.signature"
                                          :autosize="{minRows: 5,maxRows: 9}"></i-input>
                                 <p class="info">自我介绍将显示在您的主页上方，不填写则不显示</p>
                             </form-item>
