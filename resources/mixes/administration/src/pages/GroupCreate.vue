@@ -32,6 +32,7 @@
                 self.loading = true;
                 self.$refs.form.validate(valid => {
                     if (valid) {
+                        window.console.log(valid);
                     } else {
                         self.loading = false;
                         self.$notice.error({
@@ -42,7 +43,7 @@
             },
         },
         mounted() {
-            this.$store.commit('title', trans('administration.title.setting'));
+            this.$store.commit('title', injection.trans('administration.title.setting'));
         },
     };
 </script>
