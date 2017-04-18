@@ -7,6 +7,7 @@ import Security from '../pages/Security';
 import User from '../pages/User';
 import UserCreate from '../pages/UserCreate';
 import UserEdit from '../pages/UserEdit';
+import UserGroup from '../pages/UserGroup';
 
 export default function (injection) {
     injection.useModuleRoute([
@@ -51,6 +52,11 @@ export default function (injection) {
                     beforeEnter: injection.middleware.requireAuth,
                     component: UserEdit,
                     path: 'user/:id/edit',
+                },
+                {
+                    beforeEnter: injection.middleware.requireAuth,
+                    component: UserGroup,
+                    path: 'user/:id/group',
                 },
             ],
             component: Layout,
