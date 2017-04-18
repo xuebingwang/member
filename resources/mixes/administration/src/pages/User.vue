@@ -53,10 +53,7 @@
                                     <i-button size="small" type="default" @click.native="integral(${index})">积分</i-button>
                                     <i-button size="small" type="default" @click.native="edit(${index})">详情</i-button>
                                     <i-button size="small" type="default" @click.native="ban(${index})">封禁</i-button>
-                                    <i-button :loading="list[${index}].loading"  size="small" type="error" @click.native="remove(${index})">
-                                        <span v-if="!list[${index}].loading">${injection.trans('content.global.delete.submit')}</span>
-                                        <span v-else>${injection.trans('content.global.delete.loading')}</span>
-                                    </i-button>
+                                    <i-button size="small" type="error" @click.native="remove(${index})">删除</i-button>
                                     `;
                         },
                         title: injection.trans('member.user.table.handle'),
@@ -66,12 +63,17 @@
                 groups: [],
                 keyword: '',
                 list: [],
+                modal: {
+                    loading: true,
+                    visible: false,
+                },
                 pagination: {
                     last_page: 1,
                 },
                 selections: [],
                 self: this,
                 trans: injection.trans,
+                user: {},
             };
         },
         methods: {
@@ -95,6 +97,13 @@
                 const user = self.list[index];
                 self.$router.push(`/member/user/${user.id}/integral`);
             },
+            output() {
+                window.console.log('Output done!');
+            },
+            remove(index) {
+                this.user = this.list[index];
+                this.modal.visible = true;
+            },
             selection(items) {
                 this.selections = items;
             },
@@ -113,9 +122,7 @@
                         <i-button type="default">添加用户
                         </i-button>
                     </router-link>
-                    <i-button type="default">
-                        <router-link to="/member/user/add">导出数据</router-link>
-                    </i-button>
+                    <i-button type="default" @click.native="output">导出数据</i-button>
                     <i-input class="search" :placeholder="trans('content.global.search.placeholder')" v-model="keyword">
                         <i-select v-model="select3" slot="prepend" style="width: 80px">
                             <Option value="day">日活</Option>
@@ -125,6 +132,23 @@
                     </i-input>
                 </template>
                 <i-table :columns="columns" :context="self" :data="list" @on-selection-change="selection"></i-table>
+                <modal class-name="user-list-modal"
+                       :loading="modal.loading"
+                       :mask-closable="false"
+                       title="删除用户"
+                       :value="modal.visible"
+                       :width="772"
+                       @on-cancel="modal.visible = false"
+                       @on-ok="remove">
+                    <p>本操作不可恢复，您确定要删除用户 <strong>{{ user.name }}</strong> 吗？</p>
+                    <i-form label-position="right" :label-width="148" :model="user" ref="form">
+                        <form-item label="删除用户的理由">
+                            <i-input type="textarea" placeholder="请输入删除用户的理由" v-model="user.reason"
+                                     :autosize="{minRows: 5,maxRows: 9}"></i-input>
+                            <p class="info">请输入操作理由，系统将把理由记录在用户删除记录中，以供日后查看。</p>
+                        </form-item>
+                    </i-form>
+                </modal>
             </card>
         </div>
     </div>
