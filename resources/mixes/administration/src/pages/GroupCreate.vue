@@ -71,18 +71,11 @@
                             <form-item label="头像" prop="avatar">
                                 <upload ref="upload"
                                         :show-upload-list="false"
-                                        :default-file-list="defaultList"
                                         :on-success="handleSuccess"
                                         :format="['jpg','jpeg','png']"
                                         :max-size="2048"
-                                        :on-format-error="handleFormatError"
-                                        :on-exceeded-size="handleMaxSize"
                                         :before-upload="handleBeforeUpload"
-                                        action="//jsonplaceholder.typicode.com/posts/"
-                                        style="display: inline-block;width:58px;">
-                                    <div style="width: 58px;height:58px;line-height: 58px;">
-                                        <icon type="plus" size="20"></icon>
-                                    </div>
+                                        action="//jsonplaceholder.typicode.com/posts/">
                                 </upload>
                             </form-item>
                         </i-col>
@@ -90,7 +83,7 @@
                     <row>
                         <i-col span="14">
                             <form-item label="添加用户" prop="users">
-                                <i-input type="textarea" placeholder="请输入统计代码" v-model="form.users"
+                                <i-input type="textarea" placeholder="请输入用户列表，每行一个" v-model="form.users"
                                          :autosize="{minRows: 5,maxRows: 9}"></i-input>
                                 <p class="info">每行输入一个用户名</p>
                             </form-item>
