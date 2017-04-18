@@ -132,9 +132,9 @@ class AbstractApiController extends Controller
         return $this->pagination;
     }
 
-    public function noContent()
+    public function noContent($message = 'No Content')
     {
-        return $this->setMessage('No Content')
+        return $this->setMessage($message)
             ->setStatusCode(204)
             ->respondWithArray([]);
     }
