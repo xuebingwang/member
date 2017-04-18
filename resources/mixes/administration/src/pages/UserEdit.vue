@@ -93,6 +93,8 @@
                             self.$notice.open({
                                 title: '更新用户信息成功！',
                             });
+                        }).finally(() => {
+                            self.loading = false;
                         });
                     } else {
                         self.$notice.error({
