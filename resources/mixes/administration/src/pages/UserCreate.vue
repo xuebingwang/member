@@ -96,6 +96,7 @@
                             self.$notice.open({
                                 title: '添加用户成功！',
                             });
+                            self.$router.push('/member/user');
                         }).finally(() => {
                             self.loading = false;
                         });
@@ -124,6 +125,12 @@
                         title: data.message,
                     });
                 }
+            },
+            uploadFormatError(file) {
+                this.$notice.warning({
+                    title: '文件格式不正确',
+                    desc: '文件 ' + file.name + ' 格式不正确，请上传 jpg 或 png 格式的图片。'
+                });
             },
             uploadSuccess(data) {
                 const self = this;
@@ -171,6 +178,7 @@
                                         :format="['jpg','jpeg','png']"
                                         :max-size="2048"
                                         :on-error="uploadError"
+                                        :on-format-error="uploadFormatError"
                                         :on-success="uploadSuccess"
                                         ref="upload"
                                         :show-upload-list="false"
