@@ -28,9 +28,8 @@
                         render(row) {
                             if (row.avatar) {
                                 return `<img class="user-list-image" src="${row.avatar}">`;
-                            } else {
-                                return '';
                             }
+                            return '';
                         },
                         title: injection.trans('member.user.table.avatar'),
                         width: 66,
