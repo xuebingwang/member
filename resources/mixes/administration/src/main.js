@@ -1,10 +1,4 @@
-import './assets/style.less'
-import {headerMixin, installMixin, routerMixin} from './helpers/mixes'
+import './assets/less/main.less';
+import injection from './helpers/injection';
 
-let Core = {}
-
-headerMixin(Core)
-installMixin(Core)
-routerMixin(Core)
-
-export default Core
+export default injection;

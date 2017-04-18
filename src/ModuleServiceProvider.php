@@ -8,7 +8,6 @@
  */
 namespace Notadd\Member;
 
-use Laravel\Passport\Passport;
 use Illuminate\Events\Dispatcher;
 use Notadd\Member\Injections\Installer;
 use Notadd\Member\Commands\PointsCommand;
@@ -36,6 +35,7 @@ class ModuleServiceProvider extends Module
             PointsCommand::class,
         ]);
         $this->loadMigrationsFrom(realpath(__DIR__ . '/../databases/migrations'));
+        $this->loadTranslationsFrom(realpath(__DIR__ . '/../resources/translations'), 'member');
         $this->publishes([
             realpath(__DIR__ . '/../resources/mixes/administration/dist/assets/member/administration') => public_path('assets/member/administration'),
         ], 'public');
@@ -109,7 +109,7 @@ class ModuleServiceProvider extends Module
      */
     public static function script()
     {
-        return asset('assets/member/administration/js/module.js');
+        return asset('assets/member/administration/js/module.min.js');
     }
 
     /**
@@ -121,7 +121,7 @@ class ModuleServiceProvider extends Module
     public static function stylesheet()
     {
         return [
-            asset('assets/member/administration/css/module.css'),
+            asset('assets/member/administration/css/module.min.css'),
         ];
     }
 
