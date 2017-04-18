@@ -95,6 +95,7 @@
                             self.$notice.open({
                                 title: '更新用户信息成功！',
                             });
+                            self.$router.push('/member/user');
                         }).finally(() => {
                             self.loading = false;
                         });

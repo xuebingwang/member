@@ -25,6 +25,13 @@
                     },
                     {
                         key: 'avatar',
+                        render(row) {
+                            if (row.avatar) {
+                                return `<img class="group-list-image" src="${row.avatar}">`;
+                            } else {
+                                return '';
+                            }
+                        },
                         title: injection.trans('用户组图标'),
                         width: 100,
                     },

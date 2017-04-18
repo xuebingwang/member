@@ -25,8 +25,15 @@
                     },
                     {
                         key: 'avatar',
+                        render(row) {
+                            if (row.avatar) {
+                                return `<img class="user-list-image" src="${row.avatar}">`;
+                            } else {
+                                return '';
+                            }
+                        },
                         title: injection.trans('member.user.table.avatar'),
-                        width: 60,
+                        width: 66,
                     },
                     {
                         key: 'name',
