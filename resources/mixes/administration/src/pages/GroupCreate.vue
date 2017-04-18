@@ -9,6 +9,7 @@
         },
         data() {
             return {
+                action: `${window.api}/member/upload`,
                 form: {
                     avatar: '',
                     name: '',
@@ -27,6 +28,9 @@
             };
         },
         methods: {
+            removeAvatar() {
+                this.form.avatar = '';
+            },
             submit() {
                 const self = this;
                 self.loading = true;
@@ -40,6 +44,32 @@
                         });
                     }
                 });
+            },
+            uploadBefore() {
+                injection.loading.start();
+            },
+            uploadError(error, data) {
+                const self = this;
+                injection.loading.error();
+                if (typeof data.message === 'object') {
+                    for (const p in data.message) {
+                        self.$notice.error({
+                            title: data.message[p],
+                        });
+                    }
+                } else {
+                    self.$notice.error({
+                        title: data.message,
+                    });
+                }
+            },
+            uploadSuccess(data) {
+                const self = this;
+                injection.loading.finish();
+                self.$notice.open({
+                    title: data.message,
+                });
+                self.form.avatar = data.data.path;
             },
         },
         mounted() {
@@ -68,14 +98,20 @@
                     </row>
                     <row>
                         <i-col span="14">
-                            <form-item label="头像" prop="avatar">
-                                <upload ref="upload"
-                                        :show-upload-list="false"
-                                        :on-success="handleSuccess"
+                            <form-item label="用户组图标">
+                                <div class="image-preview" v-if="form.avatar">
+                                    <img :src="form.avatar">
+                                    <icon type="close" @click.native="removeAvatar"></icon>
+                                </div>
+                                <upload :action="action"
+                                        :before-upload="uploadBefore"
                                         :format="['jpg','jpeg','png']"
                                         :max-size="2048"
-                                        :before-upload="handleBeforeUpload"
-                                        action="//jsonplaceholder.typicode.com/posts/">
+                                        :on-error="uploadError"
+                                        :on-success="uploadSuccess"
+                                        ref="upload"
+                                        :show-upload-list="false"
+                                        v-if="form.avatar === ''">
                                 </upload>
                             </form-item>
                         </i-col>
@@ -83,8 +119,10 @@
                     <row>
                         <i-col span="14">
                             <form-item label="添加用户" prop="users">
-                                <i-input type="textarea" placeholder="请输入用户列表，每行一个" v-model="form.users"
-                                         :autosize="{minRows: 5,maxRows: 9}"></i-input>
+                                <i-input :autosize="{minRows: 5,maxRows: 9}"
+                                         placeholder="请输入用户列表，每行一个"
+                                         type="textarea"
+                                         v-model="form.users"></i-input>
                                 <p class="info">每行输入一个用户名</p>
                             </form-item>
                         </i-col>
