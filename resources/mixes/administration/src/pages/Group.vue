@@ -96,8 +96,7 @@
                 <template slot="title">
                     <span class="text">用户组列表</span>
                     <router-link class="extend" to="/member/group/create">
-                        <i-button type="default">添加用户
-                        </i-button>
+                        <i-button type="default">添加用户组</i-button>
                     </router-link>
                 </template>
                 <i-table :columns="columns" :context="self" :data="list" @on-selection-change="selection"></i-table>
