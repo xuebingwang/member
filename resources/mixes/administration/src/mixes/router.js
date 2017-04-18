@@ -5,6 +5,7 @@ import GroupEdit from '../pages/GroupEdit';
 import Layout from '../layouts/Layout';
 import Security from '../pages/Security';
 import User from '../pages/User';
+import UserBan from '../pages/UserBan';
 import UserCreate from '../pages/UserCreate';
 import UserEdit from '../pages/UserEdit';
 import UserGroup from '../pages/UserGroup';
@@ -43,6 +44,11 @@ export default function (injection) {
                     beforeEnter: injection.middleware.requireAuth,
                     component: User,
                     path: 'user',
+                },
+                {
+                    beforeEnter: injection.middleware.requireAuth,
+                    component: UserBan,
+                    path: 'user/:id/ban',
                 },
                 {
                     beforeEnter: injection.middleware.requireAuth,

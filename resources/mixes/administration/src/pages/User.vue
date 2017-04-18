@@ -52,7 +52,7 @@
                                     <i-button size="small" type="default" @click.native="group(${index})">用户组</i-button>
                                     <i-button size="small" type="default" @click.native="integral(${index})">积分</i-button>
                                     <i-button size="small" type="default" @click.native="edit(${index})">详情</i-button>
-                                    <i-button size="small" type="default" @click.native="edit(${index})">封禁</i-button>
+                                    <i-button size="small" type="default" @click.native="ban(${index})">封禁</i-button>
                                     <i-button :loading="list[${index}].loading"  size="small" type="error" @click.native="remove(${index})">
                                         <span v-if="!list[${index}].loading">${injection.trans('content.global.delete.submit')}</span>
                                         <span v-else>${injection.trans('content.global.delete.loading')}</span>
@@ -75,6 +75,11 @@
             };
         },
         methods: {
+            ban(index) {
+                const self = this;
+                const user = self.list[index];
+                self.$router.push(`/member/user/${user.id}/ban`);
+            },
             edit(index) {
                 const self = this;
                 const user = self.list[index];
