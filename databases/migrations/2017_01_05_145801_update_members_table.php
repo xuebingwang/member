@@ -32,7 +32,7 @@ class UpdateMembersTable extends Migration
             $table->float('points', 8, 2)->default(0)->comment('积分');
             // $table->integer('total_registration_count')->unsigned()->default(0)->index()->comment('用户总的签到天数');
             // $table->integer('continue_registration_count')->unsigned()->default(0)->index()->comment('连续签到天数');
-            $table->boolean('is_activated')->default(0)->comment('邮箱是否激活');
+            $table->enum('is_activated', ['yes', 'no'])->default('no')->comment('邮箱是否激活');
             $table->enum('is_banned', ['yes', 'no'])->default('no')->comment('是否禁止');
             $table->softDeletes();
         });

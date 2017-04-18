@@ -33,6 +33,7 @@ use Notadd\Foundation\Member\Member as BaseMember;
  * @property integer             $total_registration_count
  * @property integer             $continue_registration_count
  * @property string              $is_banned
+ * @property string              $is_activated
  * @property \Carbon\Carbon|null $created_at
  * @property \Carbon\Carbon|null $updated_at
  * @property \Carbon\Carbon|null $deleted_at
@@ -76,11 +77,6 @@ class Member extends BaseMember
     public function groups()
     {
         return $this->belongsToMany(Group::class, 'group_member', 'member_id', 'group_id');
-    }
-
-    public function topics()
-    {
-        return $this->hasMany(Topic::class, 'user_id', 'id');
     }
 
     public function notifications()
@@ -267,6 +263,13 @@ class Member extends BaseMember
         });
     }
 
+    /**
+     * Setting the password
+     *
+     * @param string $password
+     *
+     * @return $this
+     */
     public function setPassword($password)
     {
         $this->password = empty($password) ? '' : app()->make('hash')->make($password);
@@ -274,61 +277,16 @@ class Member extends BaseMember
         return $this;
     }
 
+    /**
+     * Check the password
+     *
+     * @param string $password
+     *
+     * @return bool
+     */
     public function checkPassword($password)
     {
         return app()->make('hash')->check($password, $this->password);
-    }
-
-    public function checkIn()
-    {
-        if ($this->todaySigned()) {
-            return;
-        }
-        $signAction = ActionPoints::where('name', 'sign')->first();
-        if (! $signAction) {
-            return;
-        }
-        Registration::checkIn($this->id, $signAction->points);
-        $this->points                   += $signAction->points;
-        $this->total_registration_count += 1;
-        if ($this->yesterdaySigned()) {
-            $this->continue_registration_count += 1;
-        } else {
-            $this->continue_registration_count = 1;
-        }
-        $this->save();
-        GetPointsRecord::create([
-            'user_id'             => $this->id,
-            'action_display_name' => $signAction->display_name,
-            'action_name'         => $signAction->name,
-            'points'              => $signAction->points,
-        ]);
-    }
-
-    /**
-     * 今天是否签到
-     *
-     * @return bool
-     */
-    public function todaySigned()
-    {
-        return (bool) Registration::where('user_id', $this->id)
-            ->where('signed_at', '>=', Carbon::now()->startOfDay())
-            ->where('signed_at', '<=', Carbon::now()->endOfDay())
-            ->count();
-    }
-
-    /**
-     * 昨天是否签到
-     *
-     * @return bool
-     */
-    public function yesterdaySigned()
-    {
-        return (bool) Registration::where('user_id', $this->id)
-            ->where('signed_at', '>=', Carbon::now()->subDay()->startOfDay())
-            ->where('signed_at', '<=', Carbon::now()->subDay()->endOfDay())
-            ->count();
     }
 
     public function attachGroup($group)
@@ -373,7 +331,8 @@ class Member extends BaseMember
     /**
      * Get a relationship.
      *
-     * @param  string  $key
+     * @param  string $key
+     *
      * @return mixed
      */
     public function getRelationValue($key)
