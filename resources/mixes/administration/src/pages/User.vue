@@ -106,7 +106,7 @@
 </script>
 <template>
     <div class="member-warp">
-        <div class="member-list">
+        <div class="user-list">
             <card>
                 <template slot="title">
                     <router-link to="/member/user/create">
