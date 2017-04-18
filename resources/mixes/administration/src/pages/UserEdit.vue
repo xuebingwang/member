@@ -7,7 +7,8 @@
             injection.http.post(`${window.api}/member/members/${to.params.id}/show`).then(response => {
                 next(vm => {
                     vm.form = response.data.data;
-                    injection.loading.done();
+                    window.console.log(vm.form);
+                    injection.loading.finish();
                     injection.sidebar.active('member');
                 });
             });
@@ -31,8 +32,28 @@
                     sex: '',
                     signature: '',
                 },
+                sex: [
+                    {
+                        label: '男',
+                        value: '男',
+                    },
+                    {
+                        label: '女',
+                        value: '女',
+                    },
+                    {
+                        label: '保密',
+                        value: '保密',
+                    },
+                ],
                 rules: {},
+                trans: injection.trans,
             };
+        },
+        methods: {
+            dateChange(val) {
+                this.form.date = val;
+            },
         },
         mounted() {
             this.$store.commit('title', '用户详情 - 用户中心');
@@ -58,18 +79,11 @@
                             <form-item label="头像" prop="avatar">
                                 <upload ref="upload"
                                         :show-upload-list="false"
-                                        :default-file-list="defaultList"
                                         :on-success="handleSuccess"
                                         :format="['jpg','jpeg','png']"
                                         :max-size="2048"
-                                        :on-format-error="handleFormatError"
-                                        :on-exceeded-size="handleMaxSize"
-                                        :before-upload="handleBeforeUpload"
                                         action="//jsonplaceholder.typicode.com/posts/"
-                                        style="display: inline-block;width:58px;">
-                                    <div style="width: 58px;height:58px;line-height: 58px;">
-                                        <icon type="plus" size="20"></icon>
-                                    </div>
+                                        v-if="form.avatar === ''">
                                 </upload>
                             </form-item>
                         </i-col>
@@ -84,6 +98,14 @@
                     <row>
                         <i-col span="14">
                             <form-item label="邮箱激活状态">
+                                <radio-group v-model="form.enabled" size="large">
+                                    <radio label="1">
+                                        <span>已激活</span>
+                                    </radio>
+                                    <radio label="android">
+                                        <span>未激活</span>
+                                    </radio>
+                                </radio-group>
                             </form-item>
                         </i-col>
                     </row>
@@ -91,12 +113,17 @@
                     <row>
                         <i-col span="14">
                             <form-item label="性别">
+                                <i-select v-model="form.sex">
+                                    <i-option v-for="item in sex" :value="item.value" :key="item">{{ item.label }}</i-option>
+                                </i-select>
                             </form-item>
                         </i-col>
                     </row>
                     <row>
                         <i-col span="14">
                             <form-item label="生日">
+                                <date-picker :placeholder="trans('content.article.form.date.placeholder')"
+                                             type="date" @on-change="dateChange"></date-picker>
                             </form-item>
                         </i-col>
                     </row>
