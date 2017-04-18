@@ -50,7 +50,7 @@
                         render(row, column, index) {
                             return `
                                     <i-button size="small" type="default" @click.native="group(${index})">用户组</i-button>
-                                    <i-button size="small" type="default" @click.native="edit(${index})">积分</i-button>
+                                    <i-button size="small" type="default" @click.native="integral(${index})">积分</i-button>
                                     <i-button size="small" type="default" @click.native="edit(${index})">详情</i-button>
                                     <i-button size="small" type="default" @click.native="edit(${index})">封禁</i-button>
                                     <i-button :loading="list[${index}].loading"  size="small" type="error" @click.native="remove(${index})">
@@ -84,6 +84,11 @@
                 const self = this;
                 const user = self.list[index];
                 self.$router.push(`/member/user/${user.id}/group`);
+            },
+            integral(index) {
+                const self = this;
+                const user = self.list[index];
+                self.$router.push(`/member/user/${user.id}/integral`);
             },
             selection(items) {
                 this.selections = items;
