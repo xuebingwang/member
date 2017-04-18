@@ -139,6 +139,13 @@ class AbstractApiController extends Controller
             ->respondWithArray([]);
     }
 
+    public function respondWithSuccess($message = '')
+    {
+        return $this->setMessage($message)
+            ->setStatusCode(200)
+            ->respondWithArray([]);
+    }
+
     /**
      * Respond the item data. 可以理解为单个数据, 如单个用户的数据
      *
