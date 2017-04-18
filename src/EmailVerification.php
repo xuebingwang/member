@@ -9,6 +9,12 @@
 
 namespace Notadd\Member;
 
+use Illuminate\Support\Str;
+
 class EmailVerification
 {
+    protected function generateToken()
+    {
+        return hash_hmac('sha256', Str::random(40), config('app.key'));
+    }
 }
