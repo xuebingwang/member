@@ -89,7 +89,7 @@ class PermissionController extends AbstractApiController
             $this->request->input('description', null)
         );
 
-        return $this->noContent();
+        return $this->respondWithSuccess('成功!');
     }
 
     public function destroy($id)
@@ -103,6 +103,6 @@ class PermissionController extends AbstractApiController
             return $this->errorInternal();
         }
 
-        return $this->noContent();
+        return $this->respondWithSuccess('删除成功!');
     }
 }

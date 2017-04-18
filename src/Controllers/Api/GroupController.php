@@ -81,7 +81,7 @@ class GroupController extends AbstractApiController
         // 更新用户组添加权限, 并删除不在当前权限数组中的权限关系
         $group->permissions()->sync($permissions);
         if ($group->exists) {
-            return $this->noContent();
+            return $this->respondWithSuccess('成功!');
         }
 
         return $this->errorInternal();
@@ -98,6 +98,6 @@ class GroupController extends AbstractApiController
             return $this->errorInternal();
         }
 
-        return $this->noContent();
+        return $this->respondWithSuccess('删除成功!');
     }
 }

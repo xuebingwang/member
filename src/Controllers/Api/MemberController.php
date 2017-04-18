@@ -100,7 +100,7 @@ class MemberController extends AbstractApiController
         $member->groups()->sync($groups);
         $member->permissions()->sync($permissions);
 
-        return $this->noContent();
+        return $this->respondWithSuccess('创建成功!');
     }
 
     public function show($member_id)
@@ -168,7 +168,7 @@ class MemberController extends AbstractApiController
         $member->groups()->sync($groups);
         $member->permissions()->sync($permissions);
 
-        return $this->noContent();
+        return $this->respondWithSuccess('更新成功!');
     }
 
     public function destroy($id)
@@ -182,6 +182,6 @@ class MemberController extends AbstractApiController
             return $this->errorInternal();
         }
 
-        return $this->noContent();
+        return $this->respondWithSuccess('删除成功!');
     }
 }
