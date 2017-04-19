@@ -69,6 +69,7 @@
                         description: '',
                         detail: false,
                         groups: [],
+                        id: 1,
                         name: '真实姓名',
                         order: '1',
                         privacy: '',
@@ -80,6 +81,7 @@
                         description: '',
                         detail: false,
                         groups: [],
+                        id: 2,
                         name: '昵称',
                         order: '1',
                         privacy: '',
@@ -91,6 +93,7 @@
                         description: '',
                         detail: false,
                         groups: [],
+                        id: 3,
                         name: '自我介绍',
                         order: '1',
                         privacy: '',
@@ -101,6 +104,11 @@
                 ],
                 self: this,
             };
+        },
+        methods: {
+            edit(id) {
+                this.$router.push(`/member/information/${id}/edit`);
+            },
         },
     };
 </script>
