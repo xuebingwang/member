@@ -12,10 +12,21 @@
                 action: `${window.api}/member/upload`,
                 form: {
                     avatar: '',
+                    description: '',
+                    identification: '',
                     name: '',
                     users: '',
                 },
+                loading: false,
                 rules: {
+                    identification: [
+                        {
+                            required: true,
+                            type: 'string',
+                            message: '请输入用户组标识',
+                            trigger: 'change',
+                        },
+                    ],
                     name: [
                         {
                             required: true,
@@ -33,12 +44,23 @@
             },
             submit() {
                 const self = this;
-                self.loading = true;
                 self.$refs.form.validate(valid => {
                     if (valid) {
-                        window.console.log(valid);
+                        self.loading = true;
+                        const data = {
+                            description: self.form.description,
+                            display_name: self.form.name,
+                            name: self.form.identification,
+                        };
+                        self.$http.patch(`${window.api}/member/groups/store`, data).then(() => {
+                            self.$notice.open({
+                                title: '添加用户组成功！',
+                            });
+                            self.$router.push('/member/group');
+                        }).finally(() => {
+                            self.loading = false;
+                        });
                     } else {
-                        self.loading = false;
                         self.$notice.error({
                             title: '请正确填写设置信息！',
                         });
@@ -62,6 +84,12 @@
                         title: data.message,
                     });
                 }
+            },
+            uploadFormatError(file) {
+                this.$notice.warning({
+                    title: '文件格式不正确',
+                    desc: `文件 ${file.name} 格式不正确，请上传 jpg 或 png 格式的图片。`,
+                });
             },
             uploadSuccess(data) {
                 const self = this;
@@ -98,6 +126,13 @@
                     </row>
                     <row>
                         <i-col span="14">
+                            <form-item label="用户组标识" prop="identification">
+                                <i-input placeholder="请输入用户组标识" v-model="form.identification"></i-input>
+                            </form-item>
+                        </i-col>
+                    </row>
+                    <row>
+                        <i-col span="14">
                             <form-item label="用户组图标">
                                 <div class="image-preview" v-if="form.avatar">
                                     <img :src="form.avatar">
@@ -108,11 +143,22 @@
                                         :format="['jpg','jpeg','png']"
                                         :max-size="2048"
                                         :on-error="uploadError"
+                                        :on-format-error="uploadFormatError"
                                         :on-success="uploadSuccess"
                                         ref="upload"
                                         :show-upload-list="false"
                                         v-if="form.avatar === ''">
                                 </upload>
+                            </form-item>
+                        </i-col>
+                    </row>
+                    <row>
+                        <i-col span="14">
+                            <form-item label="用户组说明" prop="description">
+                                <i-input :autosize="{minRows: 5,maxRows: 9}"
+                                         placeholder="请输入用户组说明"
+                                         type="textarea"
+                                         v-model="form.description"></i-input>
                             </form-item>
                         </i-col>
                     </row>

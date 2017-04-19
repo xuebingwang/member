@@ -79,8 +79,31 @@
             > .ivu-card-body {
                 > .ivu-table-wrapper {
                     border-left: none;
-                    > .ivu-table:after {
-                        width: 0;
+                    > .ivu-table {
+                        &:after {
+                            width: 0;
+                        }
+                        > .ivu-table-body {
+                            > table {
+                                > .ivu-table-tbody {
+                                    > .ivu-table-row {
+                                        > td {
+                                            > .ivu-table-cell {
+                                                > div {
+                                                    padding: 10px 0;
+                                                    > .user-list-image {
+                                                        border-radius: 50%;
+                                                        display: block;
+                                                        height: 32px;
+                                                        width: 32px;
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             }

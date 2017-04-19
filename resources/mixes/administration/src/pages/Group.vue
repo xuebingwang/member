@@ -11,6 +11,8 @@
                     injection.loading.finish();
                     injection.sidebar.active('member');
                 });
+            }).catch(() => {
+                injection.loading.error();
             });
         },
         data() {
@@ -23,6 +25,12 @@
                     },
                     {
                         key: 'avatar',
+                        render(row) {
+                            if (row.avatar) {
+                                return `<img class="group-list-image" src="${row.avatar}">`;
+                            }
+                            return '';
+                        },
                         title: injection.trans('用户组图标'),
                         width: 100,
                     },
@@ -49,10 +57,7 @@
                         key: 'handle',
                         render(row, column, index) {
                             return `
-                                    <i-button size="small" type="default" @click.native="edit(${index})">用户组</i-button>
-                                    <i-button size="small" type="default" @click.native="edit(${index})">积分</i-button>
-                                    <i-button size="small" type="default" @click.native="edit(${index})">详情</i-button>
-                                    <i-button size="small" type="default" @click.native="edit(${index})">封禁</i-button>
+                                    <i-button size="small" type="default" @click.native="edit(${index})">编辑用户组</i-button>
                                     <i-button :loading="list[${index}].loading"  size="small" type="error" @click.native="remove(${index})">
                                         <span v-if="!list[${index}].loading">${injection.trans('content.global.delete.submit')}</span>
                                         <span v-else>${injection.trans('content.global.delete.loading')}</span>
@@ -78,7 +83,7 @@
             edit(index) {
                 const self = this;
                 const article = self.list[index];
-                self.$router.push(`/member/user/${article.id}/edit`);
+                self.$router.push(`/member/group/${article.id}/edit`);
             },
             selection(items) {
                 this.selections = items;
@@ -96,8 +101,7 @@
                 <template slot="title">
                     <span class="text">用户组列表</span>
                     <router-link class="extend" to="/member/group/create">
-                        <i-button type="default">添加用户
-                        </i-button>
+                        <i-button type="default">添加用户组</i-button>
                     </router-link>
                 </template>
                 <i-table :columns="columns" :context="self" :data="list" @on-selection-change="selection"></i-table>

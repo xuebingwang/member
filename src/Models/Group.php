@@ -26,7 +26,11 @@ class Group extends Model
 {
     protected $table = 'groups';
 
-    protected $fillable = ['name', 'display_name', 'description'];
+    protected $fillable = [
+        'display_name',
+        'description',
+        'name',
+    ];
 
     /**
      * Many-to-Many relations with the member model.
