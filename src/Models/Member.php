@@ -330,6 +330,16 @@ class Member extends BaseMember
     }
 
     /**
+     * @param $email
+     *
+     * @return null|$this
+     */
+    public static function findByEmail($email)
+    {
+        return static::where('email', $email)->first();
+    }
+
+    /**
      * Get a relationship.
      *
      * @param  string $key
