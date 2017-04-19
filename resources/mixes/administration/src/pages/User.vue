@@ -59,7 +59,7 @@
                             return `
                                     <i-button size="small" type="default" @click.native="group(${index})">用户组</i-button>
                                     <i-button size="small" type="default" @click.native="integral(${index})">积分</i-button>
-                                    <i-button size="small" type="default" @click.native="edit(${index})">详情</i-button>
+                                    <i-button size="small" type="default" @click.native="edit(${index})">编辑详情</i-button>
                                     <i-button size="small" type="default" @click.native="ban(${index})">封禁</i-button>
                                     <i-button size="small" type="error" @click.native="remove(${index})">删除</i-button>
                                     `;
