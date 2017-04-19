@@ -116,11 +116,6 @@ class EmailVerification
 
     public function send($user, $subject = null, $from = null, $name = null)
     {
-        return $this->emailVerificationLink($user, $subject, $from, $name);
-    }
-
-    public function emailVerificationLink($user, $subject = null, $from = null, $name = null)
-    {
         return $this->mailer
             ->to($user->email)
             ->send(new VerificationTokenGenerated($user, $this->token, $subject, $from, $name));
