@@ -2,6 +2,7 @@ import Dashboard from '../pages/Dashboard';
 import Group from '../pages/Group';
 import GroupCreate from '../pages/GroupCreate';
 import GroupEdit from '../pages/GroupEdit';
+import Information from '../pages/Information';
 import InformationCreate from '../pages/InformationCreate';
 import InformationGroup from '../pages/InformationGroup';
 import Layout from '../layouts/Layout';
@@ -39,13 +40,18 @@ export default function (injection) {
                 },
                 {
                     beforeEnter: injection.middleware.requireAuth,
-                    component: InformationGroup,
-                    path: 'information/group',
+                    component: Information,
+                    path: 'information',
                 },
                 {
                     beforeEnter: injection.middleware.requireAuth,
                     component: InformationCreate,
                     path: 'information/create',
+                },
+                {
+                    beforeEnter: injection.middleware.requireAuth,
+                    component: InformationGroup,
+                    path: 'information/group',
                 },
                 {
                     beforeEnter: injection.middleware.requireAuth,
