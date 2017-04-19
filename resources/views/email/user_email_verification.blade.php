@@ -1,0 +1,1 @@
+点击这里激活你的账户: <a href="{{ $link = route('email-verification.check', $token) . '?email=' . urlencode($user->email) }}">{{ $link }}</a>
