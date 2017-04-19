@@ -3,7 +3,7 @@
 
     export default {
         beforeRouteEnter(to, from, next) {
-            next(vm => {
+            next(() => {
                 injection.sidebar.active('member');
             });
         },
