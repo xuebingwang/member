@@ -38,8 +38,16 @@ class EmailVerifyController extends AbstractApiController
         return $this->respondWithSuccess('激活邮件已发送');
     }
 
-    public function activeEmail()
+    public function activeEmail($token)
     {
+        $email = $this->request->get('email', '');
 
+        try {
+            $this->emailVerification->process($email, $token);
+        } catch (\Exception $e) {
+            return $this->errorValidate([
+                'token' => '邮件激活验证失败',
+            ]);
+        }
     }
 }
