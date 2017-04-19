@@ -1,3 +1,4 @@
+import Ban from '../pages/Ban';
 import Dashboard from '../pages/Dashboard';
 import Group from '../pages/Group';
 import GroupCreate from '../pages/GroupCreate';
@@ -25,6 +26,11 @@ export default function (injection) {
                     beforeEnter: injection.middleware.requireAuth,
                     component: Dashboard,
                     path: '/',
+                },
+                {
+                    beforeEnter: injection.middleware.requireAuth,
+                    component: Ban,
+                    path: 'ban',
                 },
                 {
                     beforeEnter: injection.middleware.requireAuth,

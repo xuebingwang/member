@@ -20,6 +20,16 @@ export default function (injection) {
             title: '用户资料',
         },
         {
+            children: [
+                {
+                    path: '/member/ban',
+                    title: '封禁用户',
+                },
+            ],
+            icon: 'plus',
+            title: '封禁',
+        },
+        {
             icon: 'plus',
             path: '/member/group',
             title: '用户组管理',
