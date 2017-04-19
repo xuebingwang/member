@@ -6,6 +6,7 @@
  * @copyright (c) 2017, iBenchu.org
  * @datetime      2017-01-05 15:26
  */
+
 namespace Notadd\Member\Models;
 
 use Notadd\Member\Models\Permission;
@@ -18,6 +19,7 @@ use Illuminate\Support\Facades\Cache;
  * @property integer             $id
  * @property string              $name
  * @property string              $display_name
+ * @property string              $icon
  * @property string              $description
  * @property \Carbon\Carbon|null $created_at
  * @property \Carbon\Carbon|null $updated_at
@@ -30,6 +32,7 @@ class Group extends Model
         'display_name',
         'description',
         'name',
+        'icon',
     ];
 
     /**
@@ -94,9 +97,9 @@ class Group extends Model
         if (is_array($name)) {
             foreach ($name as $permissionName) {
                 $hasPermission = $this->hasPermission($permissionName);
-                if ($hasPermission && !$requireAll) {
+                if ($hasPermission && ! $requireAll) {
                     return true;
-                } elseif (!$hasPermission && $requireAll) {
+                } elseif (! $hasPermission && $requireAll) {
                     return false;
                 }
             }
@@ -127,14 +130,16 @@ class Group extends Model
         return $this->hasPermission($adminName, $requireAll);
     }
 
-    public static function addGroup($name, $display_name = null, $description = null)
+    public static function addGroup($name, $display_name = null, $icon = null, $description = null)
     {
         $group = self::where('name', $name)->first();
-        if (!$group) {
+        if (! $group) {
             $group = new self(['name' => $name]);
         }
+
+        $group->icon         = $icon;
         $group->display_name = $display_name;
-        $group->description = $description;
+        $group->description  = $description;
         $group->save();
 
         return $group;
