@@ -11,27 +11,51 @@
             return {
                 columns: [
                     {
-                        align: 'center',
-                        key: 'show',
-                        render(row, column, index) {
-                            return `<checkbox v-model="groups[${index}].show"></checkbox>`;
-                        },
-                        title: '显示',
+                        key: 'name',
+                        title: '信息名称',
                         width: 100,
                     },
                     {
                         key: 'order',
                         render(row, column, index) {
-                            return `<i-input v-model="groups[${index}].order"></i-input>`;
+                            return `<i-input v-model="list[${index}].order"></i-input>`;
                         },
                         title: '显示顺序',
-                        width: 200,
+                        width: 90,
                     },
                     {
-                        key: 'name',
-                        title: '栏目分组名称',
+                        align: 'center',
+                        key: 'register',
+                        render(row, column, index) {
+                            return `<checkbox v-model="list[${index}].register"></checkbox>`;
+                        },
+                        title: '注册是否显示',
+                        width: 110,
                     },
                     {
+                        align: 'center',
+                        key: 'detail',
+                        render(row, column, index) {
+                            return `<checkbox v-model="list[${index}].detail"></checkbox>`;
+                        },
+                        title: '资料页是否显示',
+                        width: 120,
+                    },
+                    {
+                        align: 'center',
+                        key: 'required',
+                        render(row, column, index) {
+                            return `<checkbox v-model="list[${index}].required"></checkbox>`;
+                        },
+                        title: '是否必填',
+                        width: 100,
+                    },
+                    {
+                        key: 'none',
+                        title: ' ',
+                    },
+                    {
+                        align: 'center',
                         key: 'handle',
                         render(row) {
                             return `<i-button size="small" type="default" @click.native="edit(${row.id})">编辑</i-button>`;
@@ -40,47 +64,50 @@
                         width: 150,
                     },
                 ],
-                groups: [
+                list: [
                     {
-                        show: false,
+                        description: '',
+                        detail: false,
+                        groups: [],
+                        id: 1,
+                        name: '真实姓名',
                         order: '1',
-                        name: '特别信息',
+                        privacy: '',
+                        register: false,
+                        required: false,
+                        type: 'input',
                     },
                     {
-                        show: true,
+                        description: '',
+                        detail: false,
+                        groups: [],
+                        id: 2,
+                        name: '昵称',
                         order: '1',
-                        name: '特别信息',
+                        privacy: '',
+                        register: false,
+                        required: false,
+                        type: 'input',
                     },
                     {
-                        show: false,
+                        description: '',
+                        detail: false,
+                        groups: [],
+                        id: 3,
+                        name: '自我介绍',
                         order: '1',
-                        name: '没有信息',
-                    },
-                    {
-                        show: true,
-                        order: '1',
-                        name: '特别信息',
-                    },
-                    {
-                        show: false,
-                        order: '1',
-                        name: '固定信息',
+                        privacy: '',
+                        register: false,
+                        required: false,
+                        type: 'input',
                     },
                 ],
                 self: this,
             };
         },
         methods: {
-            showChange(checked, index) {
-                window.console.log(checked, index);
-            },
-        },
-        watch: {
-            groups: {
-                deep: true,
-                handler(val) {
-                    window.console.log(val);
-                },
+            edit(id) {
+                this.$router.push(`/member/information/${id}/edit`);
             },
         },
     };
@@ -95,12 +122,8 @@
                         <i-button type="default">添加信息分组</i-button>
                     </router-link>
                 </template>
-                <div class="extend-info">
-                    <p>提示</p>
-                    <p>用户栏目分组至少必须启用一项，如果都不启用，默认为全部启用。</p>
-                </div>
                 <i-form :label-width="0" :model="form" ref="form" :rules="rules">
-                    <i-table :columns="columns" :context="self" :data="groups"></i-table>
+                    <i-table :columns="columns" :context="self" :data="list"></i-table>
                     <row>
                         <i-col span="14">
                             <form-item>
