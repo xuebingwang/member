@@ -9,9 +9,11 @@
 
 namespace Notadd\Member;
 
+use Carbon\Carbon;
 use Illuminate\Mail\Mailer;
 use Illuminate\Support\Str;
 use Illuminate\Database\Connection;
+use Notadd\Member\Mail\VerificationTokenGenerated;
 
 class EmailVerification
 {
@@ -73,5 +75,36 @@ class EmailVerification
     public function findByEmail($email)
     {
         return $this->table()->where('email', $email)->first();
+    }
+
+    public function send($user, $subject = null, $from = null, $name = null)
+    {
+        return $this->emailVerificationLink($user, $subject, $from, $name);
+    }
+
+    public function emailVerificationLink($user, $subject = null, $from = null, $name = null)
+    {
+        try {
+            $this->table()->insert([
+                'email'      => $user->email,
+                'token'      => $token = $this->generateToken(),
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ]);
+        } catch (\Exception $e) {
+            $this->table()
+                ->where('email', $user->email)
+                ->update([
+                    'token'      => $token = $this->generateToken(),
+                    'updated_at' => Carbon::now(),
+                ]);
+        }
+
+        $user->is_activated = 'no';
+        $user->save();
+
+        return $this->mailer
+            ->to($user->email)
+            ->send(new VerificationTokenGenerated($user, $token));
     }
 }

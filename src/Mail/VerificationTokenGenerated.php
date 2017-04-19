@@ -40,7 +40,7 @@ class VerificationTokenGenerated extends Mailable
     public function build()
     {
         $this->subject('邮箱激活')
-            ->view('member::user_email_verification');
+            ->view('member::email.user_email_verification');
 
         return $this;
     }
