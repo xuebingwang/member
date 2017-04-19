@@ -9,11 +9,17 @@
 
 namespace Notadd\Member;
 
+use Illuminate\Mail\Mailer;
 use Illuminate\Support\Str;
 use Illuminate\Database\Connection;
 
 class EmailVerification
 {
+    /**
+     * @var \Illuminate\Mail\Mailer
+     */
+    protected $mailer;
+
     /**
      * @var \Illuminate\Database\Connection
      */
@@ -25,10 +31,11 @@ class EmailVerification
     protected $table;
 
 
-    public function __construct(Connection $db, $table = 'email_verifications')
+    public function __construct(Mailer $mailer, Connection $db, $table = 'email_verifications')
     {
-        $this->db    = $db;
-        $this->table = $table;
+        $this->db     = $db;
+        $this->table  = $table;
+        $this->mailer = $mailer;
     }
 
     /**
@@ -56,5 +63,15 @@ class EmailVerification
     protected function table()
     {
         return $this->db->table($this->table);
+    }
+
+    /**
+     * @param $email
+     *
+     * @return null|\stdClass
+     */
+    public function findByEmail($email)
+    {
+        return $this->table()->where('email', $email)->first();
     }
 }
