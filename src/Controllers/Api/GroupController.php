@@ -6,6 +6,7 @@
  * @copyright (c) 2017, iBenchu.org
  * @datetime      2017-03-08 18:09
  */
+
 namespace Notadd\Member\Controllers\Api;
 
 use Notadd\Member\Models\Group;
@@ -26,6 +27,7 @@ class GroupController extends AbstractApiController
             return [
                 'id'           => $list->id,
                 'name'         => $list->name,
+                'icon'         => $list->icon,
                 'display_name' => $list->display_name,
                 'description'  => $list->description,
                 'permission'   => $list->premissions ? $list->premissions->implode('display_name', '|') : '',
@@ -44,6 +46,7 @@ class GroupController extends AbstractApiController
             return [
                 'id'           => $list->id,
                 'name'         => $list->name,
+                'icon'         => $list->icon,
                 'display_name' => $list->display_name,
                 'description'  => $list->description,
                 'permission'   => $list->cachedPermissions()->implode('display_name', '|'),
@@ -71,6 +74,7 @@ class GroupController extends AbstractApiController
         $group = Group::addGroup(
             $this->request->input('name'),
             $this->request->input('display_name'),
+            $this->request->input('icon'),
             $this->request->input('description')
         );
         // 判断权限是否存在
