@@ -34,6 +34,11 @@ export default function (injection) {
                 },
                 {
                     beforeEnter: injection.middleware.requireAuth,
+                    component: Ban,
+                    path: 'ban/ip',
+                },
+                {
+                    beforeEnter: injection.middleware.requireAuth,
                     component: Group,
                     path: 'group',
                 },
