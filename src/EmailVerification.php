@@ -32,6 +32,11 @@ class EmailVerification
      */
     protected $table;
 
+    /**
+     * @var string
+     */
+    protected $token;
+
 
     public function __construct(Mailer $mailer, Connection $db, $table = 'email_verifications')
     {
@@ -77,17 +82,21 @@ class EmailVerification
         return $this->table()->where('email', $email)->first();
     }
 
-    public function send($user, $subject = null, $from = null, $name = null)
+    public function generate($user)
     {
-        return $this->emailVerificationLink($user, $subject, $from, $name);
+        if (empty($user->email)) {
+            throw new \Exception('The given user instance has an empty or null email field.');
+        }
+
+        return $this->saveToken($user, $this->token = $this->generateToken());
     }
 
-    public function emailVerificationLink($user, $subject = null, $from = null, $name = null)
+    public function saveToken($user, $token)
     {
         try {
             $this->table()->insert([
                 'email'      => $user->email,
-                'token'      => $token = $this->generateToken(),
+                'token'      => $token,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ]);
@@ -95,16 +104,25 @@ class EmailVerification
             $this->table()
                 ->where('email', $user->email)
                 ->update([
-                    'token'      => $token = $this->generateToken(),
+                    'token'      => $token,
                     'updated_at' => Carbon::now(),
                 ]);
         }
 
         $user->is_activated = 'no';
-        $user->save();
 
+        return $user->save();
+    }
+
+    public function send($user, $subject = null, $from = null, $name = null)
+    {
+        return $this->emailVerificationLink($user, $subject, $from, $name);
+    }
+
+    public function emailVerificationLink($user, $subject = null, $from = null, $name = null)
+    {
         return $this->mailer
             ->to($user->email)
-            ->send(new VerificationTokenGenerated($user, $token, $subject, $from, $name));
+            ->send(new VerificationTokenGenerated($user, $this->token, $subject, $from, $name));
     }
 }
