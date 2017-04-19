@@ -8,6 +8,7 @@
  */
 namespace Notadd\Member\Listeners;
 
+use Notadd\Member\Controllers\Api\EmailVerifyController;
 use Notadd\Member\Middleware\Group;
 use Notadd\Member\Middleware\Permission;
 use Notadd\Member\Middleware\FrontPermission;
@@ -31,6 +32,11 @@ class RouteRegister extends AbstractRouteRegister
     public function handle()
     {
         $this->router->group(['middleware' => ['api'], 'prefix' => 'api/member'], function () {
+
+            // 发送邮件激活和验证
+            $this->router->post('members/email-verification/send/{email}', EmailVerifyController::class . '@sendEmailVerify');
+            $this->router->get('members/email-verification/check/{token}', EmailVerifyController::class . '@activeEmail');
+
             // 用户
             $this->router->post('members/index', ApiMemberController::class . '@index');
             $this->router->post('members/create', ApiMemberController::class . '@create');

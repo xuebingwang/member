@@ -49,5 +49,7 @@ class EmailVerifyController extends AbstractApiController
                 'token' => '邮件激活验证失败',
             ]);
         }
+
+        return $this->respondWithSuccess('激活成功');
     }
 }
