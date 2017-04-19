@@ -6,7 +6,6 @@
             injection.loading.start();
             injection.http.post(`${window.api}/member/groups/index`).then(response => {
                 next(vm => {
-                    window.console.log(response.data.data);
                     vm.list = response.data.data;
                     injection.loading.finish();
                     injection.sidebar.active('member');
@@ -57,7 +56,8 @@
                         key: 'handle',
                         render(row, column, index) {
                             return `
-                                    <i-button size="small" type="default" @click.native="edit(${index})">编辑用户组</i-button>
+                                    <i-button size="small" type="default" @click.native="edit(${row.id})">合并用户组</i-button>
+                                    <i-button size="small" type="default" @click.native="edit(${row.id})">编辑用户组</i-button>
                                     <i-button :loading="list[${index}].loading"  size="small" type="error" @click.native="remove(${index})">
                                         <span v-if="!list[${index}].loading">${injection.trans('content.global.delete.submit')}</span>
                                         <span v-else>${injection.trans('content.global.delete.loading')}</span>
@@ -80,10 +80,8 @@
             };
         },
         methods: {
-            edit(index) {
-                const self = this;
-                const article = self.list[index];
-                self.$router.push(`/member/group/${article.id}/edit`);
+            edit(id) {
+                this.$router.push(`/member/group/${id}/edit`);
             },
             selection(items) {
                 this.selections = items;
