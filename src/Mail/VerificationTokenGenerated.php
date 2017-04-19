@@ -63,6 +63,10 @@ class VerificationTokenGenerated extends Mailable
      */
     public function build()
     {
+        if (! empty($this->from)) {
+            $this->from($this->from, $this->name);
+        }
+
         $this->subject(empty($this->subject) ? '邮箱激活' : $this->subject)
             ->view('member::email.user_email_verification');
 
