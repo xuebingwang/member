@@ -99,7 +99,7 @@
             <card>
                 <template slot="title">
                     <span class="text">信息分组</span>
-                    <router-link class="extend" to="/member/information/create">
+                    <router-link class="extend" to="/member/information/group/create">
                         <i-button type="default">添加信息分组</i-button>
                     </router-link>
                 </template>

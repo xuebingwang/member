@@ -30,7 +30,7 @@
     <div class="member-warp">
         <div class="user-information-create">
             <card>
-                <p slot="title">编辑信息</p>
+                <p slot="title">编辑信息分组</p>
                 <i-form :label-width="200" :model="form" ref="form" :rules="rules">
                     <row>
                         <i-col span="14">
