@@ -10,9 +10,27 @@
 namespace Notadd\Member;
 
 use Illuminate\Support\Str;
+use Illuminate\Database\Connection;
 
 class EmailVerification
 {
+    /**
+     * @var \Illuminate\Database\Connection
+     */
+    protected $db;
+
+    /**
+     * @var string
+     */
+    protected $table;
+
+
+    public function __construct(Connection $db, $table = 'email_verifications')
+    {
+        $this->db    = $db;
+        $this->table = $table;
+    }
+
     /**
      * @return string
      */
@@ -30,5 +48,13 @@ class EmailVerification
     protected function verifyToken($storedToken, $requestToken)
     {
         return $storedToken == $requestToken;
+    }
+
+    /**
+     * @return \Illuminate\Database\Query\Builder
+     */
+    protected function table()
+    {
+        return $this->db->table($this->table);
     }
 }
