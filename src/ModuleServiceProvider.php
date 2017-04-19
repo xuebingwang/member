@@ -99,6 +99,10 @@ class ModuleServiceProvider extends Module
         $this->app->singleton('notifier', function ($app) {
             return new Notifier;
         });
+
+        $this->app->bind('email.verification', function ($app) {
+            return new EmailVerification($app['db']->connection());
+        });
     }
 
     /**
