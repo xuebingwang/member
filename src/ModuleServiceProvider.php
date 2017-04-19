@@ -105,6 +105,8 @@ class ModuleServiceProvider extends Module
         $this->app->bind('email.verification', function ($app) {
             return new EmailVerification($app['mailer'], $app['db']->connection());
         });
+
+        $this->app->alias('email.verification', EmailVerification::class);
     }
 
     /**
