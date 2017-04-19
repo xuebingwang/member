@@ -25,6 +25,10 @@ export default function (injection) {
                     path: '/member/ban',
                     title: '封禁用户',
                 },
+                {
+                    path: '/member/ban/ip',
+                    title: '封禁IP',
+                },
             ],
             icon: 'plus',
             title: '封禁',
