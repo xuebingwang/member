@@ -57,10 +57,10 @@
                         key: 'handle',
                         render(row, column, index) {
                             return `
-                                    <i-button size="small" type="default" @click.native="group(${index})">用户组</i-button>
-                                    <i-button size="small" type="default" @click.native="integral(${index})">积分</i-button>
-                                    <i-button size="small" type="default" @click.native="edit(${index})">编辑详情</i-button>
-                                    <i-button size="small" type="default" @click.native="ban(${index})">封禁</i-button>
+                                    <i-button size="small" type="default" @click.native="group(${row.id})">用户组</i-button>
+                                    <i-button size="small" type="default" @click.native="integral(${row.id})">积分</i-button>
+                                    <i-button size="small" type="default" @click.native="edit(${row.id})">编辑详情</i-button>
+                                    <i-button size="small" type="default" @click.native="ban(${row.id})">封禁</i-button>
                                     <i-button size="small" type="error" @click.native="remove(${index})">删除</i-button>
                                     `;
                         },
@@ -85,25 +85,17 @@
             };
         },
         methods: {
-            ban(index) {
-                const self = this;
-                const user = self.list[index];
-                self.$router.push(`/member/user/${user.id}/ban`);
+            ban(id) {
+                this.$router.push(`/member/user/${id}/ban`);
             },
-            edit(index) {
-                const self = this;
-                const user = self.list[index];
-                self.$router.push(`/member/user/${user.id}/edit`);
+            edit(id) {
+                this.$router.push(`/member/user/${id}/edit`);
             },
-            group(index) {
-                const self = this;
-                const user = self.list[index];
-                self.$router.push(`/member/user/${user.id}/group`);
+            group(id) {
+                this.$router.push(`/member/user/${id}/group`);
             },
-            integral(index) {
-                const self = this;
-                const user = self.list[index];
-                self.$router.push(`/member/user/${user.id}/integral`);
+            integral(id) {
+                this.$router.push(`/member/user/${id}/integral`);
             },
             output() {
                 window.console.log('Output done!');
