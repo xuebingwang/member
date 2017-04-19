@@ -52,9 +52,11 @@ class EmailVerification
      *
      * @return bool
      */
-    public function verifyToken($storedToken, $requestToken)
+    protected function verifyToken($storedToken, $requestToken)
     {
-        return $storedToken == $requestToken;
+        if ($storedToken != $requestToken) {
+            throw new \Exception('Wrong verification token.');
+        }
     }
 
     public function generate($user)
