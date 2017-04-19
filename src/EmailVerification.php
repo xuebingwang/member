@@ -32,12 +32,37 @@ class EmailVerification
      */
     protected $table;
 
+    /**
+     * @var string
+     */
+    protected $token;
+
 
     public function __construct(Mailer $mailer, Connection $db, $table = 'email_verifications')
     {
         $this->db     = $db;
         $this->table  = $table;
         $this->mailer = $mailer;
+    }
+
+    /**
+     * @param string $storedToken
+     * @param string $requestToken
+     *
+     * @return bool
+     */
+    public function verifyToken($storedToken, $requestToken)
+    {
+        return $storedToken == $requestToken;
+    }
+
+    public function generate($user)
+    {
+        if (empty($user->email)) {
+            throw new \Exception('The given user instance has an empty or null email field.');
+        }
+
+        return $this->saveToken($user, $this->token = $this->generateToken());
     }
 
     /**
@@ -48,15 +73,34 @@ class EmailVerification
         return hash_hmac('sha256', Str::random(40), config('app.key'));
     }
 
-    /**
-     * @param string $storedToken
-     * @param string $requestToken
-     *
-     * @return bool
-     */
-    protected function verifyToken($storedToken, $requestToken)
+    protected function saveToken($user, $token)
     {
-        return $storedToken == $requestToken;
+        try {
+            $this->table()->insert([
+                'email'      => $user->email,
+                'token'      => $token,
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ]);
+        } catch (\Exception $e) {
+            $this->table()
+                ->where('email', $user->email)
+                ->update([
+                    'token'      => $token,
+                    'updated_at' => Carbon::now(),
+                ]);
+        }
+
+        $user->is_activated = 'no';
+
+        return $user->save();
+    }
+
+    public function send($user, $subject = null, $from = null, $name = null)
+    {
+        return $this->mailer
+            ->to($user->email)
+            ->send(new VerificationTokenGenerated($user, $this->token, $subject, $from, $name));
     }
 
     /**
@@ -65,46 +109,5 @@ class EmailVerification
     protected function table()
     {
         return $this->db->table($this->table);
-    }
-
-    /**
-     * @param $email
-     *
-     * @return null|\stdClass
-     */
-    public function findByEmail($email)
-    {
-        return $this->table()->where('email', $email)->first();
-    }
-
-    public function send($user, $subject = null, $from = null, $name = null)
-    {
-        return $this->emailVerificationLink($user, $subject, $from, $name);
-    }
-
-    public function emailVerificationLink($user, $subject = null, $from = null, $name = null)
-    {
-        try {
-            $this->table()->insert([
-                'email'      => $user->email,
-                'token'      => $token = $this->generateToken(),
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now(),
-            ]);
-        } catch (\Exception $e) {
-            $this->table()
-                ->where('email', $user->email)
-                ->update([
-                    'token'      => $token = $this->generateToken(),
-                    'updated_at' => Carbon::now(),
-                ]);
-        }
-
-        $user->is_activated = 'no';
-        $user->save();
-
-        return $this->mailer
-            ->to($user->email)
-            ->send(new VerificationTokenGenerated($user, $token, $subject, $from, $name));
     }
 }

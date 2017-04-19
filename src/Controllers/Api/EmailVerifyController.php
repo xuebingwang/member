@@ -31,6 +31,8 @@ class EmailVerifyController extends AbstractApiController
             return $this->errorNotFound();
         }
 
+        $this->emailVerification->generate($member);
+
         $this->emailVerification->send($member);
 
         return $this->respondWithSuccess('激活邮件已发送');
