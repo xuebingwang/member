@@ -48,6 +48,7 @@
                     if (valid) {
                         self.loading = true;
                         const data = {
+                            avatar: self.form.avatar,
                             description: self.form.description,
                             display_name: self.form.name,
                             name: self.form.identification,
