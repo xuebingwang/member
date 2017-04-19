@@ -12,9 +12,9 @@ namespace Notadd\Member;
 use Carbon\Carbon;
 use Illuminate\Mail\Mailer;
 use Illuminate\Support\Str;
+use Notadd\Member\Models\Member;
 use Illuminate\Database\Connection;
 use Notadd\Member\Mail\VerificationTokenGenerated;
-use Notadd\Member\Models\Member;
 
 class EmailVerification
 {
@@ -52,9 +52,11 @@ class EmailVerification
      *
      * @return bool
      */
-    public function verifyToken($storedToken, $requestToken)
+    protected function verifyToken($storedToken, $requestToken)
     {
-        return $storedToken == $requestToken;
+        if ($storedToken != $requestToken) {
+            throw new \Exception('Wrong verification token.');
+        }
     }
 
     public function generate($user)
