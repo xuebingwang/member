@@ -9,7 +9,6 @@
 
 namespace Notadd\Member\Models;
 
-use Carbon\Carbon;
 use Illuminate\Support\Facades\Cache;
 use Notadd\Member\Traits\InjectionFunction;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -24,14 +23,13 @@ use Notadd\Foundation\Member\Member as BaseMember;
  * @property string              $phone
  * @property string              $nick_name
  * @property string              $real_name
- * @property string              $sex 0 1 2
+ * @property string              $sex    0 1 2
  * @property \Carbon\Carbon|null $birthday
  * @property string              $signature
  * @property string              $introduction
  * @property string              $avatar
  * @property integer             $points
- * @property integer             $total_registration_count
- * @property integer             $continue_registration_count
+ * @property string              $status normal banned deleted activated
  * @property string              $is_banned
  * @property string              $is_activated
  * @property \Carbon\Carbon|null $created_at
