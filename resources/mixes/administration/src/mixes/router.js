@@ -6,6 +6,7 @@ import Information from '../pages/Information';
 import InformationCreate from '../pages/InformationCreate';
 import InformationEdit from '../pages/InformationEdit';
 import InformationGroup from '../pages/InformationGroup';
+import InformationGroupEdit from '../pages/InformationGroupEdit';
 import Layout from '../layouts/Layout';
 import Security from '../pages/Security';
 import User from '../pages/User';
@@ -58,6 +59,11 @@ export default function (injection) {
                     beforeEnter: injection.middleware.requireAuth,
                     component: InformationGroup,
                     path: 'information/group',
+                },
+                {
+                    beforeEnter: injection.middleware.requireAuth,
+                    component: InformationGroupEdit,
+                    path: 'information/group/:id/edit',
                 },
                 {
                     beforeEnter: injection.middleware.requireAuth,

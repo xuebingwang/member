@@ -42,26 +42,31 @@
                 ],
                 groups: [
                     {
+                        id: 1,
                         show: false,
                         order: '1',
                         name: '特别信息',
                     },
                     {
+                        id: 2,
                         show: true,
                         order: '1',
                         name: '特别信息',
                     },
                     {
+                        id: 3,
                         show: false,
                         order: '1',
                         name: '没有信息',
                     },
                     {
+                        id: 4,
                         show: true,
                         order: '1',
                         name: '特别信息',
                     },
                     {
+                        id: 5,
                         show: false,
                         order: '1',
                         name: '固定信息',
@@ -71,6 +76,9 @@
             };
         },
         methods: {
+            edit(id) {
+                this.$router.push(`/member/information/group/${id}/edit`);
+            },
             showChange(checked, index) {
                 window.console.log(checked, index);
             },
