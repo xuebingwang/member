@@ -46,40 +46,14 @@ class EmailVerification
     }
 
     /**
-     * @return string
-     */
-    protected function generateToken()
-    {
-        return hash_hmac('sha256', Str::random(40), config('app.key'));
-    }
-
-    /**
      * @param string $storedToken
      * @param string $requestToken
      *
      * @return bool
      */
-    protected function verifyToken($storedToken, $requestToken)
+    public function verifyToken($storedToken, $requestToken)
     {
         return $storedToken == $requestToken;
-    }
-
-    /**
-     * @return \Illuminate\Database\Query\Builder
-     */
-    protected function table()
-    {
-        return $this->db->table($this->table);
-    }
-
-    /**
-     * @param $email
-     *
-     * @return null|\stdClass
-     */
-    public function findByEmail($email)
-    {
-        return $this->table()->where('email', $email)->first();
     }
 
     public function generate($user)
@@ -91,7 +65,15 @@ class EmailVerification
         return $this->saveToken($user, $this->token = $this->generateToken());
     }
 
-    public function saveToken($user, $token)
+    /**
+     * @return string
+     */
+    protected function generateToken()
+    {
+        return hash_hmac('sha256', Str::random(40), config('app.key'));
+    }
+
+    protected function saveToken($user, $token)
     {
         try {
             $this->table()->insert([
@@ -119,5 +101,13 @@ class EmailVerification
         return $this->mailer
             ->to($user->email)
             ->send(new VerificationTokenGenerated($user, $this->token, $subject, $from, $name));
+    }
+
+    /**
+     * @return \Illuminate\Database\Query\Builder
+     */
+    protected function table()
+    {
+        return $this->db->table($this->table);
     }
 }
