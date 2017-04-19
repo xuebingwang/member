@@ -30,7 +30,7 @@ class MemberController extends AbstractApiController
     protected function filterFormRules($member = null)
     {
         if ($member && $member->exists) {
-            $rules = json_decode($this->getSetting()->get('member.user.update.rules'), true);
+            $rules          = json_decode($this->getSetting()->get('member.user.update.rules'), true);
             $rules['name']  .= ',' . $member->id;
             $rules['email'] .= ',' . $member->id;
 
@@ -60,6 +60,7 @@ class MemberController extends AbstractApiController
                 'age'          => $list->birthday ? $list->birthday->age : '',
                 'avatar'       => $list->avatar,
                 'points'       => $list->points,
+                'status'       => $list->status,
                 'signature'    => $list->signature,
                 'introduction' => $list->introduction,
                 'group'        => $list->groups ? $list->groups->implode('display_name', '|') : '',
@@ -123,6 +124,7 @@ class MemberController extends AbstractApiController
                 'birthday'     => $list->birthday ? $list->birthday->toDateString() : '',
                 'avatar'       => $list->avatar,
                 'points'       => $list->points,
+                'status'       => $list->status,
                 'signature'    => $list->signature,
                 'introduction' => $list->introduction,
                 'group'        => $list->cachedGroups()->implode('display_name', '|'),
