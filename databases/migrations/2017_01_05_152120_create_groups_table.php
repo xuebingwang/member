@@ -24,6 +24,7 @@ class CreateGroupsTable extends Migration
             $table->increments('id');
             $table->string('name', 100)->unique()->index();
             $table->string('display_name')->nullable();
+            $table->string('icon')->nullable();
             $table->string('description')->nullable();
             $table->timestamps();
         });
