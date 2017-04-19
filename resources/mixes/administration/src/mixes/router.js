@@ -2,6 +2,7 @@ import Dashboard from '../pages/Dashboard';
 import Group from '../pages/Group';
 import GroupCreate from '../pages/GroupCreate';
 import GroupEdit from '../pages/GroupEdit';
+import Information from '../pages/Information';
 import Layout from '../layouts/Layout';
 import Security from '../pages/Security';
 import User from '../pages/User';
@@ -34,6 +35,11 @@ export default function (injection) {
                     beforeEnter: injection.middleware.requireAuth,
                     component: GroupEdit,
                     path: 'group/:id/edit',
+                },
+                {
+                    beforeEnter: injection.middleware.requireAuth,
+                    component: Information,
+                    path: 'information',
                 },
                 {
                     beforeEnter: injection.middleware.requireAuth,

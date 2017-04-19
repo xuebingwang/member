@@ -7,6 +7,11 @@ export default function (injection) {
         },
         {
             icon: 'plus',
+            path: '/member/information',
+            title: '用户资料',
+        },
+        {
+            icon: 'plus',
             path: '/member/group',
             title: '用户组管理',
         },
