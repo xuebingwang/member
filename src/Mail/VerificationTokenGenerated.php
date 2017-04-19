@@ -26,10 +26,34 @@ class VerificationTokenGenerated extends Mailable
      */
     public $token;
 
-    public function __construct(Authenticatable $user, $token)
+    /**
+     * @var string
+     */
+    public $subject;
+
+    /**
+     * @var string
+     */
+    public $from;
+
+    /**
+     * @var string
+     */
+    public $name;
+
+    public function __construct(
+        Authenticatable $user,
+        $token,
+        $subject = null,
+        $from = null,
+        $name = null
+    )
     {
-        $this->user  = $user;
-        $this->token = $token;
+        $this->user    = $user;
+        $this->from    = $from;
+        $this->name    = $name;
+        $this->token   = $token;
+        $this->subject = $subject;
     }
 
     /**

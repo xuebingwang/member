@@ -28,7 +28,7 @@ class EmailVerifyController extends AbstractApiController
     {
         $member = Member::findByEmail($email);
         if (! $member || ! $member->exists) {
-            return 'Not Found';
+            return $this->errorNotFound();
         }
 
         $this->emailVerification->send($member);

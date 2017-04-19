@@ -105,6 +105,6 @@ class EmailVerification
 
         return $this->mailer
             ->to($user->email)
-            ->send(new VerificationTokenGenerated($user, $token));
+            ->send(new VerificationTokenGenerated($user, $token, $subject, $from, $name));
     }
 }
