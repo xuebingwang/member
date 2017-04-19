@@ -6,8 +6,17 @@ export default function (injection) {
             title: '用户管理',
         },
         {
+            children: [
+                {
+                    path: '/member/information',
+                    title: '信息列表',
+                },
+                {
+                    path: '/member/information/group',
+                    title: '信息分组',
+                },
+            ],
             icon: 'plus',
-            path: '/member/information',
             title: '用户资料',
         },
         {
