@@ -1,4 +1,5 @@
 import Ban from '../pages/Ban';
+import BanIp from '../pages/BanIp';
 import Dashboard from '../pages/Dashboard';
 import Group from '../pages/Group';
 import GroupCreate from '../pages/GroupCreate';
@@ -34,7 +35,7 @@ export default function (injection) {
                 },
                 {
                     beforeEnter: injection.middleware.requireAuth,
-                    component: Ban,
+                    component: BanIp,
                     path: 'ban/ip',
                 },
                 {
