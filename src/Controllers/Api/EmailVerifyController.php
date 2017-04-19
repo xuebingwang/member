@@ -9,9 +9,9 @@
 
 namespace Notadd\Member\Controllers\Api;
 
-use Notadd\Member\Abstracts\AbstractApiController;
-use Notadd\Member\EmailVerification;
 use Notadd\Member\Models\Member;
+use Notadd\Member\EmailVerification;
+use Notadd\Member\Abstracts\AbstractApiController;
 
 class EmailVerifyController extends AbstractApiController
 {
@@ -26,6 +26,10 @@ class EmailVerifyController extends AbstractApiController
 
     public function sendEmailVerify($email)
     {
+        $member = Member::findByEmail($email);
+        if (! $member || ! $member->exists) {
+            return 'Not Found';
+        }
     }
 
     public function activeEmail()
