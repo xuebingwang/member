@@ -14,6 +14,7 @@ use Illuminate\Mail\Mailer;
 use Illuminate\Support\Str;
 use Illuminate\Database\Connection;
 use Notadd\Member\Mail\VerificationTokenGenerated;
+use Notadd\Member\Models\Member;
 
 class EmailVerification
 {
@@ -101,6 +102,41 @@ class EmailVerification
         return $this->mailer
             ->to($user->email)
             ->send(new VerificationTokenGenerated($user, $this->token, $subject, $from, $name));
+    }
+
+    public function process($email, $token)
+    {
+        $user = Member::where('email', $email)->first();
+        $this->isActivated($user);
+
+        $verifyModel = $this->findEmailVerificationByEmail($email);
+        if (! $verifyModel) {
+            throw new \Exception('Not Found');
+        }
+
+        $this->verifyToken($verifyModel->token, $token);
+
+        $this->wasActivated($user);
+    }
+
+    protected function findEmailVerificationByEmail($email)
+    {
+        return $this->table()->where('email', $email)->first();
+    }
+
+    protected function isActivated($user)
+    {
+        if (! $user || 'yes' === $user->is_activated) {
+            throw new \Exception('This user is already verified.');
+        }
+    }
+
+    protected function wasActivated($user)
+    {
+        $user->is_activated = 'yes';
+        $user->save();
+
+        $this->table()->where('email', $user->email)->delete();
     }
 
     /**
