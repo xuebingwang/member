@@ -13,6 +13,7 @@ import InformationGroupEdit from '../pages/InformationGroupEdit.vue';
 import Layout from '../layouts/Layout.vue';
 import Security from '../pages/Security.vue';
 import Tag from '../pages/Tag.vue';
+import TagCreate from '../pages/TagCreate.vue';
 import User from '../pages/User.vue';
 import UserBan from '../pages/UserBan.vue';
 import UserCreate from '../pages/UserCreate.vue';
@@ -93,6 +94,11 @@ export default function (injection) {
                     beforeEnter: injection.middleware.requireAuth,
                     component: Tag,
                     path: 'tag',
+                },
+                {
+                    beforeEnter: injection.middleware.requireAuth,
+                    component: TagCreate,
+                    path: 'tag/create',
                 },
                 {
                     beforeEnter: injection.middleware.requireAuth,
