@@ -21,7 +21,7 @@ module.exports = {
             : config.dev.assetsPublicPath
     },
     resolve: {
-        extensions: ['.js', '.vue', '.json']
+        extensions: ['.js', '.json']
     },
     module: {
         rules: [
