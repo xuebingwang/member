@@ -55,9 +55,6 @@ class UploadHandler extends SetHandler
         $dictionary = $this->pathSplit($hash, '12', Collection::make([
             'uploads',
         ]))->implode(DIRECTORY_SEPARATOR);
-        if (!$this->files->isDirectory(app_path($dictionary))) {
-            $this->files->makeDirectory(app_path($dictionary), 0777, true, true);
-        }
         $file = Str::substr($hash, 12, 20) . '.' . $avatar->getClientOriginalExtension();
         if (!$this->files->exists($dictionary . DIRECTORY_SEPARATOR . $file)) {
             $avatar->move($dictionary, $file);
