@@ -2,6 +2,7 @@ import Ban from '../pages/Ban.vue';
 import BanIp from '../pages/BanIp.vue';
 import Dashboard from '../pages/Dashboard.vue';
 import Group from '../pages/Group.vue';
+import GroupCombine from '../pages/GroupCombine.vue';
 import GroupCreate from '../pages/GroupCreate.vue';
 import GroupEdit from '../pages/GroupEdit.vue';
 import Information from '../pages/Information.vue';
@@ -49,6 +50,11 @@ export default function (injection) {
                     beforeEnter: injection.middleware.requireAuth,
                     component: GroupCreate,
                     path: 'group/create',
+                },
+                {
+                    beforeEnter: injection.middleware.requireAuth,
+                    component: GroupCombine,
+                    path: 'group/:id/combine',
                 },
                 {
                     beforeEnter: injection.middleware.requireAuth,

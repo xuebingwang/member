@@ -56,7 +56,7 @@
                         key: 'handle',
                         render(row, column, index) {
                             return `
-                                    <i-button size="small" type="default" @click.native="edit(${row.id})">合并用户组</i-button>
+                                    <i-button size="small" type="default" @click.native="combine(${row.id})">合并用户组</i-button>
                                     <i-button size="small" type="default" @click.native="edit(${row.id})">编辑用户组</i-button>
                                     <i-button :loading="list[${index}].loading"  size="small" type="error" @click.native="remove(${index})">
                                         <span v-if="!list[${index}].loading">${injection.trans('content.global.delete.submit')}</span>
@@ -80,6 +80,9 @@
             };
         },
         methods: {
+            combine(id) {
+                this.$router.push(`/member/group/${id}/combine`);
+            },
             edit(id) {
                 this.$router.push(`/member/group/${id}/edit`);
             },
