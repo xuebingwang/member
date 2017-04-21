@@ -2,9 +2,9 @@
 /**
  * This file is part of Notadd.
  *
- * @author        Qiyueshiyi <qiyueshiyi@outlook.com>
+ * @author Qiyueshiyi <qiyueshiyi@outlook.com>
  * @copyright (c) 2017, iBenchu.org
- * @datetime      2017-03-12 11:27
+ * @datetime 2017-03-12 11:27
  */
 namespace Notadd\Member\Controllers\Api;
 

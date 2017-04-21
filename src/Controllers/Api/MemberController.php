@@ -2,9 +2,9 @@
 /**
  * This file is part of Notadd.
  *
- * @author        Qiyueshiyi <qiyueshiyi@outlook.com>
+ * @author Qiyueshiyi <qiyueshiyi@outlook.com>
  * @copyright (c) 2017, iBenchu.org
- * @datetime      2017-03-08 12:00
+ * @datetime 2017-03-08 12:00
  */
 
 namespace Notadd\Member\Controllers\Api;
@@ -19,6 +19,9 @@ use Notadd\Member\Abstracts\AbstractApiController;
  */
 class MemberController extends AbstractApiController
 {
+    /**
+     * @var array
+     */
     protected $form_messages = [
         'name.required'  => '请输入用户名.',
         'name.unique'    => '用户名已经存在.',
@@ -27,7 +30,12 @@ class MemberController extends AbstractApiController
         'birthday.date'  => '无效的出生日期.',
     ];
 
-    protected function filterFormRules($member = null)
+    /**
+     * @param \Notadd\Member\Models\Member|null $member
+     *
+     * @return mixed
+     */
+    protected function filterFormRules(Member $member = null)
     {
         if ($member && $member->exists) {
             $rules          = json_decode($this->getSetting()->get('member.user.update.rules'), true);
@@ -42,6 +50,9 @@ class MemberController extends AbstractApiController
         return $rules;
     }
 
+    /**
+     * @return mixed
+     */
     public function index()
     {
         $query = Member::query()->with('groups');
@@ -69,6 +80,9 @@ class MemberController extends AbstractApiController
         });
     }
 
+    /**
+     * @return array|mixed
+     */
     public function create()
     {
         $validator = $this->getValidationFactory()->make(
@@ -87,12 +101,12 @@ class MemberController extends AbstractApiController
             return $this->errorInternal();
         }
 
-        $groups = Group::whereIn('id', $this->request->input('groups', []))
+        $groups = Group::query()->whereIn('id', $this->request->input('groups', []))
             ->get()
             ->pluck('id')
             ->toArray();
 
-        $permissions = Permission::whereIn('id', $this->request->input('permissions', []))
+        $permissions = Permission::query()->whereIn('id', $this->request->input('permissions', []))
             ->get()
             ->pluck('id')
             ->toArray();
@@ -104,9 +118,14 @@ class MemberController extends AbstractApiController
         return $this->respondWithSuccess('创建成功!');
     }
 
+    /**
+     * @param $member_id
+     *
+     * @return array|mixed
+     */
     public function show($member_id)
     {
-        $member = Member::find(intval($member_id));
+        $member = Member::query()->find(intval($member_id));
         if (! $member || ! $member->exists) {
             return $this->errorNotFound();
         }
@@ -133,9 +152,14 @@ class MemberController extends AbstractApiController
         });
     }
 
+    /**
+     * @param $member_id
+     *
+     * @return array|mixed
+     */
     public function update($member_id)
     {
-        $member = Member::find(intval($member_id));
+        $member = Member::query()->find(intval($member_id));
         if (! $member || ! $member->exists) {
             return $this->errorNotFound();
         }
@@ -156,12 +180,12 @@ class MemberController extends AbstractApiController
             return $this->errorInternal();
         }
 
-        $groups = Group::whereIn('id', $this->request->input('groups', []))
+        $groups = Group::query()->whereIn('id', $this->request->input('groups', []))
             ->get()
             ->pluck('id')
             ->toArray();
 
-        $permissions = Permission::whereIn('id', $this->request->input('permissions', []))
+        $permissions = Permission::query()->whereIn('id', $this->request->input('permissions', []))
             ->get()
             ->pluck('id')
             ->toArray();
@@ -173,9 +197,14 @@ class MemberController extends AbstractApiController
         return $this->respondWithSuccess('更新成功!');
     }
 
+    /**
+     * @param $id
+     *
+     * @return array|mixed
+     */
     public function destroy($id)
     {
-        $member = Member::find($id);
+        $member = Member::query()->find($id);
         if (! $member || ! $member->exists) {
             return $this->errorNotFound();
         }

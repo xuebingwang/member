@@ -2,9 +2,9 @@
 /**
  * This file is part of Notadd.
  *
- * @author        Qiyueshiyi <qiyueshiyi@outlook.com>
+ * @author Qiyueshiyi <qiyueshiyi@outlook.com>
  * @copyright (c) 2017, iBenchu.org
- * @datetime      2017-02-07 15:19
+ * @datetime 2017-02-07 15:19
  */
 namespace Notadd\Member\Models;
 
@@ -27,8 +27,14 @@ use Notadd\Foundation\Database\Model;
  */
 class Notification extends Model
 {
+    /**
+     * @var string
+     */
     protected $table = 'notifications';
 
+    /**
+     * @var array
+     */
     protected $fillable = [
         'sender_id',
         'user_id',
@@ -39,6 +45,9 @@ class Notification extends Model
         'type',
     ];
 
+    /**
+     * @var array
+     */
     protected $dates = ['read_at'];
 
     /**
@@ -61,6 +70,14 @@ class Notification extends Model
         return $this->belongsTo(Member::class, 'user_id', 'id');
     }
 
+    /**
+     * @param                              $type
+     * @param \Notadd\Member\Models\Member $sender
+     * @param \Notadd\Member\Models\Member $toUser
+     * @param null                         $subject
+     * @param null                         $subjectType
+     * @param null                         $reply]
+     */
     public static function notify(
         $type,
         Member $sender,
@@ -73,7 +90,7 @@ class Notification extends Model
             return;
         }
 
-        return static::create([
+        return static::query()->create([
             'sender_id'    => $sender->id,
             'user_id'      => $toUser->id,
             'subject_id'   => $subject ? $subject->id : 0,
@@ -84,6 +101,9 @@ class Notification extends Model
         ]);
     }
 
+    /**
+     * @return string
+     */
     public function labelUp()
     {
         $label = '';

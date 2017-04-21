@@ -2,9 +2,9 @@
 /**
  * This file is part of Notadd.
  *
- * @author        Qiyueshiyi <qiyueshiyi@outlook.com>
+ * @author Qiyueshiyi <qiyueshiyi@outlook.com>
  * @copyright (c) 2017, iBenchu.org
- * @datetime      2017-01-23 17:40
+ * @datetime 2017-01-23 17:40
  */
 namespace Notadd\Member\Models;
 
@@ -22,8 +22,14 @@ use Notadd\Foundation\Database\Model;
  */
 class GetPointsRecord extends Model
 {
+    /**
+     * @var string
+     */
     protected $table = 'get_points_records';
 
+    /**
+     * @var array
+     */
     protected $fillable = [
         'user_id',
         'action_display_name',
@@ -31,5 +37,8 @@ class GetPointsRecord extends Model
         'points',
     ];
 
+    /**
+     * @var array
+     */
     protected $dates = ['created_at'];
 }

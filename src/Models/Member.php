@@ -2,9 +2,9 @@
 /**
  * This file is part of Notadd.
  *
- * @author        Qiyueshiyi <qiyueshiyi@outlook.com>
+ * @author Qiyueshiyi <qiyueshiyi@outlook.com>
  * @copyright (c) 2017, iBenchu.org
- * @datetime      2017-01-05 15:01
+ * @datetime 2017-01-05 15:01
  */
 
 namespace Notadd\Member\Models;
@@ -45,8 +45,14 @@ class Member extends BaseMember
      */
     const ROLE_FOUNDER = 'founder';
 
+    /**
+     * @var string
+     */
     protected $table = 'members';
 
+    /**
+     * @var array
+     */
     protected $fillable = [
         'nick_name',
         'real_name',
@@ -61,11 +67,17 @@ class Member extends BaseMember
         'introduction',
     ];
 
+    /**
+     * @var array
+     */
     protected $hidden = [
         'password',
         'remember_token',
     ];
 
+    /**
+     * @var array
+     */
     protected $dates = ['created_at', 'updated_at', 'deleted_at', 'birthday'];
 
     /**
@@ -78,6 +90,9 @@ class Member extends BaseMember
         return $this->belongsToMany(Group::class, 'group_member', 'member_id', 'group_id');
     }
 
+    /**
+     * @return mixed
+     */
     public function notifications()
     {
         return $this->hasMany(Notification::class, 'user_id', 'id')
@@ -85,6 +100,9 @@ class Member extends BaseMember
             ->orderBy('created_at', 'desc');
     }
 
+    /**
+     * @return string
+     */
     public function getCacheGroupKey()
     {
         $userPrimaryKey = $this->primaryKey;
@@ -107,9 +125,12 @@ class Member extends BaseMember
     /**
      * 判断用户是否有某个用户组
      *
-     * @param string|array $group
+     * @param      $name
+     * @param bool $requireAll
      *
      * @return bool
+     * @internal param array|string $group
+     *
      */
     public function hasGroup($name, $requireAll = false)
     {
@@ -226,6 +247,11 @@ class Member extends BaseMember
         return $this->may($permission, $requireAll);
     }
 
+    /**
+     * @param array $options
+     *
+     * @return bool
+     */
     public function save(array $options = [])
     {
         $result = parent::save($options);
@@ -234,6 +260,9 @@ class Member extends BaseMember
         return $result;
     }
 
+    /**
+     * @return bool|null
+     */
     public function delete()
     {
         $result = parent::delete();
@@ -242,6 +271,9 @@ class Member extends BaseMember
         return $result;
     }
 
+    /**
+     * @return mixed
+     */
     public function restore()
     {
         $result = parent::restore();
@@ -288,6 +320,9 @@ class Member extends BaseMember
         return app()->make('hash')->check($password, $this->password);
     }
 
+    /**
+     * @param $group
+     */
     public function attachGroup($group)
     {
         if (is_object($group)) {
@@ -299,6 +334,9 @@ class Member extends BaseMember
         $this->groups()->attach($group);
     }
 
+    /**
+     * @param $group
+     */
     public function detachGroup($group)
     {
         if (is_object($group)) {
@@ -310,6 +348,9 @@ class Member extends BaseMember
         $this->groups()->detach($group);
     }
 
+    /**
+     * @param $groups
+     */
     public function attachGroups($groups)
     {
         foreach ($groups as $group) {
@@ -317,6 +358,9 @@ class Member extends BaseMember
         }
     }
 
+    /**
+     * @param null $groups
+     */
     public function detachGroups($groups = null)
     {
         if (! $groups) {

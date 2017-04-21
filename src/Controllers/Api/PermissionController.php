@@ -2,9 +2,9 @@
 /**
  * This file is part of Notadd.
  *
- * @author        Qiyueshiyi <qiyueshiyi@outlook.com>
+ * @author Qiyueshiyi <qiyueshiyi@outlook.com>
  * @copyright (c) 2017, iBenchu.org
- * @datetime      2017-03-09 10:45
+ * @datetime 2017-03-09 10:45
  */
 namespace Notadd\Member\Controllers\Api;
 
@@ -16,6 +16,9 @@ use Notadd\Member\Abstracts\AbstractApiController;
  */
 class PermissionController extends AbstractApiController
 {
+    /**
+     * @return mixed
+     */
     public function index()
     {
         $query = Permission::query()->with('groups');
@@ -44,9 +47,14 @@ class PermissionController extends AbstractApiController
         return $this->respondWithArray($results);
     }
 
+    /**
+     * @param $perm_id
+     *
+     * @return array|mixed
+     */
     public function show($perm_id)
     {
-        $perm = Permission::find(intval($perm_id));
+        $perm = Permission::query()->find(intval($perm_id));
         if (!$perm || !$perm->exists) {
             return $this->errorNotFound();
         }
@@ -92,9 +100,14 @@ class PermissionController extends AbstractApiController
         return $this->respondWithSuccess('成功!');
     }
 
+    /**
+     * @param $id
+     *
+     * @return array|mixed
+     */
     public function destroy($id)
     {
-        $perm = Permission::find($id);
+        $perm = Permission::query()->find($id);
         if (! $perm || ! $perm->exists) {
             return $this->errorNotFound();
         }

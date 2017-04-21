@@ -2,9 +2,9 @@
 /**
  * This file is part of Notadd.
  *
- * @author        Qiyueshiyi <qiyueshiyi@outlook.com>
+ * @author Qiyueshiyi <qiyueshiyi@outlook.com>
  * @copyright (c) 2017, iBenchu.org
- * @datetime      2017-03-10 15:22
+ * @datetime 2017-03-10 15:22
  */
 namespace Notadd\Member\Middleware;
 
@@ -15,7 +15,7 @@ use Illuminate\Http\JsonResponse;
 /**
  * Class FrontPermission.
  */
-class FrontPermission
+class FrontPermission extends AbstractAuthenticate
 {
     /**
      * Handle an incoming request.

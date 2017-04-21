@@ -2,11 +2,10 @@
 /**
  * This file is part of Notadd.
  *
- * @author        Qiyueshiyi <qiyueshiyi@outlook.com>
+ * @author Qiyueshiyi <qiyueshiyi@outlook.com>
  * @copyright (c) 2017, iBenchu.org
- * @datetime      2017-03-08 18:09
+ * @datetime 2017-03-08 18:09
  */
-
 namespace Notadd\Member\Controllers\Api;
 
 use Notadd\Member\Models\Group;
@@ -18,6 +17,9 @@ use Notadd\Member\Abstracts\AbstractApiController;
  */
 class GroupController extends AbstractApiController
 {
+    /**
+     * @return mixed
+     */
     public function index()
     {
         $query = Group::query()->with('permissions');
@@ -35,6 +37,11 @@ class GroupController extends AbstractApiController
         });
     }
 
+    /**
+     * @param $group_id
+     *
+     * @return array|mixed
+     */
     public function show($group_id)
     {
         $group = Group::find(intval($group_id));
@@ -54,6 +61,9 @@ class GroupController extends AbstractApiController
         });
     }
 
+    /**
+     * @return array|mixed
+     */
     public function store()
     {
         $validator = $this->getValidationFactory()->make(
@@ -91,6 +101,11 @@ class GroupController extends AbstractApiController
         return $this->errorInternal();
     }
 
+    /**
+     * @param $id
+     *
+     * @return array|mixed
+     */
     public function destroy($id)
     {
         $group = Group::find($id);

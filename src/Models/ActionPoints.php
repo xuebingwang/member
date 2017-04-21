@@ -2,9 +2,9 @@
 /**
  * This file is part of Notadd.
  *
- * @author        Qiyueshiyi <qiyueshiyi@outlook.com>
+ * @author Qiyueshiyi <qiyueshiyi@outlook.com>
  * @copyright (c) 2017, iBenchu.org
- * @datetime      2017-01-23 16:09
+ * @datetime 2017-01-23 16:09
  */
 namespace Notadd\Member\Models;
 
@@ -23,8 +23,14 @@ use Notadd\Foundation\Database\Model;
  */
 class ActionPoints extends Model
 {
+    /**
+     * @var string
+     */
     protected $table = 'action_points';
 
+    /**
+     * @var array
+     */
     protected $fillable = [
         'display_name',
         'name',
@@ -32,13 +38,30 @@ class ActionPoints extends Model
         'description',
     ];
 
-    protected $dates = ['created_at', 'updated_at'];
+    /**
+     * @var array
+     */
+    protected $dates = [
+        'created_at',
+        'updated_at',
+    ];
 
+    /**
+     * @var array
+     */
     protected $casts = [
         'points' => 'float',
     ];
 
-    public static function addAction($name, $points, $displayName = null, $description = null)
+    /**
+     * @param string $name
+     * @param        $points
+     * @param null   $displayName
+     * @param null   $description
+     *
+     * @return \Notadd\Foundation\Database\Model|\Notadd\Member\Models\ActionPoints
+     */
+    public static function addAction(string $name, $points, $displayName = null, $description = null)
     {
         $actionPoints = static::findByName($name);
         if (!$actionPoints || !$actionPoints->exists) {
@@ -52,10 +75,13 @@ class ActionPoints extends Model
         return $actionPoints;
     }
 
+    /**
+     * @param $name
+     *
+     * @return \Notadd\Member\Models\ActionPoints
+     */
     public static function findByName($name)
     {
-        return static::where('name', $name)
-            ->get()
-            ->first(null, new static);
+        return static::newQuery()->where('name', $name)->get()->first(null, new static());
     }
 }

@@ -2,9 +2,9 @@
 /**
  * This file is part of Notadd.
  *
- * @author        Qiyueshiyi <qiyueshiyi@outlook.com>
+ * @author Qiyueshiyi <qiyueshiyi@outlook.com>
  * @copyright (c) 2017, iBenchu.org
- * @datetime      2017-04-18 17:27
+ * @datetime 2017-04-18 17:27
  */
 
 namespace Notadd\Member;
@@ -51,6 +51,7 @@ class EmailVerification
      * @param string $requestToken
      *
      * @return bool
+     * @throws \Exception
      */
     protected function verifyToken($storedToken, $requestToken)
     {
@@ -59,6 +60,12 @@ class EmailVerification
         }
     }
 
+    /**
+     * @param $user
+     *
+     * @return mixed
+     * @throws \Exception
+     */
     public function generate($user)
     {
         if (empty($user->email)) {
@@ -76,6 +83,12 @@ class EmailVerification
         return hash_hmac('sha256', Str::random(40), config('app.key'));
     }
 
+    /**
+     * @param $user
+     * @param $token
+     *
+     * @return mixed
+     */
     protected function saveToken($user, $token)
     {
         try {
@@ -99,6 +112,14 @@ class EmailVerification
         return $user->save();
     }
 
+    /**
+     * @param      $user
+     * @param null $subject
+     * @param null $from
+     * @param null $name
+     *
+     * @return mixed
+     */
     public function send($user, $subject = null, $from = null, $name = null)
     {
         return $this->mailer
@@ -106,9 +127,15 @@ class EmailVerification
             ->send(new VerificationTokenGenerated($user, $this->token, $subject, $from, $name));
     }
 
+    /**
+     * @param $email
+     * @param $token
+     *
+     * @throws \Exception
+     */
     public function process($email, $token)
     {
-        $user = Member::where('email', $email)->first();
+        $user = Member::query()->where('email', $email)->first();
         $this->isActivated($user);
 
         $verifyModel = $this->findEmailVerificationByEmail($email);
@@ -121,11 +148,21 @@ class EmailVerification
         $this->wasActivated($user);
     }
 
+    /**
+     * @param $email
+     *
+     * @return array|null|\stdClass
+     */
     protected function findEmailVerificationByEmail($email)
     {
         return $this->table()->where('email', $email)->first();
     }
 
+    /**
+     * @param $user
+     *
+     * @throws \Exception
+     */
     protected function isActivated($user)
     {
         if (! $user || 'yes' === $user->is_activated) {
@@ -133,6 +170,9 @@ class EmailVerification
         }
     }
 
+    /**
+     * @param $user
+     */
     protected function wasActivated($user)
     {
         $user->is_activated = 'yes';

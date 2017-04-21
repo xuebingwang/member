@@ -2,9 +2,9 @@
 /**
  * This file is part of Notadd.
  *
- * @author        Qiyueshiyi <qiyueshiyi@outlook.com>
+ * @author Qiyueshiyi <qiyueshiyi@outlook.com>
  * @copyright (c) 2017, iBenchu.org
- * @datetime      2017-03-10 17:30
+ * @datetime 2017-03-10 17:30
  */
 namespace Notadd\Member\Controllers\Api;
 
@@ -16,6 +16,9 @@ use Notadd\Member\Abstracts\AbstractApiController;
  */
 class ActionPointsController extends AbstractApiController
 {
+    /**
+     * @return mixed
+     */
     public function index()
     {
         $query = ActionPoints::query();
@@ -32,9 +35,14 @@ class ActionPointsController extends AbstractApiController
         });
     }
 
+    /**
+     * @param $points_id
+     *
+     * @return array|mixed
+     */
     public function show($points_id)
     {
-        $points = ActionPoints::find(intval($points_id));
+        $points = ActionPoints::query()->find(intval($points_id));
         if (!$points || !$points->exists) {
             return $this->errorNotFound();
         }

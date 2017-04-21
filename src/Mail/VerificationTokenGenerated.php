@@ -2,16 +2,18 @@
 /**
  * This file is part of Notadd.
  *
- * @author        Qiyueshiyi <qiyueshiyi@outlook.com>
+ * @author Qiyueshiyi <qiyueshiyi@outlook.com>
  * @copyright (c) 2017, iBenchu.org
- * @datetime      2017-04-19 14:07
+ * @datetime 2017-04-19 14:07
  */
-
 namespace Notadd\Member\Mail;
 
 use Illuminate\Mail\Mailable;
 use Illuminate\Contracts\Auth\Authenticatable;
 
+/**
+ * Class VerificationTokenGenerated.
+ */
 class VerificationTokenGenerated extends Mailable
 {
     /**
@@ -41,6 +43,15 @@ class VerificationTokenGenerated extends Mailable
      */
     public $name;
 
+    /**
+     * VerificationTokenGenerated constructor.
+     *
+     * @param \Illuminate\Contracts\Auth\Authenticatable $user
+     * @param                                            $token
+     * @param null                                       $subject
+     * @param null                                       $from
+     * @param null                                       $name
+     */
     public function __construct(
         Authenticatable $user,
         $token,

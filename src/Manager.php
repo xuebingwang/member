@@ -55,7 +55,7 @@ class Manager extends AbstractManager
      */
     public function store(array $data)
     {
-        return Member::create($data);
+        return Member::query()->create($data);
     }
 
     /**

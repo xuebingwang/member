@@ -2,9 +2,9 @@
 /**
  * This file is part of Notadd.
  *
- * @author        Qiyueshiyi <qiyueshiyi@outlook.com>
+ * @author Qiyueshiyi <qiyueshiyi@outlook.com>
  * @copyright (c) 2017, iBenchu.org
- * @datetime      2017-01-05 15:26
+ * @datetime 2017-01-05 15:26
  */
 
 namespace Notadd\Member\Models;
@@ -26,8 +26,14 @@ use Illuminate\Support\Facades\Cache;
  */
 class Group extends Model
 {
+    /**
+     * @var string
+     */
     protected $table = 'groups';
 
+    /**
+     * @var array
+     */
     protected $fillable = [
         'display_name',
         'description',
@@ -53,6 +59,9 @@ class Group extends Model
         return $this->belongsToMany(Permission::class, 'group_permission', 'group_id', 'permission_id');
     }
 
+    /**
+     * @return string
+     */
     public function getCachePermissionKey()
     {
         $groupPrimaryKey = $this->primaryKey;
@@ -60,6 +69,9 @@ class Group extends Model
         return 'permissions_for_group_' . $this->$groupPrimaryKey;
     }
 
+    /**
+     * @return mixed
+     */
     public function cachedPermissions()
     {
         return Cache::remember($this->getCachePermissionKey(), 60, function () {
@@ -67,6 +79,11 @@ class Group extends Model
         });
     }
 
+    /**
+     * @param array $options
+     *
+     * @return bool
+     */
     public function save(array $options = [])
     {
         $result = parent::save($options);
@@ -75,6 +92,9 @@ class Group extends Model
         return $result;
     }
 
+    /**
+     * @return bool|null
+     */
     public function delete()
     {
         $result = parent::delete();
@@ -92,6 +112,12 @@ class Group extends Model
         });
     }
 
+    /**
+     * @param      $name
+     * @param bool $requireAll
+     *
+     * @return bool
+     */
     public function hasPermission($name, $requireAll = false)
     {
         if (is_array($name)) {
@@ -116,6 +142,12 @@ class Group extends Model
         return false;
     }
 
+    /**
+     * @param      $name
+     * @param bool $requireAll
+     *
+     * @return bool
+     */
     public function hasAdminPermission($name, $requireAll = false)
     {
         $adminName = $name;
@@ -130,6 +162,14 @@ class Group extends Model
         return $this->hasPermission($adminName, $requireAll);
     }
 
+    /**
+     * @param      $name
+     * @param null $display_name
+     * @param null $icon
+     * @param null $description
+     *
+     * @return \Notadd\Member\Models\Group
+     */
     public static function addGroup($name, $display_name = null, $icon = null, $description = null)
     {
         $group = self::where('name', $name)->first();

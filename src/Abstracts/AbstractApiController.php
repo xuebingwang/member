@@ -2,9 +2,9 @@
 /**
  * This file is part of Notadd.
  *
- * @author        Qiyueshiyi <qiyueshiyi@outlook.com>
+ * @author Qiyueshiyi <qiyueshiyi@outlook.com>
  * @copyright (c) 2017, iBenchu.org
- * @datetime      2017-03-08 14:47
+ * @datetime 2017-03-08 14:47
  */
 namespace Notadd\Member\Abstracts;
 
@@ -347,6 +347,11 @@ class AbstractApiController extends Controller
         return $this->respondWithArray([]);
     }
 
+    /**
+     * @param null $guard
+     *
+     * @return \Illuminate\Contracts\Auth\Guard|\Illuminate\Contracts\Auth\StatefulGuard
+     */
     protected function getAuth($guard = null)
     {
         return $this->getContainer()->make('auth')->guard($guard);

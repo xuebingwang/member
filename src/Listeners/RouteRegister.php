@@ -2,9 +2,9 @@
 /**
  * This file is part of Notadd.
  *
- * @author        TwilRoad <269044570@qq.com>
+ * @author TwilRoad <269044570@qq.com>
  * @copyright (c) 2016, iBenchu.org
- * @datetime      2016-10-14 13:56
+ * @datetime 2016-10-14 13:56
  */
 namespace Notadd\Member\Listeners;
 
