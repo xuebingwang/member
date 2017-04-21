@@ -10,6 +10,7 @@ namespace Notadd\Member\Controllers\Api;
 
 use Notadd\Foundation\Routing\Abstracts\Controller;
 use Notadd\Member\Handlers\User\ListHandler;
+use Notadd\Member\Handlers\User\UserHandler;
 
 /**
  * Class UserController.
@@ -22,6 +23,16 @@ class UserController extends Controller
      * @return \Notadd\Foundation\Passport\Responses\ApiResponse|\Psr\Http\Message\ResponseInterface|\Zend\Diactoros\Response
      */
     public function list(ListHandler $handler)
+    {
+        return $handler->toResponse()->generateHttpResponse();
+    }
+
+    /**
+     * @param \Notadd\Member\Handlers\User\UserHandler $handler
+     *
+     * @return \Notadd\Foundation\Passport\Responses\ApiResponse|\Psr\Http\Message\ResponseInterface|\Zend\Diactoros\Response
+     */
+    public function user(UserHandler $handler)
     {
         return $handler->toResponse()->generateHttpResponse();
     }
