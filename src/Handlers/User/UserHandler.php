@@ -41,10 +41,16 @@ class UserHandler extends DataHandler
         $this->model = $member;
     }
 
+    /**
+     * @throws \Exception
+     */
     public function configurations()
     {
         $this->format = $this->request->input('format') ?: $this->format;
         $this->id = $this->request->input('id') ?: $this->id;
+        if (!$this->id) {
+            throw new \Exception('Id is not setted!');
+        }
     }
 
     /**
