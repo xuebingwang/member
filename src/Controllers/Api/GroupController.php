@@ -9,6 +9,7 @@
 namespace Notadd\Member\Controllers\Api;
 
 use Notadd\Member\Handlers\Group\GroupHandler;
+use Notadd\Member\Handlers\Group\ListHandler;
 use Notadd\Member\Models\Group;
 use Notadd\Member\Models\Permission;
 use Notadd\Member\Abstracts\AbstractApiController;
@@ -127,6 +128,16 @@ class GroupController extends AbstractApiController
      * @return \Notadd\Foundation\Passport\Responses\ApiResponse|\Psr\Http\Message\ResponseInterface|\Zend\Diactoros\Response
      */
     public function group(GroupHandler $handler)
+    {
+        return $handler->toResponse()->generateHttpResponse();
+    }
+
+    /**
+     * @param \Notadd\Member\Handlers\Group\ListHandler $handler
+     *
+     * @return \Notadd\Foundation\Passport\Responses\ApiResponse|\Psr\Http\Message\ResponseInterface|\Zend\Diactoros\Response
+     */
+    public function list(ListHandler $handler)
     {
         return $handler->toResponse()->generateHttpResponse();
     }
