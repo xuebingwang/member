@@ -56,8 +56,8 @@ class UpdateMembersTable extends Migration
             $table->dropColumn('introduction');
             $table->dropColumn('avatar');
             $table->dropColumn('points');
-            $table->dropColumn('total_registration_count');
-            $table->dropColumn('continue_registration_count');
+            // $table->dropColumn('total_registration_count');
+            // $table->dropColumn('continue_registration_count');
             $table->dropColumn('is_activated');
             $table->dropColumn('is_banned');
             $table->dropColumn('deleted_at');
