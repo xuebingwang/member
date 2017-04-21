@@ -65,8 +65,8 @@ class RouteRegister extends AbstractRouteRegister
         });
 
         $this->router->group(['middleware' => ['auth:api', 'web'], 'prefix' => 'api/member'], function () {
-            $this->router->post('list', UserController::class . '@list');
             $this->router->post('user', UserController::class . '@user');
+            $this->router->post('user/list', UserController::class . '@list');
         });
 
         $this->router->aliasMiddleware('group', Group::class);

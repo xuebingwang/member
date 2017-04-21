@@ -4,7 +4,7 @@
     export default {
         beforeRouteEnter(to, from, next) {
             injection.loading.start();
-            injection.http.post(`${window.api}/member/list`, {
+            injection.http.post(`${window.api}/member/user/list`, {
                 format: 'beauty',
             }).then(response => {
                 next(vm => {

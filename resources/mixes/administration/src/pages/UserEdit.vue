@@ -4,7 +4,9 @@
     export default {
         beforeRouteEnter(to, from, next) {
             injection.loading.start();
-            injection.http.post(`${window.api}/member/members/${to.params.id}/show`).then(response => {
+            injection.http.post(`${window.api}/member/user`, {
+                id: to.params.id,
+            }).then(response => {
                 next(vm => {
                     vm.form = response.data.data;
                     window.console.log(vm.form);
