@@ -60,7 +60,8 @@ class UpdateMembersTable extends Migration
             // $table->dropColumn('continue_registration_count');
             $table->dropColumn('is_activated');
             $table->dropColumn('is_banned');
-            $table->dropColumn('deleted_at');
+            $table->dropColumn('status');
+            $table->dropSoftDeletes();
         });
     }
 }
