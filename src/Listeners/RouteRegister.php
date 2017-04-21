@@ -9,6 +9,7 @@
 namespace Notadd\Member\Listeners;
 
 use Notadd\Member\Controllers\Api\EmailVerifyController;
+use Notadd\Member\Controllers\Api\UserController;
 use Notadd\Member\Middleware\Group;
 use Notadd\Member\Middleware\Permission;
 use Notadd\Member\Middleware\FrontPermission;
@@ -62,6 +63,11 @@ class RouteRegister extends AbstractRouteRegister
             $this->router->post('notifies/batch_system_notify', ApiNotificationController::class . '@batchSystemNotify');
             $this->router->post('upload', ApiUploadController::class . '@handle');
         });
+
+        $this->router->group(['middleware' => ['auth:api', 'web'], 'prefix' => 'api/member'], function () {
+            $this->router->post('list', UserController::class . '@list');
+        });
+
         $this->router->aliasMiddleware('group', Group::class);
         $this->router->aliasMiddleware('permission', Permission::class);
         $this->router->aliasMiddleware('permission.admin', AdminPermission::class);
