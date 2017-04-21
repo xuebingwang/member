@@ -11,6 +11,7 @@ namespace Notadd\Member\Controllers\Api;
 use Notadd\Foundation\Routing\Abstracts\Controller;
 use Notadd\Member\Handlers\Information\CreateHandler;
 use Notadd\Member\Handlers\Information\EditHandler;
+use Notadd\Member\Handlers\Information\InformationHandler;
 use Notadd\Member\Handlers\Information\ListHandler;
 
 /**
@@ -34,6 +35,16 @@ class InformationController extends Controller
      * @return \Notadd\Foundation\Passport\Responses\ApiResponse|\Psr\Http\Message\ResponseInterface|\Zend\Diactoros\Response
      */
     public function edit(EditHandler $handler)
+    {
+        return $handler->toResponse()->generateHttpResponse();
+    }
+
+    /**
+     * @param \Notadd\Member\Handlers\Information\InformationHandler $handler
+     *
+     * @return \Notadd\Foundation\Passport\Responses\ApiResponse|\Psr\Http\Message\ResponseInterface|\Zend\Diactoros\Response
+     */
+    public function information(InformationHandler $handler)
     {
         return $handler->toResponse()->generateHttpResponse();
     }
