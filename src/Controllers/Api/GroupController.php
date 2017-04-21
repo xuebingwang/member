@@ -8,6 +8,7 @@
  */
 namespace Notadd\Member\Controllers\Api;
 
+use Notadd\Member\Handlers\Group\CreateHandler;
 use Notadd\Member\Handlers\Group\GroupHandler;
 use Notadd\Member\Handlers\Group\ListHandler;
 use Notadd\Member\Models\Group;
@@ -120,6 +121,16 @@ class GroupController extends AbstractApiController
         }
 
         return $this->respondWithSuccess('删除成功!');
+    }
+
+    /**
+     * @param \Notadd\Member\Handlers\Group\CreateHandler $handler
+     *
+     * @return \Notadd\Foundation\Passport\Responses\ApiResponse|\Psr\Http\Message\ResponseInterface|\Zend\Diactoros\Response
+     */
+    public function create(CreateHandler $handler)
+    {
+        return $handler->toResponse()->generateHttpResponse();
     }
 
     /**
