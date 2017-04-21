@@ -15,6 +15,7 @@ import Layout from '../layouts/Layout.vue';
 import Security from '../pages/Security.vue';
 import Tag from '../pages/Tag.vue';
 import TagCreate from '../pages/TagCreate.vue';
+import TagNotify from '../pages/TagNotify.vue';
 import User from '../pages/User.vue';
 import UserBan from '../pages/UserBan.vue';
 import UserCreate from '../pages/UserCreate.vue';
@@ -105,6 +106,11 @@ export default function (injection) {
                     beforeEnter: injection.middleware.requireAuth,
                     component: TagCreate,
                     path: 'tag/create',
+                },
+                {
+                    beforeEnter: injection.middleware.requireAuth,
+                    component: TagNotify,
+                    path: 'tag/:tag/notify',
                 },
                 {
                     beforeEnter: injection.middleware.requireAuth,
