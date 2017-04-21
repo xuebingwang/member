@@ -18,6 +18,31 @@ use Notadd\Member\Models\Member;
 class ListHandler extends DataHandler
 {
     /**
+     * @var string
+     */
+    protected $format;
+
+    /**
+     * @var string
+     */
+    protected $order;
+
+    /**
+     * @var int
+     */
+    protected $paginate;
+
+    /**
+     * @var \Illuminate\Contracts\Pagination\LengthAwarePaginator
+     */
+    protected $pagination;
+
+    /**
+     * @var string
+     */
+    protected $sort;
+
+    /**
      * ListHandler constructor.
      *
      * @param \Illuminate\Container\Container $container
@@ -26,14 +51,82 @@ class ListHandler extends DataHandler
     public function __construct(Container $container, Member $member)
     {
         parent::__construct($container);
+        $this->format = 'raw';
         $this->model = $member;
+        $this->order = 'created_at';
+        $this->paginate = 20;
+        $this->sort = 'desc';
+    }
+
+    public function configurations()
+    {
+        $this->format = $this->request->input('format') ?: $this->format;
+        $this->order = $this->request->input('order') ?: $this->order;
+        $this->paginate = $this->request->input('paginate') ?: $this->paginate;
+        $this->sort = $this->request->input('sort') ?: $this->sort;
     }
 
     /**
-     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
+     * @return array
      */
     public function data()
     {
-        return $this->model->newQuery()->orderBy('created', 'desc')->paginate(20);
+        $this->configurations();
+
+        $this->pagination = $this->model->newQuery()->orderBy($this->order, $this->sort)->paginate($this->paginate);
+        switch ($this->format) {
+            case 'raw':
+                $data = $this->pagination->items();
+                break;
+            case 'beauty':
+                $data = $this->format($this->pagination->items());
+                break;
+        }
+
+        return $data;
+    }
+
+    /**
+     * @param array $data
+     *
+     * @return array
+     */
+    public function format(array $data)
+    {
+        return collect($data)->transform(function (Member $member) {
+            switch ($member->getAttribute('status')) {
+                case 'normal':
+                    $member->setAttribute('status', '正常');
+                    break;
+            }
+            if (!$member->getAttribute('group')) {
+                $member->setAttribute('group', '默认分组');
+            }
+            return $member;
+        })->toArray();
+    }
+
+    /**
+     * Make data to response with errors or messages.
+     *
+     * @return \Notadd\Foundation\Passport\Responses\ApiResponse
+     * @throws \Exception
+     */
+    public function toResponse()
+    {
+        $response = parent::toResponse();
+
+        return $response->withParams([
+            'pagination' => [
+                'count'    => $this->pagination->total(),
+                'current'  => $this->pagination->currentPage(),
+                'from'     => $this->pagination->firstItem(),
+                'next'     => $this->pagination->nextPageUrl(),
+                'paginate' => $this->paginate,
+                'prev'     => $this->pagination->previousPageUrl(),
+                'to'       => $this->pagination->lastItem(),
+                'total'    => $this->pagination->lastPage(),
+            ],
+        ]);
     }
 }
