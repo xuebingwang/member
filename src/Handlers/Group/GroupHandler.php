@@ -8,11 +8,52 @@
  */
 namespace Notadd\Member\Handlers\Group;
 
+use Illuminate\Container\Container;
 use Notadd\Foundation\Passport\Abstracts\DataHandler;
+use Notadd\Member\Models\Group;
 
 /**
  * Class GroupHandler.
  */
 class GroupHandler extends DataHandler
 {
+    /**
+     * @var string
+     */
+    protected $format;
+
+    /**
+     * @var int
+     */
+    protected $id;
+
+    /**
+     * UserHandler constructor.
+     *
+     * @param \Illuminate\Container\Container $container
+     * @param \Notadd\Member\Models\Group     $group
+     */
+    public function __construct(Container $container, Group $group)
+    {
+        parent::__construct($container);
+        $this->format = 'raw';
+        $this->id = 1;
+        $this->model = $group;
+    }
+
+    public function configurations()
+    {
+        $this->format = $this->request->input('format') ?: $this->format;
+        $this->id = $this->request->input('id') ?: $this->id;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function data()
+    {
+        $this->configurations();
+
+        return $this->model->newQuery()->find($this->id);
+    }
 }
