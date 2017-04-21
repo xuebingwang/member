@@ -11,6 +11,7 @@ namespace Notadd\Member\Listeners;
 use Notadd\Member\Controllers\Api\EmailVerifyController;
 use Notadd\Member\Controllers\Api\GroupController;
 use Notadd\Member\Controllers\Api\InformationController;
+use Notadd\Member\Controllers\Api\TagController;
 use Notadd\Member\Controllers\Api\UserController;
 use Notadd\Member\Middleware\Group;
 use Notadd\Member\Middleware\Permission;
@@ -75,6 +76,7 @@ class RouteRegister extends AbstractRouteRegister
             $this->router->post('information/create', InformationController::class . '@create');
             $this->router->post('information/edit', InformationController::class . '@edit');
             $this->router->post('information/list', InformationController::class . '@list');
+            $this->router->post('tag/create', TagController::class . '@create');
             $this->router->post('user', UserController::class . '@user');
             $this->router->post('user/create', UserController::class . '@create');
             $this->router->post('user/edit', UserController::class . '@edit');
