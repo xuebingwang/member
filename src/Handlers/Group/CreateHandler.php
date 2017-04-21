@@ -8,11 +8,32 @@
  */
 namespace Notadd\Member\Handlers\Group;
 
+use Illuminate\Container\Container;
 use Notadd\Foundation\Passport\Abstracts\SetHandler;
+use Notadd\Member\Models\Group;
 
 /**
  * Class CreateHandler.
  */
 class CreateHandler extends SetHandler
 {
+    /**
+     * Create constructor.
+     *
+     * @param \Illuminate\Container\Container $container
+     * @param \Notadd\Member\Models\Group     $group
+     */
+    public function __construct(Container $container, Group $group)
+    {
+        parent::__construct($container);
+        $this->model = $group;
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Model
+     */
+    public function execute()
+    {
+        return $this->model->newQuery()->create($this->request->all());
+    }
 }
