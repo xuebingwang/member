@@ -23,7 +23,7 @@ use Notadd\Foundation\Routing\Abstracts\RouteRegister as AbstractRouteRegister;
 use Notadd\Member\Controllers\Api\PermissionController as ApiPermissionController;
 use Notadd\Member\Controllers\Api\ActionPointsController as ApiActionPointsController;
 use Notadd\Member\Controllers\Api\NotificationController as ApiNotificationController;
-use Notadd\Member\Controllers\Api\UploadController as ApiUploadController;
+use Notadd\Member\Controllers\Api\UploadController;
 
 /**
  * Class RouteRegistrar.
@@ -64,10 +64,9 @@ class RouteRegister extends AbstractRouteRegister
             $this->router->post('notifies/system_notify', ApiNotificationController::class . '@systemNotify');
             // 批量发送系统通知
             $this->router->post('notifies/batch_system_notify', ApiNotificationController::class . '@batchSystemNotify');
-            $this->router->post('upload', ApiUploadController::class . '@handle');
         });
 
-        $this->router->group(['middleware' => ['auth:api', 'web'], 'prefix' => 'api/member'], function () {
+        $this->router->group(['middleware' => ['auth:api', 'cross', 'web'], 'prefix' => 'api/member'], function () {
             $this->router->post('group', GroupController::class . '@group');
             $this->router->post('group/create', GroupController::class . '@create');
             $this->router->post('group/edit', GroupController::class . '@edit');
@@ -80,6 +79,7 @@ class RouteRegister extends AbstractRouteRegister
             $this->router->post('tag/create', TagController::class . '@create');
             $this->router->post('tag/edit', TagController::class . '@edit');
             $this->router->post('tag/list', TagController::class . '@list');
+            $this->router->post('upload', UploadController::class . '@handle');
             $this->router->post('user', UserController::class . '@user');
             $this->router->post('user/create', UserController::class . '@create');
             $this->router->post('user/edit', UserController::class . '@edit');
