@@ -170,6 +170,9 @@
                                 </div>
                                 <upload :action="action"
                                         :format="['jpg','jpeg','png']"
+                                        :headers="{
+                                            Authorization: `Bearer ${$store.state.token.access_token}`
+                                        }"
                                         :max-size="2048"
                                         :on-error="uploadError"
                                         :on-format-error="uploadFormatError"
