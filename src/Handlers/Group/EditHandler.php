@@ -52,9 +52,10 @@ class EditHandler extends SetHandler
     public function execute()
     {
         $this->configurations();
-        $member = $this->model->newQuery()->find($this->id);
-        if ($member) {
-            $member->update($this->request->all());
+        $group = $this->model->newQuery()->find($this->id);
+        if ($group) {
+            $group->update($this->request->all());
+            $this->messages->push($this->translator->trans('用户组件编辑成功！'));
 
             return true;
         }

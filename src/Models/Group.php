@@ -6,10 +6,8 @@
  * @copyright (c) 2017, iBenchu.org
  * @datetime 2017-01-05 15:26
  */
-
 namespace Notadd\Member\Models;
 
-use Notadd\Member\Models\Permission;
 use Notadd\Foundation\Database\Model;
 use Illuminate\Support\Facades\Cache;
 
@@ -27,9 +25,9 @@ use Illuminate\Support\Facades\Cache;
 class Group extends Model
 {
     /**
-     * @var string
+     * @var \Illuminate\Cache\CacheManager
      */
-    protected $table = 'groups';
+    protected $cache;
 
     /**
      * @var array
@@ -40,6 +38,22 @@ class Group extends Model
         'name',
         'icon',
     ];
+
+    /**
+     * @var string
+     */
+    protected $table = 'groups';
+
+    /**
+     * Group constructor.
+     *
+     * @param array $attributes
+     */
+    public function __construct(array $attributes = [])
+    {
+        parent::__construct($attributes);
+        $this->cache = $this->container->make('cache');
+    }
 
     /**
      * Many-to-Many relations with the member model.
@@ -74,7 +88,7 @@ class Group extends Model
      */
     public function cachedPermissions()
     {
-        return Cache::remember($this->getCachePermissionKey(), 60, function () {
+        return $this->cache->remember($this->getCachePermissionKey(), 60, function () {
             return $this->permissions()->get();
         });
     }
@@ -87,7 +101,7 @@ class Group extends Model
     public function save(array $options = [])
     {
         $result = parent::save($options);
-        Cache::forget($this->getCachePermissionKey());
+        $this->cache->forget($this->getCachePermissionKey());
 
         return $result;
     }
@@ -98,7 +112,7 @@ class Group extends Model
     public function delete()
     {
         $result = parent::delete();
-        Cache::forget($this->getCachePermissionKey());
+        $this->cache->forget($this->getCachePermissionKey());
 
         return $result;
     }
@@ -106,7 +120,7 @@ class Group extends Model
     public static function boot()
     {
         parent::boot();
-        static::deleting(function ($group) {
+        static::deleting(function (Group $group) {
             $group->members()->sync([]);
             $group->permissions()->sync([]);
         });
@@ -168,11 +182,11 @@ class Group extends Model
      * @param null $icon
      * @param null $description
      *
-     * @return \Notadd\Member\Models\Group
+     * @return \Illuminate\Database\Eloquent\Builder|\Notadd\Member\Models\Group
      */
     public static function addGroup($name, $display_name = null, $icon = null, $description = null)
     {
-        $group = self::where('name', $name)->first();
+        $group = static::query()->where('name', $name)->first();
         if (! $group) {
             $group = new self(['name' => $name]);
         }
