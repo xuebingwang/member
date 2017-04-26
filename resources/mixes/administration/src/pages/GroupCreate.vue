@@ -47,13 +47,7 @@
                 self.$refs.form.validate(valid => {
                     if (valid) {
                         self.loading = true;
-                        const data = {
-                            icon: self.form.icon,
-                            description: self.form.description,
-                            display_name: self.form.name,
-                            name: self.form.identification,
-                        };
-                        self.$http.patch(`${window.api}/member/groups/store`, data).then(() => {
+                        self.$http.patch(`${window.api}/member/group/create`, self.form).then(() => {
                             self.$notice.open({
                                 title: '添加用户组成功！',
                             });

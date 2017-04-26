@@ -30,10 +30,17 @@ class CreateHandler extends SetHandler
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Model
+     * @return bool
      */
     public function execute()
     {
-        return $this->model->newQuery()->create($this->request->all());
+        if ($this->model->newQuery()->create($this->request->all())) {
+            $this->messages->push($this->translator->trans('创建用户组成功！'));
+
+            return true;
+        }
+        $this->errors->push($this->translator->trans('创建用户失败！'));
+
+        return false;
     }
 }
