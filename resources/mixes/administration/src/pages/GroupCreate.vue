@@ -47,7 +47,7 @@
                 self.$refs.form.validate(valid => {
                     if (valid) {
                         self.loading = true;
-                        self.$http.patch(`${window.api}/member/group/create`, self.form).then(() => {
+                        self.$http.post(`${window.api}/member/group/create`, self.form).then(() => {
                             self.$notice.open({
                                 title: '添加用户组成功！',
                             });
