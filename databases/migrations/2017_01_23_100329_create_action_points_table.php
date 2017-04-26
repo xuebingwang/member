@@ -22,10 +22,10 @@ class CreateActionPointsTable extends Migration
     {
         $this->schema->create('action_points', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('display_name')->nullable()->comment('操作的显示名称');
-            $table->string('name')->unique()->comment('操作的别称 唯一');
-            $table->float('points', 8, 2)->default(0)->comment('分值');
             $table->string('description')->nullable()->comment('描述');
+            $table->string('identification')->unique()->comment('操作的别称 唯一');
+            $table->string('name')->nullable()->comment('操作的显示名称');
+            $table->float('points', 8, 2)->default(0)->comment('分值');
             $table->timestamps();
         });
     }

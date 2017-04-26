@@ -21,20 +21,18 @@ class UpdateMembersTable extends Migration
     public function up()
     {
         $this->schema->table('members', function (Blueprint $table) {
-            $table->string('phone', 20)->nullable()->comment('手机号');
-            $table->string('nick_name')->nullable()->comment('昵称');
-            $table->string('real_name')->nullable()->comment('真实姓名');
-            $table->tinyInteger('sex')->default(0)->comment('性别 0保密 1男 2女');
-            $table->date('birthday')->nullable()->comment('生日');
-            $table->string('signature')->nullable()->comment('签名');
-            $table->string('introduction')->nullable()->comment('自我介绍');
+            $table->enum('activated', ['yes', 'no'])->default('no')->comment('邮箱是否激活');
             $table->string('avatar')->nullable()->comment('头像');
+            $table->enum('banned', ['yes', 'no'])->default('no')->comment('是否禁止');
+            $table->date('birthday')->nullable()->comment('生日');
+            $table->string('introduction')->nullable()->comment('自我介绍');
+            $table->string('nickname')->nullable()->comment('昵称');
+            $table->string('phone', 20)->nullable()->comment('手机号');
             $table->float('points', 8, 2)->default(0)->comment('积分');
+            $table->string('realname')->nullable()->comment('真实姓名');
+            $table->tinyInteger('sex')->default(0)->comment('性别 0保密 1男 2女');
+            $table->string('signature')->nullable()->comment('签名');
             $table->string('status', 32)->default('normal')->comment('normal正常 banned禁止 deleted删除 activated激活');
-            // $table->integer('total_registration_count')->unsigned()->default(0)->index()->comment('用户总的签到天数');
-            // $table->integer('continue_registration_count')->unsigned()->default(0)->index()->comment('连续签到天数');
-            $table->enum('is_activated', ['yes', 'no'])->default('no')->comment('邮箱是否激活');
-            $table->enum('is_banned', ['yes', 'no'])->default('no')->comment('是否禁止');
             $table->softDeletes();
         });
     }
@@ -47,19 +45,17 @@ class UpdateMembersTable extends Migration
     public function down()
     {
         $this->schema->table('members', function (Blueprint $table) {
-            $table->dropColumn('phone');
-            $table->dropColumn('nick_name');
-            $table->dropColumn('real_name');
-            $table->dropColumn('sex');
-            $table->dropColumn('birthday');
-            $table->dropColumn('signature');
-            $table->dropColumn('introduction');
+            $table->dropColumn('activated');
             $table->dropColumn('avatar');
+            $table->dropColumn('banned');
+            $table->dropColumn('birthday');
+            $table->dropColumn('introduction');
+            $table->dropColumn('nickname');
+            $table->dropColumn('phone');
             $table->dropColumn('points');
-            // $table->dropColumn('total_registration_count');
-            // $table->dropColumn('continue_registration_count');
-            $table->dropColumn('is_activated');
-            $table->dropColumn('is_banned');
+            $table->dropColumn('realname');
+            $table->dropColumn('sex');
+            $table->dropColumn('signature');
             $table->dropColumn('status');
             $table->dropSoftDeletes();
         });

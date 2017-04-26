@@ -22,10 +22,10 @@ class CreateGroupsTable extends Migration
     {
         $this->schema->create('groups', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name', 100)->unique()->index();
-            $table->string('display_name')->nullable();
-            $table->string('icon')->nullable();
             $table->string('description')->nullable();
+            $table->string('icon')->nullable();
+            $table->string('identification')->nullable();
+            $table->string('name', 100)->unique()->index();
             $table->timestamps();
         });
 

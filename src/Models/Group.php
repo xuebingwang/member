@@ -33,10 +33,10 @@ class Group extends Model
      * @var array
      */
     protected $fillable = [
-        'display_name',
         'description',
-        'name',
         'icon',
+        'identification',
+        'name',
     ];
 
     /**
@@ -192,7 +192,7 @@ class Group extends Model
         }
 
         $group->icon         = $icon;
-        $group->display_name = $display_name;
+        $group->name = $display_name;
         $group->description  = $description;
         $group->save();
 
