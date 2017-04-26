@@ -13,6 +13,7 @@ use Notadd\Member\Handlers\Group\EditHandler;
 use Notadd\Member\Handlers\Group\GroupHandler;
 use Notadd\Member\Handlers\Group\ListHandler;
 use Notadd\Member\Abstracts\AbstractApiController;
+use Notadd\Member\Handlers\Group\RemoveHandler;
 
 /**
  * Class GroupController.
@@ -55,6 +56,16 @@ class GroupController extends AbstractApiController
      * @return \Notadd\Foundation\Passport\Responses\ApiResponse|\Psr\Http\Message\ResponseInterface|\Zend\Diactoros\Response
      */
     public function list(ListHandler $handler)
+    {
+        return $handler->toResponse()->generateHttpResponse();
+    }
+
+    /**
+     * @param \Notadd\Member\Handlers\Group\RemoveHandler $handler
+     *
+     * @return \Notadd\Foundation\Passport\Responses\ApiResponse|\Psr\Http\Message\ResponseInterface|\Zend\Diactoros\Response
+     */
+    public function remove(RemoveHandler $handler)
     {
         return $handler->toResponse()->generateHttpResponse();
     }
