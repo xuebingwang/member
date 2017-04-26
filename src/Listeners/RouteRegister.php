@@ -36,17 +36,10 @@ class RouteRegister extends AbstractRouteRegister
     public function handle()
     {
         $this->router->group(['middleware' => ['api'], 'prefix' => 'api/member'], function () {
-
             // 发送邮件激活和验证
             $this->router->post('members/email-verification/send/{email}', EmailVerifyController::class . '@sendEmailVerify');
             $this->router->get('members/email-verification/check/{token}', EmailVerifyController::class . '@activeEmail');
 
-            // 用户
-            $this->router->post('members/index', ApiMemberController::class . '@index');
-            $this->router->post('members/create', ApiMemberController::class . '@create');
-            $this->router->post('members/{member_id}/show', ApiMemberController::class . '@show');
-            $this->router->patch('members/{member_id}/update', ApiMemberController::class . '@update');
-            $this->router->delete('members/{member_id}/delete', ApiMemberController::class . '@destroy');
             // 权限
             $this->router->post('permissions/index', ApiPermissionController::class . '@index');
             $this->router->post('permissions/{perm_id}/show', ApiPermissionController::class . '@show');
