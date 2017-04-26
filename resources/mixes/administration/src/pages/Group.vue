@@ -23,10 +23,10 @@
                         width: 60,
                     },
                     {
-                        key: 'avatar',
+                        key: 'icon',
                         render(row) {
-                            if (row.avatar) {
-                                return `<img class="group-list-image" src="${row.avatar}">`;
+                            if (row.icon) {
+                                return `<img class="group-list-image" src="${row.icon}">`;
                             }
                             return '';
                         },
