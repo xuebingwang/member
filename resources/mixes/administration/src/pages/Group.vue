@@ -40,12 +40,12 @@
                     {
                         key: 'name',
                         title: injection.trans('用户组名称'),
-                        width: 100,
+                        width: 200,
                     },
                     {
                         key: 'status',
                         title: injection.trans('当前已有模块'),
-                        width: 120,
+                        width: 200,
                     },
                     {
                         key: 'group',

@@ -4,14 +4,12 @@
     export default {
         beforeRouteEnter(to, from, next) {
             injection.loading.start();
-            injection.http.post(`${window.api}/member/groups/${to.params.id}/show`).then(response => {
-                const data = response.data.data;
+            injection.http.post(`${window.api}/member/group`, {
+                id: to.params.id,
+            }).then(response => {
                 next(vm => {
                     injection.loading.finish();
-                    vm.form.description = data.description;
-                    vm.form.icon = data.icon;
-                    vm.form.identification = data.name;
-                    vm.form.name = data.display_name;
+                    vm.form = response.data.data;
                     injection.sidebar.active('member');
                 });
             }).catch(() => {
@@ -58,13 +56,7 @@
                 self.$refs.form.validate(valid => {
                     if (valid) {
                         self.loading = true;
-                        const data = {
-                            icon: self.form.icon,
-                            description: self.form.description,
-                            display_name: self.form.name,
-                            name: self.form.identification,
-                        };
-                        self.$http.patch(`${window.api}/member/groups/store`, data).then(() => {
+                        self.$http.post(`${window.api}/member/group/edit`, self.form).then(() => {
                             self.$notice.open({
                                 title: '编辑用户组信息成功！',
                             });
