@@ -5,8 +5,12 @@
         beforeRouteEnter(to, from, next) {
             injection.loading.start();
             injection.http.post(`${window.api}/member/group/list`).then(response => {
+                const data = response.data.data;
                 next(vm => {
-                    vm.list = response.data.data;
+                    data.forEach(item => {
+                        item.loading = false;
+                    });
+                    vm.list = data;
                     injection.loading.finish();
                     injection.sidebar.active('member');
                 });
@@ -85,6 +89,31 @@
             },
             edit(id) {
                 this.$router.push(`/member/group/${id}/edit`);
+            },
+            remove(index) {
+                const self = this;
+                const group = self.list[index];
+                window.console.log(group);
+                group.loading = true;
+                self.$http.post(`${window.api}/member/group/remove`, {
+                    id: group.id,
+                }).then(() => {
+                    self.$notice.open({
+                        title: '删除用户组成功，正在刷新数据...',
+                    });
+                    self.$loading.start();
+                    self.$http.post(`${window.api}/member/group/list`).then(response => {
+                        self.$loading.finish();
+                        self.list = response.data.data;
+                        self.list.forEach(item => {
+                            item.loading = false;
+                        });
+                    }).catch(() => {
+                        self.$loading.error();
+                    });
+                }).catch(() => {
+                    group.loading = false;
+                });
             },
             selection(items) {
                 this.selections = items;
