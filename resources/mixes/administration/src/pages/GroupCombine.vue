@@ -3,14 +3,31 @@
 
     export default {
         beforeRouteEnter(to, from, next) {
-            next(() => {
-                injection.sidebar.active('member');
+            injection.loading.start();
+            injection.http.all([
+                injection.http.post(`${window.api}/member/group`, {
+                    id: to.params.id,
+                }),
+                injection.http.post(`${window.api}/member/group/list`, {
+                    without: [
+                        to.params.id,
+                    ],
+                }),
+            ]).then(injection.http.spread((group, groups) => {
+                next(vm => {
+                    vm.form.from = group.data.data;
+                    vm.groups = groups.data.data;
+                    injection.loading.finish();
+                    injection.sidebar.active('member');
+                });
+            })).catch(() => {
+                injection.loading.fail();
             });
         },
         data() {
             return {
                 form: {
-                    from: '管理员组',
+                    from: {},
                     remove: false,
                     to: '',
                 },
@@ -44,7 +61,7 @@
             form: {
                 deep: true,
                 handler(val) {
-                    window.console.log(typeof val.remove);
+                    window.console.log(val.from);
                 },
             },
         },
@@ -65,7 +82,7 @@
                     <row>
                         <i-col span="10">
                             <form-item label="用户组名称">
-                                <p>{{ form.from }}</p>
+                                <p>{{ form.from.name }}</p>
                             </form-item>
                         </i-col>
                     </row>
@@ -73,7 +90,7 @@
                         <i-col span="10">
                             <form-item label="目标用户组">
                                 <i-select v-model="form.to">
-                                    <i-option :key="item" :value="item.value" v-for="item in groups">{{ item.label }}</i-option>
+                                    <i-option :key="item" :value="item.id" v-for="item in groups">{{ item.name }}</i-option>
                                 </i-select>
                                 <p>选择要将源用户组合并到哪个用户组</p>
                             </form-item>

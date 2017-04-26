@@ -72,8 +72,15 @@ class ListHandler extends DataHandler
     public function data()
     {
         $this->configurations();
-
-        $this->pagination = $this->model->newQuery()->orderBy($this->order, $this->sort)->paginate($this->paginate);
+        $builder = $this->model->newQuery();
+        if ($without = $this->request->input('without')) {
+            if (is_array($without)) {
+                $builder = $builder->whereNotIn('id', $without);
+            } else {
+                $builder = $builder->where('id', '!=', $without);
+            }
+        }
+        $this->pagination = $builder->orderBy($this->order, $this->sort)->paginate($this->paginate);
 
         return $this->pagination->items();
     }
