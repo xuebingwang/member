@@ -91,13 +91,11 @@ class Member extends BaseMember
     }
 
     /**
-     * 用户的用户组
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
-    public function groups()
+    public function group()
     {
-        return $this->belongsToMany(Group::class, 'group_member', 'member_id', 'group_id');
+        return $this->hasOne(MemberGroup::class, 'member_id');
     }
 
     /**

@@ -9,13 +9,22 @@
                 injection.http.post(`${window.api}/member/user`, {
                     id: to.params.id,
                     with: [
-                        'groups',
+                        'group',
                     ],
                 }),
             ]).then(injection.http.spread((groups, user) => {
-                window.console.log(groups, user);
+                const data = groups.data.data;
+                const group  = user.data.data.group;
                 next(vm => {
+                    data.forEach(item => {
+                        item.check = false;
+                        item.end = '';
+                    });
                     vm.groups = groups.data.data;
+                    if (group) {
+                        vm.form.group = group.group_id;
+                        vm.form.end = group.end;
+                    }
                     injection.loading.finish();
                     injection.sidebar.active('member');
                 });
@@ -27,7 +36,8 @@
             return {
                 form: {
                     date: '',
-                    group: '',
+                    group: 0,
+                    next: 0,
                     reason: '',
                 },
                 groups: [],
@@ -38,6 +48,14 @@
         methods: {
             dateChange(val) {
                 this.form.date = val;
+            },
+        },
+        watch: {
+            groups: {
+                deep: true,
+                handler(val) {
+                    window.console.log(val);
+                },
             },
         },
     };
@@ -53,7 +71,7 @@
                         <i-col span="14">
                             <form-item label="所属用户组">
                                 <i-select v-model="form.group">
-                                    <i-option v-for="item in groups" :value="item.value" :key="item">{{ item.label }}</i-option>
+                                    <i-option v-for="item in groups" :value="item.id" :key="item">{{ item.name }}</i-option>
                                 </i-select>
                             </form-item>
                         </i-col>
@@ -73,13 +91,31 @@
                     <row>
                         <i-col span="14">
                             <form-item label="过期后用户组变为">
-                                <i-select v-model="form.group">
-                                    <i-option v-for="item in groups" :value="item.value" :key="item">{{ item.label }}</i-option>
+                                <i-select v-model="form.next">
+                                    <i-option v-for="item in groups" :value="item.id" :key="item" v-if="item.id !== form.group">{{ item.name }}</i-option>
                                 </i-select>
                             </form-item>
                         </i-col>
                     </row>
                     <p class="extend-title">扩展用户组</p>
+                    <div class="user-group-extend">
+                        <row>
+                            <i-col span="6">用户组</i-col>
+                            <i-col span="4">有效期</i-col>
+                        </row>
+                        <row v-for="item in groups" v-if="item.id !== form.group">
+                            <i-col span="6">
+                                <checkbox v-model="item.check">{{ item.name }}</checkbox>
+                            </i-col>
+                            <i-col span="4">
+                                <date-picker placeholder="请选择用户组有效期"
+                                             type="date"
+                                             v-model="item.end">
+                                </date-picker>
+                            </i-col>
+                        </row>
+                        <p>注意: 有效期格式 yyyy-mm-dd，如果留空，则默认该扩展用户组不自动过期</p>
+                    </div>
                     <p class="extend-title">变更理由</p>
                     <row>
                         <i-col span="14">
