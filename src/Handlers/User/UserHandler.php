@@ -59,7 +59,14 @@ class UserHandler extends DataHandler
     public function data()
     {
         $this->configurations();
+        $builder = $this->model->newQuery();
+        $builder = $builder->where('id', $this->id);
+        if ($withs = $this->request->input('with')) {
+            foreach ((array)$withs as $with) {
+                $builder = $builder->with($with);
+            }
+        }
 
-        return $this->model->newQuery()->find($this->id);
+        return $builder->first();
     }
 }
