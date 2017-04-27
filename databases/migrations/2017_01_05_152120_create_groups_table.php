@@ -29,15 +29,6 @@ class CreateGroupsTable extends Migration
             $table->timestamps();
         });
 
-        $this->schema->create('group_member', function (Blueprint $table) {
-            $table->unsignedInteger('member_id');
-            $table->unsignedInteger('group_id');
-            $table->primary([
-                'member_id',
-                'group_id'
-            ]);
-        });
-
         $this->schema->create('group_permission', function (Blueprint $table) {
             $table->unsignedInteger('group_id');
             $table->unsignedInteger('permission_id');
@@ -56,7 +47,6 @@ class CreateGroupsTable extends Migration
     public function down()
     {
         $this->schema->dropIfExists('group_permission');
-        $this->schema->dropIfExists('group_member');
         $this->schema->dropIfExists('groups');
     }
 }
