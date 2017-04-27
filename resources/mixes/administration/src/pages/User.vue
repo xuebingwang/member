@@ -42,6 +42,21 @@
                         width: 100,
                     },
                     {
+                        key: 'nickname',
+                        title: injection.trans('member.user.table.nickname'),
+                        width: 100,
+                    },
+                    {
+                        key: 'realname',
+                        title: injection.trans('member.user.table.realname'),
+                        width: 100,
+                    },
+                    {
+                        key: 'email',
+                        title: injection.trans('member.user.table.email'),
+                        width: 240,
+                    },
+                    {
                         key: 'status',
                         title: injection.trans('member.user.table.status'),
                         width: 100,
