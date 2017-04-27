@@ -83,6 +83,14 @@ class Member extends BaseMember
     ];
 
     /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function ban()
+    {
+        return $this->belongsTo(MemberBan::class, 'user_id');
+    }
+
+    /**
      * 用户的用户组
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
