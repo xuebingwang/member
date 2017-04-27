@@ -72,8 +72,14 @@ class ListHandler extends DataHandler
     public function data()
     {
         $this->configurations();
-
-        $this->pagination = $this->model->newQuery()->orderBy($this->order, $this->sort)->paginate($this->paginate);
+        $builder = $this->model->newQuery();
+        if ($withs = $this->request->input('with', [])) {
+            foreach ((array)$withs as $with) {
+                $builder = $builder->with($with);
+            }
+        }
+        $this->pagination = $builder->orderBy($this->order, $this->sort)->paginate($this->paginate);
+        $data = [];
         switch ($this->format) {
             case 'raw':
                 $data = $this->pagination->items();

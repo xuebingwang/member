@@ -6,11 +6,22 @@
             injection.loading.start();
             injection.http.post(`${window.api}/member/user/list`, {
                 format: 'beauty',
+                with: [
+                    'ban',
+                ],
             }).then(response => {
+                const data = response.data.data;
+                const pagination = response.data.pagination;
                 next(vm => {
-                    window.console.log(response.data);
-                    vm.list = response.data.data;
-                    vm.pagination = response.data.pagination;
+                    data.forEach(item => {
+                        if (item.ban) {
+                            item.ban = item.ban.type;
+                        } else {
+                            item.ban = 0;
+                        }
+                    });
+                    vm.list = data;
+                    vm.pagination = pagination;
                     injection.loading.finish();
                     injection.sidebar.active('member');
                 });
@@ -59,6 +70,14 @@
                     },
                     {
                         key: 'status',
+                        render(row) {
+                            if (row.ban === 0) {
+                                return '不封禁';
+                            } else if (row.ban > 0 && row.ban < 3) {
+                                return '部分封禁';
+                            }
+                            return '完全封禁';
+                        },
                         title: injection.trans('member.user.table.status'),
                         width: 100,
                     },
