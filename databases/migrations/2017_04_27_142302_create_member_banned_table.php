@@ -22,6 +22,10 @@ class CreateMemberBannedTable extends Migration
     {
         $this->schema->create('member_banned', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('reason')->nullable();
+            $table->tinyInteger('type')->default(0);
+            $table->timestamp('time')->nullable();
+            $table->integer('user_id');
             $table->timestamps();
         });
     }
