@@ -8,8 +8,9 @@
                 format: 'beauty',
             }).then(response => {
                 next(vm => {
-                    window.console.log(response.data.data);
+                    window.console.log(response.data);
                     vm.list = response.data.data;
+                    vm.pagination = response.data.pagination;
                     injection.loading.finish();
                     injection.sidebar.active('member');
                 });
@@ -93,7 +94,7 @@
                     visible: false,
                 },
                 pagination: {
-                    last_page: 1,
+                    count: 1,
                 },
                 selections: [],
                 self: this,
@@ -135,20 +136,26 @@
         <div class="user-list">
             <card>
                 <template slot="title">
-                    <router-link to="/member/user/create">
-                        <i-button type="default">添加用户
-                        </i-button>
-                    </router-link>
-                    <i-button type="default" @click.native="output">导出数据</i-button>
-                    <i-input class="search" :placeholder="trans('content.global.search.placeholder')" v-model="keyword">
-                        <i-select v-model="select3" slot="prepend" style="width: 80px">
-                            <Option value="day">日活</Option>
-                            <Option value="month">月活</Option>
-                        </i-select>
-                        <i-button slot="append" icon="ios-search" @click.native="search"></i-button>
-                    </i-input>
+                    <span class="text">用户组列表</span>
+                    <div class="search">
+                        <router-link to="/member/user/create">
+                            <i-button type="default">添加用户</i-button>
+                        </router-link>
+                        <i-button type="default" @click.native="output">导出数据</i-button>
+                        <i-input :placeholder="trans('content.global.search.placeholder')" v-model="keyword">
+                            <i-select v-model="select3" slot="prepend" style="width: 80px">
+                                <Option value="day">日活</Option>
+                                <Option value="month">月活</Option>
+                            </i-select>
+                            <i-button slot="append" icon="ios-search" @click.native="search"></i-button>
+                        </i-input>
+                    </div>
                 </template>
                 <i-table :columns="columns" :context="self" :data="list" @on-selection-change="selection"></i-table>
+                <div class="user-page-wrap">
+                    <page :current="pagination.current" :page-size="pagination.paginate" :total="pagination.total"
+                          @on-change="paginator"></page>
+                </div>
                 <modal class-name="user-list-modal"
                        :loading="modal.loading"
                        :mask-closable="false"
