@@ -6,10 +6,8 @@
  * @copyright (c) 2017, iBenchu.org
  * @datetime 2017-01-05 15:01
  */
-
 namespace Notadd\Member\Models;
 
-use Illuminate\Support\Facades\Cache;
 use Notadd\Member\Traits\InjectionFunction;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Notadd\Foundation\Member\Member as BaseMember;
@@ -54,17 +52,17 @@ class Member extends BaseMember
      * @var array
      */
     protected $fillable = [
-        'nick_name',
-        'real_name',
-        'phone',
-        'name',
-        'email',
-        'sex',
-        'birthday',
         'avatar',
-        'password',
-        'signature',
+        'birthday',
+        'email',
         'introduction',
+        'name',
+        'nickname',
+        'password',
+        'phone',
+        'realname',
+        'sex',
+        'signature',
     ];
 
     /**
@@ -78,7 +76,10 @@ class Member extends BaseMember
     /**
      * @var array
      */
-    protected $dates = ['created_at', 'updated_at', 'deleted_at', 'birthday'];
+    protected $dates = [
+        'deleted_at',
+        'birthday',
+    ];
 
     /**
      * 用户的用户组
@@ -117,7 +118,7 @@ class Member extends BaseMember
      */
     public function cachedGroups()
     {
-        return Cache::remember($this->getCacheGroupKey(), 60, function () {
+        return $this->cache->remember($this->getCacheGroupKey(), 60, function () {
             return $this->groups()->get();
         });
     }
@@ -137,9 +138,9 @@ class Member extends BaseMember
         if (is_array($name)) {
             foreach ($name as $groupName) {
                 $hasGroup = $this->hasGroup($groupName);
-                if ($hasGroup && ! $requireAll) {
+                if ($hasGroup && !$requireAll) {
                     return true;
-                } elseif (! $hasGroup && $requireAll) {
+                } elseif (!$hasGroup && $requireAll) {
                     return false;
                 }
             }
@@ -172,9 +173,9 @@ class Member extends BaseMember
         if (is_array($permission)) {
             foreach ($permission as $permName) {
                 $hasPerm = $this->may($permName);
-                if ($hasPerm && ! $requireAll) {
+                if ($hasPerm && !$requireAll) {
                     return true;
-                } elseif (! $hasPerm && $requireAll) {
+                } elseif (!$hasPerm && $requireAll) {
                     return false;
                 }
             }
@@ -212,7 +213,7 @@ class Member extends BaseMember
                 return Permission::FRONT_PREFIX . $val;
             }, $permission);
         } else {
-            if (! ends_with($permission, '*')) {
+            if (!ends_with($permission, '*')) {
                 $permission = Permission::FRONT_PREFIX . $permission;
             }
         }
@@ -239,7 +240,7 @@ class Member extends BaseMember
                 return Permission::ADMIN_PREFIX . $val;
             }, $permission);
         } else {
-            if (! ends_with($permission, '*')) {
+            if (!ends_with($permission, '*')) {
                 $permission = Permission::ADMIN_PREFIX . $permission;
             }
         }
@@ -255,7 +256,7 @@ class Member extends BaseMember
     public function save(array $options = [])
     {
         $result = parent::save($options);
-        Cache::forget($this->getCacheGroupKey());
+        $this->cache->forget($this->getCacheGroupKey());
 
         return $result;
     }
@@ -266,7 +267,7 @@ class Member extends BaseMember
     public function delete()
     {
         $result = parent::delete();
-        Cache::forget($this->getCacheGroupKey());
+        $this->cache->forget($this->getCacheGroupKey());
 
         return $result;
     }
@@ -277,7 +278,7 @@ class Member extends BaseMember
     public function restore()
     {
         $result = parent::restore();
-        Cache::forget($this->getCacheGroupKey());
+        $this->cache->forget($this->getCacheGroupKey());
 
         return $result;
     }
@@ -286,7 +287,7 @@ class Member extends BaseMember
     {
         parent::boot();
         static::deleting(function ($user) {
-            if (! method_exists(static::class, 'bootSoftDeletes')) {
+            if (!method_exists(static::class, 'bootSoftDeletes')) {
                 $user->groups()->sync([]);
             }
 
@@ -363,7 +364,7 @@ class Member extends BaseMember
      */
     public function detachGroups($groups = null)
     {
-        if (! $groups) {
+        if (!$groups) {
             $groups = $this->groups()->get();
         }
         foreach ($groups as $group) {
@@ -374,11 +375,11 @@ class Member extends BaseMember
     /**
      * @param $email
      *
-     * @return null|$this
+     * @return \Illuminate\Database\Eloquent\Builder|\Notadd\Member\Models\Member
      */
     public static function findByEmail($email)
     {
-        return static::where('email', $email)->first();
+        return static::query()->where('email', $email)->first();
     }
 
     /**
@@ -396,7 +397,6 @@ class Member extends BaseMember
         if ($this->relationLoaded($key)) {
             return $this->relations[$key];
         }
-
         // If the "attribute" exists as a method on the model, we will just assume
         // it is a relationship and will load and return results from the query
         // and hydrate the relationship's value on the "relationships" array.
