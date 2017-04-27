@@ -83,11 +83,11 @@ class Member extends BaseMember
     ];
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
     public function ban()
     {
-        return $this->belongsTo(MemberBan::class, 'user_id');
+        return $this->hasOne(MemberBan::class, 'user_id');
     }
 
     /**
