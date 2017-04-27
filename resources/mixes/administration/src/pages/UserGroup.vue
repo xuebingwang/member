@@ -3,8 +3,24 @@
 
     export default {
         beforeRouteEnter(to, from, next) {
-            next(() => {
-                injection.sidebar.active('member');
+            injection.loading.start();
+            injection.http.all([
+                injection.http.post(`${window.api}/member/group/list`),
+                injection.http.post(`${window.api}/member/user`, {
+                    id: to.params.id,
+                    with: [
+                        'groups',
+                    ],
+                }),
+            ]).then(injection.http.spread((groups, user) => {
+                window.console.log(groups, user);
+                next(vm => {
+                    vm.groups = groups.data.data;
+                    injection.loading.finish();
+                    injection.sidebar.active('member');
+                });
+            })).catch(() => {
+                injection.loading.error();
             });
         },
         data() {
@@ -14,12 +30,7 @@
                     group: '',
                     reason: '',
                 },
-                groups: [
-                    {
-                        label: 'default',
-                        value: '默认用户组',
-                    },
-                ],
+                groups: [],
                 loading: false,
                 rules: {},
             };
@@ -79,6 +90,16 @@
                                          v-model="form.reason">
                                 </i-input>
                                 <p class="info">如果您通过用户组设定禁止或解除禁止该用户，请输入操作理由，系统将把理由记录在用户禁止记录中，以供日后查看。</p>
+                            </form-item>
+                        </i-col>
+                    </row>
+                    <row>
+                        <i-col span="14">
+                            <form-item>
+                                <i-button :loading="loading" type="primary" @click.native="submit">
+                                    <span v-if="!loading">确认提交</span>
+                                    <span v-else>正在提交…</span>
+                                </i-button>
                             </form-item>
                         </i-col>
                     </row>
