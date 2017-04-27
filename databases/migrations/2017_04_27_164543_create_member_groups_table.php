@@ -26,6 +26,7 @@ class CreateMemberGroupsTable extends Migration
             $table->json('extends')->nullable();
             $table->integer('group_id');
             $table->integer('member_id');
+            $table->integer('next');
             $table->timestamps();
         });
     }

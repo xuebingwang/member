@@ -38,6 +38,7 @@
                     if (group) {
                         vm.form.date = group.end;
                         vm.form.group = group.group_id;
+                        vm.form.next = group.next;
                     }
                     injection.loading.finish();
                     injection.sidebar.active('member');

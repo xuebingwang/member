@@ -23,6 +23,7 @@ class MemberGroup extends Model
         'extends',
         'group_id',
         'member_id',
+        'next',
     ];
 
     /**
