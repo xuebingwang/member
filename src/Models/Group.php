@@ -9,7 +9,6 @@
 namespace Notadd\Member\Models;
 
 use Notadd\Foundation\Database\Model;
-use Illuminate\Support\Facades\Cache;
 
 /**
  * Class Group.

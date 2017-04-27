@@ -87,7 +87,7 @@ class Member extends BaseMember
      */
     public function ban()
     {
-        return $this->hasOne(MemberBan::class, 'user_id');
+        return $this->hasOne(MemberBan::class, 'member_id');
     }
 
     /**

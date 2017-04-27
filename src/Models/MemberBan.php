@@ -19,10 +19,10 @@ class MemberBan extends Model
      * @var array
      */
     protected $fillable = [
+        'member_id',
         'reason',
         'type',
         'time',
-        'user_id',
     ];
 
     /**

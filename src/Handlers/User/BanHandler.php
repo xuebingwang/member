@@ -36,26 +36,26 @@ class BanHandler extends SetHandler
             $this->request->input('end', '') || $this->request->offsetSet('time', 0);
         }
         $this->request->input('end', '') || $this->request->offsetSet('end', null);
-        $this->request->offsetSet('user_id', $this->request->input('id'));
+        $this->request->offsetSet('member_id', $this->request->input('id'));
         $this->request->offsetUnset('id');
     }
 
     public function execute()
     {
         $this->configurations();
-        if (!$this->request->input('user_id', 0)) {
+        if (!$this->request->input('member_id', 0)) {
             $this->code = 500;
             $this->errors->push($this->translator->trans('参数缺失！'));
 
             return false;
         }
-        if (Member::query()->where('id', $this->request->input('user_id'))->count() == 0) {
+        if (Member::query()->where('id', $this->request->input('member_id'))->count() == 0) {
             $this->errors->push($this->translator->trans('用户不存在！'));
 
             return false;
         }
-        if ($this->model->newQuery()->where('user_id', $this->request->input('user_id'))->count()) {
-            $ban = $this->model->newQuery()->where('user_id', $this->request->input('user_id'))->first();
+        if ($this->model->newQuery()->where('member_id', $this->request->input('user_id'))->count()) {
+            $ban = $this->model->newQuery()->where('member_id', $this->request->input('member_id'))->first();
             $ban->update($this->request->all());
         } else {
             $this->model->newQuery()->create($this->request->all());
