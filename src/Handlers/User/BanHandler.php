@@ -44,6 +44,7 @@ class BanHandler extends SetHandler
     {
         $this->configurations();
         if (!$this->request->input('user_id', 0)) {
+            $this->code = 500;
             $this->errors->push($this->translator->trans('参数缺失！'));
 
             return false;
