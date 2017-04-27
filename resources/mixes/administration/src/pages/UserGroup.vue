@@ -14,16 +14,30 @@
                 }),
             ]).then(injection.http.spread((groups, user) => {
                 const data = groups.data.data;
-                const group  = user.data.data.group;
+                const group = user.data.data.group;
+                let extend = null;
+                if (group && group.extends) {
+                    extend = JSON.parse(group.extends);
+                }
                 next(vm => {
                     data.forEach(item => {
-                        item.check = false;
-                        item.end = '';
+                        if (extend) {
+                            extend.map(has => {
+                                if (has.group === item.id) {
+                                    item.check = true;
+                                    item.end = has.end;
+                                }
+                                return item;
+                            });
+                        }
+                        item.check = item.check ? item.check : false;
+                        item.end = item.end ? item.end : '';
                     });
+                    vm.form.id = user.data.data.id;
                     vm.groups = groups.data.data;
                     if (group) {
+                        vm.form.date = group.end;
                         vm.form.group = group.group_id;
-                        vm.form.end = group.end;
                     }
                     injection.loading.finish();
                     injection.sidebar.active('member');
@@ -37,25 +51,46 @@
                 form: {
                     date: '',
                     group: 0,
+                    id: 0,
                     next: 0,
                     reason: '',
                 },
                 groups: [],
                 loading: false,
-                rules: {},
+                rules: {
+                    group: [
+                        {
+                            required: true,
+                            type: 'number',
+                            message: '请选择所属用户组',
+                            trigger: 'change',
+                        },
+                    ],
+                },
             };
         },
         methods: {
-            dateChange(val) {
-                this.form.date = val;
-            },
-        },
-        watch: {
-            groups: {
-                deep: true,
-                handler(val) {
-                    window.console.log(val);
-                },
+            submit() {
+                const self = this;
+                self.loading = true;
+                self.$refs.form.validate(valid => {
+                    if (valid) {
+                        self.form.groups = self.groups;
+                        self.$http.post(`${window.api}/member/user/group`, self.form).then(response => {
+                            self.$notice.open({
+                                title: response.data.message,
+                            });
+                            self.$router.push('/member/user');
+                        }).finally(() => {
+                            self.loading = false;
+                        });
+                    } else {
+                        self.$notice.error({
+                            title: '请正确填写用户组信息',
+                        });
+                        self.loading = false;
+                    }
+                });
             },
         },
     };
@@ -69,7 +104,7 @@
                     <p class="extend-title">用户组</p>
                     <row>
                         <i-col span="14">
-                            <form-item label="所属用户组">
+                            <form-item label="所属用户组" prop="group">
                                 <i-select v-model="form.group">
                                     <i-option v-for="item in groups" :value="item.id" :key="item">{{ item.name }}</i-option>
                                 </i-select>
@@ -81,8 +116,7 @@
                             <form-item label="用户组有效期">
                                 <date-picker :placeholder="请选择用户组有效期"
                                              type="date"
-                                             :value="form.date"
-                                             @on-change="dateChange">
+                                             v-model="form.date">
                                 </date-picker>
                                 <p>如需设定当前用户组的有效期，请输入用户组截止日期，留空为不做过期限制。</p>
                             </form-item>

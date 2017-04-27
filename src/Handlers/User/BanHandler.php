@@ -54,7 +54,7 @@ class BanHandler extends SetHandler
 
             return false;
         }
-        if ($this->model->newQuery()->where('member_id', $this->request->input('user_id'))->count()) {
+        if ($this->model->newQuery()->where('member_id', $this->request->input('member_id'))->count()) {
             $ban = $this->model->newQuery()->where('member_id', $this->request->input('member_id'))->first();
             $ban->update($this->request->all());
         } else {
