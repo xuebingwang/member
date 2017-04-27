@@ -30,10 +30,10 @@
                     id: 1,
                     introduction: '',
                     name: '',
-                    nick_name: '',
+                    nickname: '',
                     phone: '',
                     points: '',
-                    real_name: '',
+                    realname: '',
                     sex: '',
                     signature: '',
                 },
@@ -179,7 +179,7 @@
                                         :on-success="uploadSuccess"
                                         ref="upload"
                                         :show-upload-list="false"
-                                        v-if="form.avatar === ''">
+                                        v-if="form.avatar === '' || form.avatar === null">
                                 </upload>
                             </form-item>
                         </i-col>

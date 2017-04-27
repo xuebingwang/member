@@ -145,7 +145,7 @@
                                         :on-success="uploadSuccess"
                                         ref="upload"
                                         :show-upload-list="false"
-                                        v-if="form.icon === ''">
+                                        v-if="form.icon === '' || form.icon === null">
                                 </upload>
                             </form-item>
                         </i-col>
