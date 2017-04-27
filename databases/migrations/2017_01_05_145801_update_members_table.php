@@ -23,7 +23,6 @@ class UpdateMembersTable extends Migration
         $this->schema->table('members', function (Blueprint $table) {
             $table->enum('activated', ['yes', 'no'])->default('no')->comment('邮箱是否激活');
             $table->string('avatar')->nullable()->comment('头像');
-            $table->enum('banned', ['yes', 'no'])->default('no')->comment('是否禁止');
             $table->date('birthday')->nullable()->comment('生日');
             $table->string('introduction')->nullable()->comment('自我介绍');
             $table->string('nickname')->nullable()->comment('昵称');
@@ -47,7 +46,6 @@ class UpdateMembersTable extends Migration
         $this->schema->table('members', function (Blueprint $table) {
             $table->dropColumn('activated');
             $table->dropColumn('avatar');
-            $table->dropColumn('banned');
             $table->dropColumn('birthday');
             $table->dropColumn('introduction');
             $table->dropColumn('nickname');
