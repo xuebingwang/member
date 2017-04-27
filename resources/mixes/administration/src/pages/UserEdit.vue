@@ -9,7 +9,6 @@
             }).then(response => {
                 next(vm => {
                     vm.form = response.data.data;
-                    window.console.log(vm.form);
                     injection.loading.finish();
                     injection.sidebar.active('member');
                 });
@@ -21,10 +20,10 @@
             return {
                 action: `${window.api}/member/upload`,
                 form: {
+                    activated: 'no',
                     age: '',
                     avatar: '',
                     birthday: '',
-                    created_at: '',
                     email: '',
                     group: '',
                     id: 1,
@@ -41,19 +40,25 @@
                 sex: [
                     {
                         label: '男',
-                        value: '男',
+                        value: 1,
                     },
                     {
                         label: '女',
-                        value: '女',
+                        value: 2,
                     },
                     {
                         label: '保密',
-                        value: '保密',
+                        value: 0,
                     },
                 ],
                 rules: {
                     email: [
+                        {
+                            required: true,
+                            type: 'email',
+                            message: '请输入正确的电子邮箱',
+                            trigger: 'change',
+                        },
                         {
                             required: true,
                             type: 'string',
@@ -85,15 +90,7 @@
                 self.loading = true;
                 self.$refs.form.validate(valid => {
                     if (valid) {
-                        const data = self.form;
-                        if (self.form.sex === '男') {
-                            data.sex = 1;
-                        } else if (self.form.sex === '女') {
-                            data.sex = 2;
-                        } else {
-                            data.sex = 0;
-                        }
-                        self.$http.patch(`${window.api}/member/members/${self.form.id}/update`, data).then(() => {
+                        self.$http.post(`${window.api}/member/user/edit`, self.form).then(() => {
                             self.$notice.open({
                                 title: '更新用户信息成功！',
                             });
@@ -194,11 +191,11 @@
                     <row>
                         <i-col span="14">
                             <form-item label="邮箱激活状态">
-                                <radio-group v-model="form.enabled" size="large">
-                                    <radio label="1">
+                                <radio-group v-model="form.activated" size="large">
+                                    <radio label="yes">
                                         <span>已激活</span>
                                     </radio>
-                                    <radio label="android">
+                                    <radio label="no">
                                         <span>未激活</span>
                                     </radio>
                                 </radio-group>
@@ -206,6 +203,20 @@
                         </i-col>
                     </row>
                     <p class="extend-title">用户栏目</p>
+                    <row>
+                        <i-col span="14">
+                            <form-item label="用户昵称">
+                                <i-input placeholder="请输入用户昵称" v-model="form.nickname"></i-input>
+                            </form-item>
+                        </i-col>
+                    </row>
+                    <row>
+                        <i-col span="14">
+                            <form-item label="真实姓名">
+                                <i-input placeholder="请输入真实姓名" v-model="form.realname"></i-input>
+                            </form-item>
+                        </i-col>
+                    </row>
                     <row>
                         <i-col span="14">
                             <form-item label="性别">
@@ -227,8 +238,17 @@
                     </row>
                     <row>
                         <i-col span="14">
-                            <form-item label="自我介绍" prop="users">
+                            <form-item label="个性签名">
                                 <i-input type="textarea" placeholder="请输入自我介绍" v-model="form.signature"
+                                         :autosize="{minRows: 5,maxRows: 9}"></i-input>
+                                <p class="info">自我介绍将显示在您的主页上方，不填写则不显示</p>
+                            </form-item>
+                        </i-col>
+                    </row>
+                    <row>
+                        <i-col span="14">
+                            <form-item label="自我介绍">
+                                <i-input type="textarea" placeholder="请输入自我介绍" v-model="form.introduction"
                                          :autosize="{minRows: 5,maxRows: 9}"></i-input>
                                 <p class="info">自我介绍将显示在您的主页上方，不填写则不显示</p>
                             </form-item>

@@ -52,6 +52,7 @@ class Member extends BaseMember
      * @var array
      */
     protected $fillable = [
+        'activated',
         'avatar',
         'birthday',
         'email',
