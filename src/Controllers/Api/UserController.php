@@ -12,6 +12,7 @@ use Notadd\Foundation\Routing\Abstracts\Controller;
 use Notadd\Member\Handlers\User\BanHandler;
 use Notadd\Member\Handlers\User\CreateHandler;
 use Notadd\Member\Handlers\User\EditHandler;
+use Notadd\Member\Handlers\User\GroupHandler;
 use Notadd\Member\Handlers\User\ListHandler;
 use Notadd\Member\Handlers\User\UserHandler;
 
@@ -46,6 +47,16 @@ class UserController extends Controller
      * @return \Notadd\Foundation\Passport\Responses\ApiResponse|\Psr\Http\Message\ResponseInterface|\Zend\Diactoros\Response
      */
     public function edit(EditHandler $handler)
+    {
+        return $handler->toResponse()->generateHttpResponse();
+    }
+
+    /**
+     * @param \Notadd\Member\Handlers\User\GroupHandler $handler
+     *
+     * @return \Notadd\Foundation\Passport\Responses\ApiResponse|\Psr\Http\Message\ResponseInterface|\Zend\Diactoros\Response
+     */
+    public function group(GroupHandler $handler)
     {
         return $handler->toResponse()->generateHttpResponse();
     }
