@@ -108,7 +108,7 @@ class ListHandler extends DataHandler
             }
             $groups = collect($member->getAttribute('groups'));
             if ($groups->count()) {
-                $groups->each(function (MemberGroup $group) use($member) {
+                $groups->each(function (MemberGroup $group) use ($member) {
                     if ($group->getAttribute('type') === 'default') {
                         $details = $group->details()->getResults();
                         $member->setAttribute('group', $details->name);
@@ -117,6 +117,7 @@ class ListHandler extends DataHandler
             } else {
                 $member->setAttribute('group', '默认分组');
             }
+
             return $member;
         })->toArray();
     }
