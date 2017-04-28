@@ -8,6 +8,7 @@
  */
 namespace Notadd\Member\Handlers\User;
 
+use Carbon\Carbon;
 use Illuminate\Container\Container;
 use Notadd\Foundation\Passport\Abstracts\SetHandler;
 use Notadd\Member\Models\Group;
@@ -23,6 +24,11 @@ class GroupHandler extends SetHandler
      * @var \Notadd\Member\Models\Group
      */
     protected $group;
+
+    /**
+     * @var \Illuminate\Support\Collection
+     */
+    private $groups;
 
     /**
      * @var \Notadd\Member\Models\MemberGroup
@@ -41,30 +47,13 @@ class GroupHandler extends SetHandler
     {
         parent::__construct($container);
         $this->group = $group;
+        $this->groups = collect();
         $this->memberGroup = $memberGroup;
         $this->model = $member;
     }
 
-    public function configurations()
-    {
-        $groups = collect();
-        collect($this->request->input('groups', []))->each(function ($item) use ($groups) {
-            if ($item['check']) {
-                $groups->push([
-                    'end'   => $item['end'],
-                    'group' => $item['id'],
-                ]);
-            }
-        });
-        $this->request->offsetSet('end', $this->request->input('date'));
-        $this->request->offsetSet('extends', $groups->toJson());
-        $this->request->offsetSet('group_id', $this->request->input('group'));
-        $this->request->offsetSet('member_id', $this->request->input('id'));
-    }
-
     public function execute()
     {
-        $this->configurations();
         if (!$this->request->input('member_id', 0)) {
             $this->code = 500;
             $this->errors->push($this->translator->trans('参数缺失！'));
@@ -77,12 +66,24 @@ class GroupHandler extends SetHandler
 
             return false;
         }
-        if ($this->memberGroup->newQuery()->where('member_id', $this->request->input('member_id'))->count()) {
-            $group = $this->memberGroup->newQuery()->where('member_id', $this->request->input('member_id'))->first();
-            $group->update($this->request->all());
-        } else {
-            $this->memberGroup->newQuery()->create($this->request->all());
-        }
+        collect($this->request->input('data'))->each(function ($data) {
+            $data['end'] = Carbon::createFromTimestampUTC(strtotime($data['end']));
+
+            if ($this->memberGroup
+                ->newQuery()
+                ->where('member_id', $data['member_id'])
+                ->where('group_id', $data['group_id'])
+                ->count()) {
+                $group = $this->memberGroup
+                    ->newQuery()
+                    ->where('member_id', $data['member_id'])
+                    ->where('group_id', $data['group_id'])
+                    ->first();
+                $group->update($data);
+            } else {
+                $this->memberGroup->newQuery()->create($data);
+            }
+        });
         $this->messages->push($this->translator->trans('更新用户用户组信息成功！'));
 
         return true;

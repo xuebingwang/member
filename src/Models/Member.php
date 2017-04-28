@@ -91,11 +91,11 @@ class Member extends BaseMember
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function group()
+    public function groups()
     {
-        return $this->hasOne(MemberGroup::class, 'member_id');
+        return $this->hasMany(MemberGroup::class, 'member_id');
     }
 
     /**

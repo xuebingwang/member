@@ -9,37 +9,36 @@
                 injection.http.post(`${window.api}/member/user`, {
                     id: to.params.id,
                     with: [
-                        'group',
+                        'groups',
+                        'groups.details',
                     ],
                 }),
             ]).then(injection.http.spread((groups, user) => {
                 const data = groups.data.data;
-                const group = user.data.data.group;
-                let extend = null;
-                if (group && group.extends) {
-                    extend = JSON.parse(group.extends);
-                }
+                const group = user.data.data.groups;
                 next(vm => {
                     data.forEach(item => {
-                        if (extend) {
-                            extend.map(has => {
-                                if (has.group === item.id) {
+                        if (group) {
+                            group.map(has => {
+                                if (has.type === 'default') {
+                                    vm.form.date = has.end;
+                                    vm.form.group = has.group_id;
+                                    vm.form.next = has.next;
+                                } else if (has.group_id === item.id) {
                                     item.check = true;
                                     item.end = has.end;
                                 }
-                                return item;
+                                return has;
                             });
                         }
                         item.check = item.check ? item.check : false;
                         item.end = item.end ? item.end : '';
                     });
-                    vm.form.id = user.data.data.id;
-                    vm.groups = groups.data.data;
-                    if (group) {
-                        vm.form.date = group.end;
-                        vm.form.group = group.group_id;
-                        vm.form.next = group.next;
+                    if (vm.form.group === 0) {
+                        vm.form.group = data[0].id;
                     }
+                    vm.form.id = user.data.data.id;
+                    vm.groups = data;
                     injection.loading.finish();
                     injection.sidebar.active('member');
                 });
@@ -72,12 +71,38 @@
         },
         methods: {
             submit() {
+                const groups = [];
                 const self = this;
+                const id = self.$route.params.id;
                 self.loading = true;
                 self.$refs.form.validate(valid => {
                     if (valid) {
-                        self.form.groups = self.groups;
-                        self.$http.post(`${window.api}/member/user/group`, self.form).then(response => {
+                        groups.push({
+                            end: self.form.date,
+                            group_id: self.form.group,
+                            member_id: id,
+                            next: self.form.next,
+                            reason: self.form.reason,
+                            type: 'default',
+                        });
+                        self.groups.map(group => {
+                            if (group.check) {
+                                groups.push({
+                                    end: group.end,
+                                    group_id: group.id,
+                                    member_id: id,
+                                    next: 0,
+                                    reason: '',
+                                    type: 'extend',
+                                });
+                            }
+                            return group;
+                        });
+                        console.log(groups);
+                        self.$http.post(`${window.api}/member/user/group`, {
+                            data: groups,
+                            member_id: id,
+                        }).then(response => {
                             self.$notice.open({
                                 title: response.data.message,
                             });
