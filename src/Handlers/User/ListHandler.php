@@ -11,6 +11,7 @@ namespace Notadd\Member\Handlers\User;
 use Illuminate\Container\Container;
 use Notadd\Foundation\Passport\Abstracts\DataHandler;
 use Notadd\Member\Models\Member;
+use Notadd\Member\Models\MemberGroup;
 
 /**
  * Class ListHandler.
@@ -105,7 +106,15 @@ class ListHandler extends DataHandler
                     $member->setAttribute('status', '正常');
                     break;
             }
-            if (!$member->getAttribute('group')) {
+            $groups = collect($member->getAttribute('groups'));
+            if ($groups->count()) {
+                $groups->each(function (MemberGroup $group) use($member) {
+                    if ($group->getAttribute('type') === 'default') {
+                        $details = $group->details()->getResults();
+                        $member->setAttribute('group', $details->name);
+                    }
+                });
+            } else {
                 $member->setAttribute('group', '默认分组');
             }
             return $member;

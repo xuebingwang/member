@@ -8,9 +8,12 @@
                 format: 'beauty',
                 with: [
                     'ban',
+                    'groups',
+                    'groups.details',
                 ],
             }).then(response => {
                 const data = response.data.data;
+                window.console.log(data);
                 const pagination = response.data.pagination;
                 next(vm => {
                     data.forEach(item => {
