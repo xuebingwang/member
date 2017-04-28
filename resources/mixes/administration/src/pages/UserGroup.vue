@@ -81,7 +81,7 @@
                             end: self.form.date,
                             group_id: self.form.group,
                             member_id: id,
-                            next: self.form.next,
+                            next: self.form.next ? self.form.next : 0,
                             reason: self.form.reason,
                             type: 'default',
                         });
@@ -98,7 +98,6 @@
                             }
                             return group;
                         });
-                        console.log(groups);
                         self.$http.post(`${window.api}/member/user/group`, {
                             data: groups,
                             member_id: id,

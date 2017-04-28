@@ -11,7 +11,6 @@ namespace Notadd\Member\Handlers\User;
 use Carbon\Carbon;
 use Illuminate\Container\Container;
 use Notadd\Foundation\Passport\Abstracts\SetHandler;
-use Notadd\Member\Models\Group;
 use Notadd\Member\Models\Member;
 use Notadd\Member\Models\MemberGroup;
 
@@ -20,6 +19,11 @@ use Notadd\Member\Models\MemberGroup;
  */
 class GroupHandler extends SetHandler
 {
+    /**
+     * @var \Illuminate\Support\Collection
+     */
+    protected $exits;
+
     /**
      * @var \Notadd\Member\Models\Group
      */
@@ -38,18 +42,12 @@ class GroupHandler extends SetHandler
     /**
      * GroupHandler constructor.
      *
-     * @param \Illuminate\Container\Container   $container
-     * @param \Notadd\Member\Models\Group       $group
-     * @param \Notadd\Member\Models\Member      $member
-     * @param \Notadd\Member\Models\MemberGroup $memberGroup
+     * @param \Illuminate\Container\Container $container
      */
-    public function __construct(Container $container, Group $group, Member $member, MemberGroup $memberGroup)
+    public function __construct(Container $container)
     {
         parent::__construct($container);
-        $this->group = $group;
         $this->groups = collect();
-        $this->memberGroup = $memberGroup;
-        $this->model = $member;
     }
 
     public function execute()
@@ -66,23 +64,29 @@ class GroupHandler extends SetHandler
 
             return false;
         }
+        $this->exits = MemberGroup::query()->where('member_id', $this->request->input('member_id'))->get();
         collect($this->request->input('data'))->each(function ($data) {
+            $has = $this->exits->where('group_id', '=', $data['group_id']);
+            if ($has->count()) {
+                $this->exits = $this->exits->diff($has);
+            }
             $data['end'] = Carbon::createFromTimestampUTC(strtotime($data['end']));
 
-            if ($this->memberGroup
-                ->newQuery()
+            if (MemberGroup::query()
                 ->where('member_id', $data['member_id'])
                 ->where('group_id', $data['group_id'])
                 ->count()) {
-                $group = $this->memberGroup
-                    ->newQuery()
+                $group = MemberGroup::query()
                     ->where('member_id', $data['member_id'])
                     ->where('group_id', $data['group_id'])
                     ->first();
                 $group->update($data);
             } else {
-                $this->memberGroup->newQuery()->create($data);
+                MemberGroup::query()->create($data);
             }
+        });
+        $this->exits->each(function (MemberGroup $group) {
+            $group->delete();
         });
         $this->messages->push($this->translator->trans('更新用户用户组信息成功！'));
 
