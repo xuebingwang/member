@@ -23,9 +23,9 @@ class CreateMemberGroupsTable extends Migration
         $this->schema->create('member_groups', function (Blueprint $table) {
             $table->increments('id');
             $table->timestamp('end')->nullable();
-            $table->json('extends')->nullable();
             $table->integer('group_id');
             $table->integer('member_id');
+            $table->enum('type', ['default', 'extend'])->default('default');
             $table->integer('next');
             $table->timestamps();
         });

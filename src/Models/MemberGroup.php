@@ -20,14 +20,22 @@ class MemberGroup extends Model
      */
     protected $fillable = [
         'end',
-        'extends',
         'group_id',
         'member_id',
         'next',
+        'type',
     ];
 
     /**
      * @var string
      */
     protected $table = 'member_groups';
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function details()
+    {
+        return $this->hasOne(Group::class, 'id', 'group_id');
+    }
 }
