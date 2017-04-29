@@ -28,8 +28,6 @@ use Notadd\Foundation\Member\Member as BaseMember;
  * @property string              $avatar
  * @property integer             $points
  * @property string              $status normal banned deleted activated
- * @property string              $is_banned
- * @property string              $is_activated
  * @property \Carbon\Carbon|null $created_at
  * @property \Carbon\Carbon|null $updated_at
  * @property \Carbon\Carbon|null $deleted_at

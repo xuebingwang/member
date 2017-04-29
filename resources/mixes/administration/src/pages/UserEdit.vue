@@ -12,6 +12,11 @@
             }).then(response => {
                 next(vm => {
                     vm.form = response.data.data;
+                    if (vm.form.activate) {
+                        vm.form.activate = vm.form.activate.activated ? 'yes' : 'no';
+                    } else {
+                        vm.form.activate = 'no';
+                    }
                     injection.loading.finish();
                     injection.sidebar.active('member');
                 });
@@ -23,7 +28,7 @@
             return {
                 action: `${window.api}/member/upload`,
                 form: {
-                    activated: 'no',
+                    activate: 'no',
                     age: '',
                     avatar: '',
                     birthday: '',
@@ -194,7 +199,7 @@
                     <row>
                         <i-col span="14">
                             <form-item label="激活状态">
-                                <radio-group v-model="form.activated" size="large">
+                                <radio-group v-model="form.activate" size="large">
                                     <radio label="yes">
                                         <span>已激活</span>
                                     </radio>
