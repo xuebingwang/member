@@ -85,6 +85,13 @@ class Member extends BaseMember
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
+    public function activate() {
+        return $this->hasOne(MemberActivate::class, 'member_id');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
     public function ban()
     {
         return $this->hasOne(MemberBan::class, 'member_id');
