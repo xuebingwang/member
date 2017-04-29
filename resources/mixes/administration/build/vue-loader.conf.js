@@ -9,4 +9,4 @@ module.exports = {
             : config.dev.cssSourceMap,
         extract: isProduction
     })
-}
+};

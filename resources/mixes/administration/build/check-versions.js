@@ -17,7 +17,7 @@ var versionRequirements = [
         currentVersion: exec('npm --version'),
         versionRequirement: packageConfig.engines.npm
     }
-]
+];
 
 module.exports = function () {
     var warnings = [];
@@ -42,4 +42,4 @@ module.exports = function () {
         console.log();
         process.exit(1);
     }
-}
+};
