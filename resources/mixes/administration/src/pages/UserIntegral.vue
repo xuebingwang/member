@@ -81,7 +81,7 @@
                     <i-table :columns="columns" :context="self" :data="integral"></i-table>
                     <p class="extend-title">变更理由</p>
                     <row>
-                        <i-col span="14">
+                        <i-col span="12">
                             <form-item label="变更用户组的理由" prop="users">
                                 <i-input :autosize="{minRows: 5,maxRows: 9}"
                                          placeholder="请输入变更用户组的理由"

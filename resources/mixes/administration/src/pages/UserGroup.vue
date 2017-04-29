@@ -128,7 +128,7 @@
                 <i-form :label-width="200" :model="form" ref="form" :rules="rules">
                     <p class="extend-title">用户组</p>
                     <row>
-                        <i-col span="14">
+                        <i-col span="12">
                             <form-item label="所属用户组" prop="group">
                                 <i-select v-model="form.group">
                                     <i-option v-for="item in groups" :value="item.id" :key="item">{{ item.name }}</i-option>
@@ -137,7 +137,7 @@
                         </i-col>
                     </row>
                     <row>
-                        <i-col span="14">
+                        <i-col span="12">
                             <form-item label="用户组有效期">
                                 <date-picker :placeholder="请选择用户组有效期"
                                              type="date"
@@ -148,7 +148,7 @@
                         </i-col>
                     </row>
                     <row>
-                        <i-col span="14">
+                        <i-col span="12">
                             <form-item label="过期后用户组变为">
                                 <i-select v-model="form.next">
                                     <i-option v-for="item in groups" :value="item.id" :key="item" v-if="item.id !== form.group">{{ item.name }}</i-option>
@@ -177,7 +177,7 @@
                     </div>
                     <p class="extend-title">变更理由</p>
                     <row>
-                        <i-col span="14">
+                        <i-col span="12">
                             <form-item label="变更用户组的理由" prop="users">
                                 <i-input :autosize="{minRows: 5,maxRows: 9}"
                                          placeholder="请输入变更用户组的理由"
@@ -189,7 +189,7 @@
                         </i-col>
                     </row>
                     <row>
-                        <i-col span="14">
+                        <i-col span="12">
                             <form-item>
                                 <i-button :loading="loading" type="primary" @click.native="submit">
                                     <span v-if="!loading">确认提交</span>

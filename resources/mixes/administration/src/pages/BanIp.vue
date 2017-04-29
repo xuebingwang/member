@@ -37,27 +37,27 @@
                 <p slot="title">封禁用户</p>
                 <i-form :label-width="200" :model="form" ref="form" :rules="rules">
                     <row>
-                        <i-col span="14">
+                        <i-col span="12">
                             <form-item label="禁止用户名" prop="name">
                                 <i-input placeholder="请输入禁止用户名" v-model="form.name"></i-input>
                             </form-item>
                         </i-col>
                     </row>
                     <row>
-                        <i-col span="14">
+                        <i-col span="12">
                             <form-item label="当前状态" prop="name">
                                 <span>正常状态</span>
                             </form-item>
                         </i-col>
                     </row>
                     <row>
-                        <i-col span="14">
+                        <i-col span="12">
                             <form-item label="禁止类型" prop="name">
                             </form-item>
                         </i-col>
                     </row>
                     <row>
-                        <i-col span="14">
+                        <i-col span="12">
                             <form-item label="禁止/解禁用户的理由" prop="users">
                                 <i-input :autosize="{minRows: 5,maxRows: 9}"
                                          placeholder="请输入禁止/解禁用户的理由"
@@ -68,7 +68,7 @@
                         </i-col>
                     </row>
                     <row>
-                        <i-col span="14">
+                        <i-col span="12">
                             <form-item>
                                 <i-button :loading="loading" type="primary" @click.native="submit">
                                     <span v-if="!loading">确认提交</span>

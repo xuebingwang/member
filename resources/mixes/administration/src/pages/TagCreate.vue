@@ -48,7 +48,7 @@
                 </div>
                 <i-form :label-width="200" :model="form" ref="form" :rules="rules">
                     <row>
-                        <i-col span="14">
+                        <i-col span="12">
                             <form-item label="标签名称" prop="name">
                                 <i-input placeholder="请输入标签名称" v-model="form.name"></i-input>
                                 <p>可以输入多个标签，多个标签可以用<strong>空格( )</strong>、<strong>逗号分隔(,)</strong>。</p>
@@ -56,7 +56,7 @@
                         </i-col>
                     </row>
                     <row>
-                        <i-col span="14">
+                        <i-col span="12">
                             <form-item label="添加用户" prop="users">
                                 <i-input :autosize="{minRows: 5,maxRows: 9}"
                                          placeholder="请输入用户列表，每行一个"
@@ -67,7 +67,7 @@
                         </i-col>
                     </row>
                     <row>
-                        <i-col span="14">
+                        <i-col span="12">
                             <form-item>
                                 <i-button :loading="loading" type="primary" @click.native="submit">
                                     <span v-if="!loading">确认提交</span>

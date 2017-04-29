@@ -125,7 +125,7 @@
                 <i-form :label-width="0" :model="form" ref="form" :rules="rules">
                     <i-table :columns="columns" :context="self" :data="list"></i-table>
                     <row>
-                        <i-col span="14">
+                        <i-col span="12">
                             <form-item>
                                 <i-button :loading="loading" type="primary" @click.native="submit">
                                     <span v-if="!loading">确认提交</span>

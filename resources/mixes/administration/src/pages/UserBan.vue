@@ -110,14 +110,14 @@
                 <p slot="title">封禁用户</p>
                 <i-form :label-width="200" :model="form" ref="form" :rules="rules">
                     <row>
-                        <i-col span="14">
+                        <i-col span="12">
                             <form-item label="禁止用户名">
                                 <span>{{ form.name }}</span>
                             </form-item>
                         </i-col>
                     </row>
                     <row>
-                        <i-col span="14">
+                        <i-col span="12">
                             <form-item label="当前状态">
                                 <span v-if="form.now === 0">不封禁</span>
                                 <span v-if="form.now > 0 && form.now < 3">部分封禁</span>
@@ -126,7 +126,7 @@
                         </i-col>
                     </row>
                     <row>
-                        <i-col span="14">
+                        <i-col span="12">
                             <form-item label="禁止类型">
                                 <radio-group v-model="form.type" size="large" vertical>
                                     <radio label="0">
@@ -162,7 +162,7 @@
                         </i-col>
                     </row>
                     <row>
-                        <i-col span="14">
+                        <i-col span="12">
                             <form-item label="禁止/解禁用户的理由" prop="users">
                                 <i-input :autosize="{minRows: 5,maxRows: 9}"
                                          placeholder="请输入禁止/解禁用户的理由"
@@ -173,7 +173,7 @@
                         </i-col>
                     </row>
                     <row>
-                        <i-col span="14">
+                        <i-col span="12">
                             <form-item>
                                 <i-button :loading="loading" type="primary" @click.native="submit">
                                     <span v-if="!loading">确认提交</span>

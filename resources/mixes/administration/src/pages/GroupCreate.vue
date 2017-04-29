@@ -113,21 +113,21 @@
                 </div>
                 <i-form :label-width="200" :model="form" ref="form" :rules="rules">
                     <row>
-                        <i-col span="14">
+                        <i-col span="12">
                             <form-item label="用户组名称" prop="name">
                                 <i-input placeholder="请输入用户组名称" v-model="form.name"></i-input>
                             </form-item>
                         </i-col>
                     </row>
                     <row>
-                        <i-col span="14">
+                        <i-col span="12">
                             <form-item label="用户组标识" prop="identification">
                                 <i-input placeholder="请输入用户组标识" v-model="form.identification"></i-input>
                             </form-item>
                         </i-col>
                     </row>
                     <row>
-                        <i-col span="14">
+                        <i-col span="12">
                             <form-item label="用户组图标">
                                 <div class="image-preview" v-if="form.icon">
                                     <img :src="form.icon">
@@ -151,7 +151,7 @@
                         </i-col>
                     </row>
                     <row>
-                        <i-col span="14">
+                        <i-col span="12">
                             <form-item label="用户组说明" prop="description">
                                 <i-input :autosize="{minRows: 5,maxRows: 9}"
                                          placeholder="请输入用户组说明"
@@ -161,7 +161,7 @@
                         </i-col>
                     </row>
                     <row>
-                        <i-col span="14">
+                        <i-col span="12">
                             <form-item>
                                 <i-button :loading="loading" type="primary" @click.native="submit">
                                     <span v-if="!loading">确认提交</span>
