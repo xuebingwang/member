@@ -6,6 +6,9 @@
             injection.loading.start();
             injection.http.post(`${window.api}/member/user`, {
                 id: to.params.id,
+                with: [
+                    'activate',
+                ],
             }).then(response => {
                 next(vm => {
                     vm.form = response.data.data;
@@ -190,7 +193,7 @@
                     </row>
                     <row>
                         <i-col span="14">
-                            <form-item label="邮箱激活状态">
+                            <form-item label="激活状态">
                                 <radio-group v-model="form.activated" size="large">
                                     <radio label="yes">
                                         <span>已激活</span>

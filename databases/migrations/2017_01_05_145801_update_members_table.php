@@ -21,7 +21,6 @@ class UpdateMembersTable extends Migration
     public function up()
     {
         $this->schema->table('members', function (Blueprint $table) {
-            $table->enum('activated', ['yes', 'no'])->default('no')->comment('邮箱是否激活');
             $table->string('avatar')->nullable()->comment('头像');
             $table->date('birthday')->nullable()->comment('生日');
             $table->string('introduction')->nullable()->comment('自我介绍');
@@ -44,7 +43,6 @@ class UpdateMembersTable extends Migration
     public function down()
     {
         $this->schema->table('members', function (Blueprint $table) {
-            $table->dropColumn('activated');
             $table->dropColumn('avatar');
             $table->dropColumn('birthday');
             $table->dropColumn('introduction');
