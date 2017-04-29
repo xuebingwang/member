@@ -22,6 +22,10 @@ class CreateMemberActivatesTable extends Migration
     {
         $this->schema->create('member_activates', function (Blueprint $table) {
             $table->increments('id');
+            $table->tinyInteger('activated')->default(0);
+            $table->text('context')->nullable();
+            $table->integer('member_id');
+            $table->string('type')->default('')->nullable();
             $table->timestamps();
         });
     }
