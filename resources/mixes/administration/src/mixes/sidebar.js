@@ -43,10 +43,10 @@ export default function (injection) {
             path: '/member/tag',
             title: '用户标签',
         },
-        {
-            icon: 'plus',
-            path: '/member/security',
-            title: '安全管理',
-        },
+        // {
+        //     icon: 'plus',
+        //     path: '/member/security',
+        //     title: '安全管理',
+        // },
     ]);
 }

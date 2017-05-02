@@ -97,10 +97,10 @@
                     self.paginator(1);
                 }).catch(() => {
                     self.$notice.error({
-                        title: '删除 IP 失败！'
+                        title: '删除 IP 失败！',
                     });
                 }).finally(() => {
-                    item.loading = false
+                    item.loading = false;
                 });
             },
         },
