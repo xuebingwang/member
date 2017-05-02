@@ -1,5 +1,6 @@
 import Ban from '../pages/Ban.vue';
 import BanIp from '../pages/BanIp.vue';
+import BanIpCreate from '../pages/BanIpCreate.vue';
 import Dashboard from '../pages/Dashboard.vue';
 import Group from '../pages/Group.vue';
 import GroupCombine from '../pages/GroupCombine.vue';
@@ -41,6 +42,11 @@ export default function (injection) {
                     beforeEnter: injection.middleware.requireAuth,
                     component: BanIp,
                     path: 'ban/ip',
+                },
+                {
+                    beforeEnter: injection.middleware.requireAuth,
+                    component: BanIpCreate,
+                    path: 'ban/ip/create',
                 },
                 {
                     beforeEnter: injection.middleware.requireAuth,
