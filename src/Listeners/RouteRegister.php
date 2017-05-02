@@ -8,6 +8,7 @@
  */
 namespace Notadd\Member\Listeners;
 
+use Notadd\Member\Controllers\Api\BanController;
 use Notadd\Member\Controllers\Api\EmailVerifyController;
 use Notadd\Member\Controllers\Api\GroupController;
 use Notadd\Member\Controllers\Api\InformationController;
@@ -55,6 +56,7 @@ class RouteRegister extends AbstractRouteRegister
         });
 
         $this->router->group(['middleware' => ['auth:api', 'cross', 'web'], 'prefix' => 'api/member'], function () {
+            $this->router->post('ban/list', BanController::class . '@list');
             $this->router->post('group', GroupController::class . '@group');
             $this->router->post('group/create', GroupController::class . '@create');
             $this->router->post('group/edit', GroupController::class . '@edit');

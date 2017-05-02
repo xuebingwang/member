@@ -35,7 +35,6 @@
                         item.end = item.end ? item.end : '';
                     });
                     if (vm.form.group === 0 && data.length > 0) {
-                        window.console.log(data);
                         vm.form.group = data[0].id;
                     }
                     vm.form.id = user.data.data.id;
@@ -167,7 +166,7 @@
                             <i-col span="6">
                                 <checkbox v-model="item.check">{{ item.name }}</checkbox>
                             </i-col>
-                            <i-col span="4">
+                            <i-col span="6">
                                 <date-picker placeholder="请选择用户组有效期"
                                              type="date"
                                              v-model="item.end">
