@@ -5,10 +5,12 @@
         beforeRouteEnter(to, from, next) {
             injection.loading.start();
             injection.http.post(`${window.api}/member/ban/ip`).then(response => {
-                window.console.log(response);
                 const list = response.data.data;
                 const pagination = response.data.pagination;
                 next(vm => {
+                    list.forEach(item => {
+                        item.loading = false;
+                    });
                     vm.list = list;
                     vm.pagination = pagination;
                     injection.loading.finish();
@@ -22,53 +24,85 @@
             return {
                 columns: [
                     {
-                        key: 'avatar',
-                        render(row) {
-                            if (row.avatar) {
-                                return `<img class="user-list-image" src="${row.avatar}">`;
-                            }
-                            return '';
-                        },
-                        title: injection.trans('member.user.table.avatar'),
-                        width: 66,
+                        key: 'ip',
+                        title: injection.trans('IP 地址'),
+                        width: 300,
                     },
                     {
-                        key: 'name',
-                        title: injection.trans('member.user.table.title'),
-                        width: 100,
+                        key: 'end',
+                        title: injection.trans('封禁截止时间'),
+                        width: 200,
                     },
                     {
-                        key: 'status',
-                        title: injection.trans('member.user.table.status'),
-                        width: 100,
-                    },
-                    {
-                        key: 'group',
-                        title: injection.trans('member.user.table.group'),
-                        width: 100,
+                        key: 'reason',
+                        title: injection.trans('封禁原因'),
                     },
                     {
                         key: 'created_at',
-                        title: injection.trans('member.user.table.date'),
+                        title: injection.trans('操作时间'),
+                        width: 200,
                     },
                     {
                         key: 'handle',
                         render(row, column, index) {
-                            return `
-                                    <i-button size="small" type="default" @click.native="group(${row.id})">用户组</i-button>
-                                    <i-button size="small" type="default" @click.native="integral(${row.id})">积分</i-button>
-                                    <i-button size="small" type="default" @click.native="edit(${row.id})">编辑详情</i-button>
-                                    <i-button size="small" type="default" @click.native="ban(${row.id})">封禁</i-button>
-                                    <i-button size="small" type="error" @click.native="remove(${index})">删除</i-button>
-                                    `;
+                            return `<i-button :loading="list[${index}].loading" size="small" type="error" @click.native="remove(${index})">
+                                        <span v-if="!list[${index}].loading">删除 IP</span>
+                                        <span v-else>正在删除 IP…</span>
+                                    </i-button>`;
                         },
-                        title: injection.trans('member.user.table.handle'),
+                        title: injection.trans('操作'),
                         width: 300,
                     },
                 ],
                 list: [],
                 pagination: {},
+                self: this,
             };
+        },
+        methods: {
+            paginator(page) {
+                const self = this;
+                if (page < 1) {
+                    self.$notice.error({
+                        title: '页码错误！',
+                    });
+                }
+                self.$loading.start();
+                self.$notice.open({
+                    title: '正在更新数据',
+                });
+                self.$http.post(`${window.api}/member/ban/ip`).then(response => {
+                    const list = response.data.data;
+                    const pagination = response.data.pagination;
+                    list.forEach(item => {
+                        item.loading = false;
+                    });
+                    self.$loading.finish();
+                    self.list = list;
+                    self.pagination = pagination;
+                }).catch(() => {
+                    self.$loading.error();
+                });
+            },
+            remove(index) {
+                const self = this;
+                const item = self.list[index];
+                item.loading = true;
+                self.$http.post(`${window.api}/member/ban/remove`, {
+                    id: item.id,
+                }).then(() => {
+                    self.$notice.open({
+                        title: '删除 IP 成功！',
+                    });
+                    self.paginator(1);
+                }).catch(() => {
+                    self.$notice.error({
+                        title: '删除 IP 失败！'
+                    });
+                }).finally(() => {
+                    item.loading = false
+                });
+            },
         },
     };
 </script>
@@ -85,6 +119,12 @@
                     </div>
                 </template>
                 <i-table :columns="columns" :context="self" :data="list" @on-selection-change="selection"></i-table>
+                <div class="user-page-wrap">
+                    <page :current="pagination.current"
+                          :page-size="pagination.paginate"
+                          :total="pagination.total"
+                          @on-change="paginator"></page>
+                </div>
             </card>
         </div>
     </div>
