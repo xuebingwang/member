@@ -24,6 +24,12 @@ class CreateHandler extends SetHandler
      */
     public function execute()
     {
+        $builder = MemberBanIp::query();
+        if ($builder->where('ip', $this->request->input('ip'))->count()) {
+            $this->errors->push($this->translator->trans('IP 已经存在，不必重复添加'));
+
+            return false;
+        }
         if (MemberBanIp::query()->create($this->request->all())) {
             $this->messages->push($this->translator->trans('添加封禁 IP 成功！'));
 
