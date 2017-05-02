@@ -29,4 +29,12 @@ class MemberBan extends Model
      * @var string
      */
     protected $table = 'member_banned';
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function member()
+    {
+        return $this->belongsTo(Member::class, 'id', 'member_id');
+    }
 }
