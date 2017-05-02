@@ -18,8 +18,6 @@ use Notadd\Member\Middleware\Group;
 use Notadd\Member\Middleware\Permission;
 use Notadd\Member\Middleware\FrontPermission;
 use Notadd\Member\Middleware\AdminPermission;
-use Notadd\Member\Controllers\Api\GroupController as ApiGroupController;
-use Notadd\Member\Controllers\Api\MemberController as ApiMemberController;
 use Notadd\Foundation\Routing\Abstracts\RouteRegister as AbstractRouteRegister;
 use Notadd\Member\Controllers\Api\PermissionController as ApiPermissionController;
 use Notadd\Member\Controllers\Api\ActionPointsController as ApiActionPointsController;

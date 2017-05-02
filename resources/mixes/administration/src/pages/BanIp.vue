@@ -3,29 +3,71 @@
 
     export default {
         beforeRouteEnter(to, from, next) {
-            next(() => {
-                injection.sidebar.active('member');
+            injection.loading.start();
+            injection.http.post(`${window.api}/member/ban/ip`).then(response => {
+                window.console.log(response);
+                const list = response.data.data;
+                const pagination = response.data.pagination;
+                next(vm => {
+                    vm.list = list;
+                    vm.pagination = pagination;
+                    injection.loading.finish();
+                    injection.sidebar.active('member');
+                });
+            }).catch(() => {
+                injection.loading.error();
             });
         },
         data() {
             return {
-                form: {
-                    id: '',
-                    name: '',
-                    reason: '',
-                    status: '',
-                    type: '',
-                },
-                rules: {
-                    name: [
-                        {
-                            required: true,
-                            type: 'string',
-                            message: '请输入用户组名称',
-                            trigger: 'change',
+                columns: [
+                    {
+                        key: 'avatar',
+                        render(row) {
+                            if (row.avatar) {
+                                return `<img class="user-list-image" src="${row.avatar}">`;
+                            }
+                            return '';
                         },
-                    ],
-                },
+                        title: injection.trans('member.user.table.avatar'),
+                        width: 66,
+                    },
+                    {
+                        key: 'name',
+                        title: injection.trans('member.user.table.title'),
+                        width: 100,
+                    },
+                    {
+                        key: 'status',
+                        title: injection.trans('member.user.table.status'),
+                        width: 100,
+                    },
+                    {
+                        key: 'group',
+                        title: injection.trans('member.user.table.group'),
+                        width: 100,
+                    },
+                    {
+                        key: 'created_at',
+                        title: injection.trans('member.user.table.date'),
+                    },
+                    {
+                        key: 'handle',
+                        render(row, column, index) {
+                            return `
+                                    <i-button size="small" type="default" @click.native="group(${row.id})">用户组</i-button>
+                                    <i-button size="small" type="default" @click.native="integral(${row.id})">积分</i-button>
+                                    <i-button size="small" type="default" @click.native="edit(${row.id})">编辑详情</i-button>
+                                    <i-button size="small" type="default" @click.native="ban(${row.id})">封禁</i-button>
+                                    <i-button size="small" type="error" @click.native="remove(${index})">删除</i-button>
+                                    `;
+                        },
+                        title: injection.trans('member.user.table.handle'),
+                        width: 300,
+                    },
+                ],
+                list: [],
+                pagination: {},
             };
         },
     };
@@ -34,50 +76,15 @@
     <div class="member-warp">
         <div class="user-ban">
             <card>
-                <p slot="title">封禁用户</p>
-                <i-form :label-width="200" :model="form" ref="form" :rules="rules">
-                    <row>
-                        <i-col span="12">
-                            <form-item label="禁止用户名" prop="name">
-                                <i-input placeholder="请输入禁止用户名" v-model="form.name"></i-input>
-                            </form-item>
-                        </i-col>
-                    </row>
-                    <row>
-                        <i-col span="12">
-                            <form-item label="当前状态" prop="name">
-                                <span>正常状态</span>
-                            </form-item>
-                        </i-col>
-                    </row>
-                    <row>
-                        <i-col span="12">
-                            <form-item label="禁止类型" prop="name">
-                            </form-item>
-                        </i-col>
-                    </row>
-                    <row>
-                        <i-col span="12">
-                            <form-item label="禁止/解禁用户的理由" prop="users">
-                                <i-input :autosize="{minRows: 5,maxRows: 9}"
-                                         placeholder="请输入禁止/解禁用户的理由"
-                                         type="textarea"
-                                         v-model="form.users"></i-input>
-                                <p class="info">请输入操作理由，系统将把理由记录在用户禁止记录中，以供日后查看。</p>
-                            </form-item>
-                        </i-col>
-                    </row>
-                    <row>
-                        <i-col span="12">
-                            <form-item>
-                                <i-button :loading="loading" type="primary" @click.native="submit">
-                                    <span v-if="!loading">确认提交</span>
-                                    <span v-else>正在提交…</span>
-                                </i-button>
-                            </form-item>
-                        </i-col>
-                    </row>
-                </i-form>
+                <template slot="title">
+                    <span class="text">封禁 IP</span>
+                    <div class="search">
+                        <router-link to="/member/ban/ip/create">
+                            <i-button type="default">添加封禁 IP</i-button>
+                        </router-link>
+                    </div>
+                </template>
+                <i-table :columns="columns" :context="self" :data="list" @on-selection-change="selection"></i-table>
             </card>
         </div>
     </div>

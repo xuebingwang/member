@@ -119,13 +119,15 @@
             <card>
                 <template slot="title">
                     <span class="text">封禁用户</span>
-                    <i-input class="search" :placeholder="trans('content.global.search.placeholder')" v-model="keyword">
-                        <i-select v-model="select3" slot="prepend" style="width: 80px">
-                            <Option value="day">日活</Option>
-                            <Option value="month">月活</Option>
-                        </i-select>
-                        <i-button slot="append" icon="ios-search" @click.native="search"></i-button>
-                    </i-input>
+                    <div class="search">
+                        <i-input :placeholder="trans('content.global.search.placeholder')" v-model="keyword">
+                            <i-select v-model="select3" slot="prepend" style="width: 80px">
+                                <Option value="day">日活</Option>
+                                <Option value="month">月活</Option>
+                            </i-select>
+                            <i-button slot="append" icon="ios-search" @click.native="search"></i-button>
+                        </i-input>
+                    </div>
                 </template>
                 <i-table :columns="columns" :context="self" :data="list" @on-selection-change="selection"></i-table>
                 <modal class-name="user-list-modal"
