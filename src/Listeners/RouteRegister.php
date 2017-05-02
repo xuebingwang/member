@@ -56,6 +56,7 @@ class RouteRegister extends AbstractRouteRegister
         });
 
         $this->router->group(['middleware' => ['auth:api', 'cross', 'web'], 'prefix' => 'api/member'], function () {
+            $this->router->post('ban/create', BanController::class . '@create');
             $this->router->post('ban/ip', BanController::class . '@ip');
             $this->router->post('ban/list', BanController::class . '@list');
             $this->router->post('group', GroupController::class . '@group');

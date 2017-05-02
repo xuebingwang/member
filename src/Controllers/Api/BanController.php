@@ -9,6 +9,7 @@
 namespace Notadd\Member\Controllers\Api;
 
 use Notadd\Foundation\Routing\Abstracts\Controller;
+use Notadd\Member\Handlers\Ban\CreateHandler;
 use Notadd\Member\Handlers\Ban\IpHandler;
 use Notadd\Member\Handlers\Ban\ListHandler;
 
@@ -17,6 +18,16 @@ use Notadd\Member\Handlers\Ban\ListHandler;
  */
 class BanController extends Controller
 {
+    /**
+     * @param \Notadd\Member\Handlers\Ban\CreateHandler $handler
+     *
+     * @return \Notadd\Foundation\Passport\Responses\ApiResponse|\Psr\Http\Message\ResponseInterface|\Zend\Diactoros\Response
+     */
+    public function create(CreateHandler $handler)
+    {
+        return $handler->toResponse()->generateHttpResponse();
+    }
+
     /**
      * @param \Notadd\Member\Handlers\Ban\IpHandler $handler
      *
