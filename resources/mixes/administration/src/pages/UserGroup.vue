@@ -34,7 +34,8 @@
                         item.check = item.check ? item.check : false;
                         item.end = item.end ? item.end : '';
                     });
-                    if (vm.form.group === 0) {
+                    if (vm.form.group === 0 && data.length > 0) {
+                        window.console.log(data);
                         vm.form.group = data[0].id;
                     }
                     vm.form.id = user.data.data.id;
