@@ -22,6 +22,24 @@ class CreateMemberInformationsTable extends Migration
     {
         $this->schema->create('member_informations', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('description')->nullable();
+            $table->tinyInteger('details')->default(0);
+            $table->tinyInteger('length')->default(0);
+            $table->string('name');
+            $table->tinyInteger('order')->default(0);
+            $table->string('opinions')->nullable();
+            $table->tinyInteger('privacy')->default(0);
+            $table->tinyInteger('register')->default(0);
+            $table->tinyInteger('required')->default(0);
+            $table->enum('type', [
+                'checkbox',
+                'dropdown',
+                'file',
+                'input',
+                'radio',
+                'select',
+                'textarea',
+            ]);
             $table->timestamps();
         });
     }
