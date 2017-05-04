@@ -68,6 +68,7 @@ class RouteRegister extends AbstractRouteRegister
             $this->router->post('information/create', InformationController::class . '@create');
             $this->router->post('information/edit', InformationController::class . '@edit');
             $this->router->post('information/list', InformationController::class . '@list');
+            $this->router->post('information/remove', InformationController::class . '@remove');
             $this->router->post('information/group/create', InformationGroupController::class . '@create');
             $this->router->post('information/group/edit', InformationGroupController::class . '@edit');
             $this->router->post('information/group/list', InformationGroupController::class . '@list');
