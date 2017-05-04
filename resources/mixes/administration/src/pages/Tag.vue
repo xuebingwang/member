@@ -3,8 +3,16 @@
 
     export default {
         beforeRouteEnter(to, from, next) {
-            next(() => {
-                injection.sidebar.active('member');
+            injection.loading.start();
+            injection.http.post(`${window.api}/member/tag/list`).then(response => {
+                window.console.log(response);
+                next(vm => {
+                    vm.list = response.data.data;
+                    injection.loading.finish();
+                    injection.sidebar.active('member');
+                });
+            }).catch(() => {
+                injection.loading.error();
             });
         },
         data() {
@@ -15,13 +23,17 @@
                         width: 100,
                     },
                     {
-                        key: 'name',
+                        key: 'tag',
                         title: injection.trans('标签名称'),
                         width: 200,
                     },
                     {
-                        key: 'name',
+                        key: 'users',
                         title: injection.trans('用户数'),
+                    },
+                    {
+                        key: 'created_at',
+                        title: injection.trans('创建时间'),
                     },
                     {
                         key: 'handle',
