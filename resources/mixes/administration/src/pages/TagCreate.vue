@@ -10,12 +10,12 @@
         data() {
             return {
                 form: {
-                    name: '',
+                    tag: '',
                     users: '',
                 },
                 loading: false,
                 rules: {
-                    name: [
+                    tag: [
                         {
                             required: true,
                             type: 'string',
@@ -28,6 +28,28 @@
         },
         methods: {
             submit() {
+                const self = this;
+                self.loading = true;
+                self.$refs.form.validate(valid => {
+                    if (valid) {
+                        self.$http.post(`${window.api}/member/tag/create`, self.form).then(() => {
+                            self.$loading.finish();
+                            self.$notice.open({
+                                title: '创建标签成功！',
+                            });
+                            self.$router.push('/member/tag');
+                        }).catch(() => {
+                            self.$loading.error();
+                        }).finally(() => {
+                            self.loading = false;
+                        });
+                    } else {
+                        self.$notice.error({
+                            title: '请正确填写标签信息',
+                        });
+                        self.loading = false;
+                    }
+                });
             },
         },
         mounted() {
@@ -49,9 +71,9 @@
                 <i-form :label-width="200" :model="form" ref="form" :rules="rules">
                     <row>
                         <i-col span="12">
-                            <form-item label="标签名称" prop="name">
-                                <i-input placeholder="请输入标签名称" v-model="form.name"></i-input>
-                                <p>可以输入多个标签，多个标签可以用<strong>空格( )</strong>、<strong>逗号分隔(,)</strong>。</p>
+                            <form-item label="标签名称" prop="tag">
+                                <i-input placeholder="请输入标签名称" v-model="form.tag"></i-input>
+                                <p>可以输入多个标签，多个标签可以用<strong>逗号分隔(,)</strong>。</p>
                             </form-item>
                         </i-col>
                     </row>
