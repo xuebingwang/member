@@ -6,6 +6,7 @@ import Group from '../pages/Group.vue';
 import GroupCombine from '../pages/GroupCombine.vue';
 import GroupCreate from '../pages/GroupCreate.vue';
 import GroupEdit from '../pages/GroupEdit.vue';
+import GroupPermission from '../pages/GroupPermission.vue';
 import Information from '../pages/Information.vue';
 import InformationCreate from '../pages/InformationCreate.vue';
 import InformationEdit from '../pages/InformationEdit.vue';
@@ -67,6 +68,11 @@ export default function (injection) {
                     beforeEnter: injection.middleware.requireAuth,
                     component: GroupEdit,
                     path: 'group/:id/edit',
+                },
+                {
+                    beforeEnter: injection.middleware.requireAuth,
+                    component: GroupPermission,
+                    path: 'group/permission',
                 },
                 {
                     beforeEnter: injection.middleware.requireAuth,
