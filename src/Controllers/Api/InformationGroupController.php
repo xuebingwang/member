@@ -12,6 +12,7 @@ use Notadd\Foundation\Routing\Abstracts\Controller;
 use Notadd\Member\Handlers\Information\Group\CreateHandler;
 use Notadd\Member\Handlers\Information\Group\EditHandler;
 use Notadd\Member\Handlers\Information\Group\ListHandler;
+use Notadd\Member\Handlers\Information\Group\RemoveHandler;
 
 /**
  * Class InformationGroupController.
@@ -44,6 +45,16 @@ class InformationGroupController extends Controller
      * @return \Notadd\Foundation\Passport\Responses\ApiResponse|\Psr\Http\Message\ResponseInterface|\Zend\Diactoros\Response
      */
     public function list(ListHandler $handler)
+    {
+        return $handler->toResponse()->generateHttpResponse();
+    }
+
+    /**
+     * @param \Notadd\Member\Handlers\Information\Group\RemoveHandler $handler
+     *
+     * @return \Notadd\Foundation\Passport\Responses\ApiResponse|\Psr\Http\Message\ResponseInterface|\Zend\Diactoros\Response
+     */
+    public function remove(RemoveHandler $handler)
     {
         return $handler->toResponse()->generateHttpResponse();
     }
