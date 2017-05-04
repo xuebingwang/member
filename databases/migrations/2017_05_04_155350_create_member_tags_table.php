@@ -22,6 +22,7 @@ class CreateMemberTagsTable extends Migration
     {
         $this->schema->create('member_tags', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('tag');
             $table->timestamps();
         });
     }
