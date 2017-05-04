@@ -22,6 +22,8 @@ class CreateMemberTagRelationsTable extends Migration
     {
         $this->schema->create('member_tag_relations', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('member_id');
+            $table->integer('tag_id');
             $table->timestamps();
         });
     }
