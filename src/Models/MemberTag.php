@@ -1,0 +1,29 @@
+<?php
+/**
+ * This file is part of Notadd.
+ *
+ * @author TwilRoad <269044570@qq.com>
+ * @copyright (c) 2017, iBenchu.org
+ * @datetime 2017-05-04 16:00
+ */
+namespace Notadd\Member\Models;
+
+use Notadd\Foundation\Database\Model;
+
+/**
+ * Class MemberTag.
+ */
+class MemberTag extends Model
+{
+    /**
+     * @var array
+     */
+    protected $fillable = [
+        'tag',
+    ];
+
+    /**
+     * @var string
+     */
+    protected $table = 'member_tags';
+}
