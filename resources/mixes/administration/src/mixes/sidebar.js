@@ -1,8 +1,17 @@
 export default function (injection) {
     injection.useSidebar('member', [
         {
+            children: [
+                {
+                    path: '/member/user',
+                    title: '用户列表',
+                },
+                {
+                    path: '/member/tag',
+                    title: '用户标签',
+                },
+            ],
             icon: 'plus',
-            path: '/member/user',
             title: '用户管理',
         },
         {
@@ -34,19 +43,18 @@ export default function (injection) {
             title: '封禁',
         },
         {
+            children: [
+                {
+                    path: '/member/group',
+                    title: '用户组列表',
+                },
+                {
+                    path: '/member/group/permission',
+                    title: '用户组权限',
+                },
+            ],
             icon: 'plus',
-            path: '/member/group',
             title: '用户组管理',
         },
-        {
-            icon: 'plus',
-            path: '/member/tag',
-            title: '用户标签',
-        },
-        // {
-        //     icon: 'plus',
-        //     path: '/member/security',
-        //     title: '安全管理',
-        // },
     ]);
 }

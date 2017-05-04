@@ -158,7 +158,7 @@
         <div class="user-list">
             <card>
                 <template slot="title">
-                    <span class="text">用户组列表</span>
+                    <span class="text">用户列表</span>
                     <div class="search">
                         <router-link to="/member/user/create">
                             <i-button type="default">添加用户</i-button>
