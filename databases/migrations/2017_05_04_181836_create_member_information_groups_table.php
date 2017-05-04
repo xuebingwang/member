@@ -22,6 +22,9 @@ class CreateMemberInformationGroupsTable extends Migration
     {
         $this->schema->create('member_information_groups', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('name');
+            $table->tinyInteger('order')->default(0);
+            $table->tinyInteger('show')->default(1);
             $table->timestamps();
         });
     }
