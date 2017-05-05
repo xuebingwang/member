@@ -3,8 +3,21 @@
 
     export default {
         beforeRouteEnter(to, from, next) {
-            next(() => {
-                injection.sidebar.active('member');
+            injection.loading.start();
+            injection.http.post(`${window.api}/member/information/list`).then(response => {
+                const data = response.data.data;
+                const pagination = response.data.pagination;
+                next(vm => {
+                    data.forEach(item => {
+                        item.loading = false;
+                    });
+                    vm.list = data;
+                    vm.pagination = pagination;
+                    injection.loading.finish();
+                    injection.sidebar.active('member');
+                });
+            }).catch(() => {
+                injection.loading.error();
             });
         },
         data() {
@@ -12,8 +25,8 @@
                 columns: [
                     {
                         key: 'name',
-                        title: '信息名称',
-                        width: 100,
+                        title: '信息项名称',
+                        width: 300,
                     },
                     {
                         key: 'order',
@@ -21,7 +34,7 @@
                             return `<i-input v-model="list[${index}].order"></i-input>`;
                         },
                         title: '显示顺序',
-                        width: 90,
+                        width: 120,
                     },
                     {
                         align: 'center',
@@ -30,7 +43,7 @@
                             return `<checkbox v-model="list[${index}].register"></checkbox>`;
                         },
                         title: '注册是否显示',
-                        width: 110,
+                        width: 120,
                     },
                     {
                         align: 'center',
@@ -48,7 +61,7 @@
                             return `<checkbox v-model="list[${index}].required"></checkbox>`;
                         },
                         title: '是否必填',
-                        width: 100,
+                        width: 120,
                     },
                     {
                         key: 'none',
@@ -65,6 +78,7 @@
                     },
                 ],
                 list: [],
+                pagination: {},
                 self: this,
             };
         },
@@ -80,7 +94,7 @@
         <div class="user-information">
             <card>
                 <template slot="title">
-                    <span class="text">信息分组</span>
+                    <span class="text">信息列表</span>
                     <router-link class="extend" to="/member/information/create">
                         <i-button type="default">添加信息分组</i-button>
                     </router-link>
