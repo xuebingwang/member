@@ -25,6 +25,7 @@
                         text: '资料',
                     },
                 ],
+                loading: false,
                 privacies: [
                     {
                         label: '管理员可见',
@@ -70,19 +71,19 @@
     <div class="member-warp">
         <div class="user-create">
             <card>
-                <p slot="title">创建信息</p>
+                <p slot="title">创建信息项</p>
                 <i-form :label-width="200" :model="form" ref="form" :rules="rules">
                     <row>
                         <i-col span="12">
-                            <form-item label="分组名称" prop="name">
-                                <i-input placeholder="请输入分组名称" v-model="form.name"></i-input>
+                            <form-item label="信息项名称" prop="name">
+                                <i-input placeholder="请输入信息项名称" v-model="form.name"></i-input>
                             </form-item>
                         </i-col>
                     </row>
                     <row>
                         <i-col span="12">
-                            <form-item label="分组介绍" prop="description">
-                                <i-input placeholder="请输入分组介绍" v-model="form.description"></i-input>
+                            <form-item label="信息项介绍" prop="description">
+                                <i-input placeholder="请输入信息项介绍" v-model="form.description"></i-input>
                             </form-item>
                         </i-col>
                     </row>
@@ -100,7 +101,7 @@
                     <row>
                         <i-col span="12">
                             <form-item label="大小限定" prop="description">
-                                <i-input placeholder="请输入分组介绍" v-model="form.description"></i-input>
+                                <i-input placeholder="请输入信息项介绍" v-model="form.description"></i-input>
                                 <p>最多可填写的字符数或最多可选择的项数,图片类型时限制了上传图片大小(单位:KB)。</p>
                             </form-item>
                         </i-col>
@@ -169,8 +170,8 @@
                     <row>
                         <i-col span="12">
                             <form-item label="显示顺序" prop="description">
-                                <i-input placeholder="请输入分组介绍" v-model="form.description"></i-input>
-                                <p>值越大显示越靠后。</p>
+                                <i-input placeholder="请输入显示顺序" v-model="form.description"></i-input>
+                                <p>值越大显示越靠后。默认为 0 。</p>
                             </form-item>
                         </i-col>
                     </row>

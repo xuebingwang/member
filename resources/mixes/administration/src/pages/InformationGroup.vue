@@ -149,8 +149,7 @@
                     </router-link>
                 </template>
                 <div class="extend-info">
-                    <p>提示</p>
-                    <p>用户栏目分组至少必须启用一项，如果都不启用，默认为全部启用。</p>
+                    <p>用户数据分组列表</p>
                 </div>
                 <i-form :label-width="0" :model="form" ref="form" :rules="rules">
                     <i-table :columns="columns" :context="self" :data="groups"></i-table>
