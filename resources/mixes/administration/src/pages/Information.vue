@@ -29,6 +29,7 @@
                         width: 300,
                     },
                     {
+                        align: 'center',
                         key: 'order',
                         render(row, column, index) {
                             return `<i-input v-model="list[${index}].order"></i-input>`;
@@ -83,6 +84,7 @@
                     },
                 ],
                 list: [],
+                loading: false,
                 pagination: {},
                 self: this,
             };
@@ -122,6 +124,38 @@
                     });
                 }).finally(() => {
                     information.loading = false;
+                });
+            },
+            submit() {
+                const self = this;
+                self.loading = true;
+                self.$http.post(`${window.api}/member/information/patch`, {
+                    data: self.list,
+                }).then(() => {
+                    self.$notice.open({
+                        title: '批量更新信息项数据成功！',
+                    });
+                    self.$notice.open({
+                        title: '正在更新信息项数据...',
+                    });
+                    self.$loading.start();
+                    self.$http.post(`${window.api}/member/information/list`).then(response => {
+                        const data = response.data.data;
+                        const pagination = response.data.pagination;
+                        data.forEach(item => {
+                            item.loading = false;
+                        });
+                        self.$loading.finish();
+                        self.$notice.open({
+                            title: '更新信息项数据完成！',
+                        });
+                        self.list = data;
+                        self.pagination = pagination;
+                    }).catch(() => {
+                        self.$loading.error();
+                    });
+                }).finally(() => {
+                    self.loading = false;
                 });
             },
         },
