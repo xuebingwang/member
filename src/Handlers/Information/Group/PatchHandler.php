@@ -9,10 +9,34 @@
 namespace Notadd\Member\Handlers\Information\Group;
 
 use Notadd\Foundation\Passport\Abstracts\SetHandler;
+use Notadd\Member\Models\MemberInformationGroup;
 
 /**
  * Class PatchHandler.
  */
 class PatchHandler extends SetHandler
 {
+    /**
+     * Execute Handler.
+     *
+     * @return bool
+     * @throws \Exception
+     */
+    public function execute()
+    {
+        if (!$this->request->has('data')) {
+            $this->code = 500;
+            $this->errors->push($this->translator->trans('参数缺失！'));
+
+            return false;
+        }
+        collect((array)$this->request->input('data'))->each(function (array $attributes) {
+            if (isset($attributes['id']) && MemberInformationGroup::query()->where('id', $attributes['id'])->count()) {
+                MemberInformationGroup::query()->find($attributes['id'])->update($attributes);
+            }
+        });
+        $this->messages->push($this->translator->trans('批量更新数据成功！'));
+
+        return true;
+    }
 }

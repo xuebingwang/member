@@ -60,6 +60,7 @@
                     },
                 ],
                 groups: [],
+                loading: false,
                 pagination: {},
                 self: this,
             };
@@ -102,16 +103,37 @@
                     group.loading = false;
                 });
             },
-            showChange(checked, index) {
-                window.console.log(checked, index);
-            },
-        },
-        watch: {
-            groups: {
-                deep: true,
-                handler(val) {
-                    window.console.log(val);
-                },
+            submit() {
+                const self = this;
+                self.loading = true;
+                self.$http.post(`${window.api}/member/information/group/patch`, {
+                    data: self.groups,
+                }).then(() => {
+                    self.$notice.open({
+                        title: '批量更新数据成功！',
+                    });
+                    self.$notice.open({
+                        title: '正在刷新数据...',
+                    });
+                    self.$loading.start();
+                    self.$http.post(`${window.api}/member/information/group/list`).then(response => {
+                        const data = response.data.data;
+                        const pagination = response.data.pagination;
+                        data.forEach(item => {
+                            item.loading = false;
+                        });
+                        self.$loading.finish();
+                        self.$notice.open({
+                            title: '刷新数据成功！',
+                        });
+                        self.groups = data;
+                        self.pagination = pagination;
+                    }).catch(() => {
+                        self.$loading.error();
+                    });
+                }).finally(() => {
+                    self.loading = false;
+                });
             },
         },
     };
