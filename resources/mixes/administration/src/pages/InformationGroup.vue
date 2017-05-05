@@ -46,8 +46,14 @@
                     },
                     {
                         key: 'handle',
-                        render(row) {
-                            return `<i-button size="small" type="default" @click.native="edit(${row.id})">编辑</i-button>`;
+                        render(row, column, index) {
+                            return `
+                                    <i-button size="small" type="default" @click.native="edit(${row.id})">编辑</i-button>
+                                    <i-button :loading="groups[${index}].loading" size="small" type="error" @click.native="remove(${index})">
+                                        <span v-if="!groups[${index}].loading">删除</span>
+                                        <span v-else>正在删除...</span>
+                                    </i-button>
+                                    `;
                         },
                         title: '操作',
                         width: 300,
@@ -61,6 +67,40 @@
         methods: {
             edit(id) {
                 this.$router.push(`/member/information/group/${id}/edit`);
+            },
+            remove(index) {
+                const self = this;
+                const group = self.groups[index];
+                group.loading = true;
+                self.$http.post(`${window.api}/member/information/group/remove`, {
+                    id: group.id,
+                }).then(() => {
+                    self.$loading.finish();
+                    self.$notice.open({
+                        title: '删除信息分组成功！',
+                    });
+                    self.$notice.open({
+                        title: '正在刷新数据...',
+                    });
+                    self.$loading.start();
+                    self.$http.post(`${window.api}/member/information/group/list`).then(response => {
+                        const data = response.data.data;
+                        const pagination = response.data.pagination;
+                        data.forEach(item => {
+                            item.loading = false;
+                        });
+                        self.$loading.finish();
+                        self.$notice.open({
+                            title: '刷新数据成功！',
+                        });
+                        self.groups = data;
+                        self.pagination = pagination;
+                    }).catch(() => {
+                        self.$loading.error();
+                    });
+                }).finally(() => {
+                    group.loading = false;
+                });
             },
             showChange(checked, index) {
                 window.console.log(checked, index);
