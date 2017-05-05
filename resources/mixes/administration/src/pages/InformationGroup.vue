@@ -3,8 +3,21 @@
 
     export default {
         beforeRouteEnter(to, from, next) {
-            next(() => {
-                injection.sidebar.active('member');
+            injection.loading.start();
+            injection.http.post(`${window.api}/member/information/group/list`).then(response => {
+                const data = response.data.data;
+                const pagination = response.data.pagination;
+                next(vm => {
+                    data.forEach(item => {
+                        item.loading = false;
+                    });
+                    vm.groups = data;
+                    vm.pagination = pagination;
+                    injection.loading.finish();
+                    injection.sidebar.active('member');
+                });
+            }).catch(() => {
+                injection.loading.error();
             });
         },
         data() {
@@ -37,41 +50,11 @@
                             return `<i-button size="small" type="default" @click.native="edit(${row.id})">编辑</i-button>`;
                         },
                         title: '操作',
-                        width: 150,
+                        width: 300,
                     },
                 ],
-                groups: [
-                    {
-                        id: 1,
-                        name: '特别信息',
-                        order: '1',
-                        show: false,
-                    },
-                    {
-                        id: 2,
-                        name: '特别信息',
-                        order: '1',
-                        show: true,
-                    },
-                    {
-                        id: 3,
-                        name: '没有信息',
-                        order: '1',
-                        show: false,
-                    },
-                    {
-                        id: 4,
-                        name: '特别信息',
-                        order: '1',
-                        show: true,
-                    },
-                    {
-                        id: 5,
-                        name: '固定信息',
-                        order: '1',
-                        show: false,
-                    },
-                ],
+                groups: [],
+                pagination: {},
                 self: this,
             };
         },
