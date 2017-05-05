@@ -13,6 +13,7 @@ use Notadd\Member\Handlers\Information\CreateHandler;
 use Notadd\Member\Handlers\Information\EditHandler;
 use Notadd\Member\Handlers\Information\InformationHandler;
 use Notadd\Member\Handlers\Information\ListHandler;
+use Notadd\Member\Handlers\Information\PatchHandler;
 use Notadd\Member\Handlers\Information\RemoveHandler;
 
 /**
@@ -56,6 +57,16 @@ class InformationController extends Controller
      * @return \Notadd\Foundation\Passport\Responses\ApiResponse|\Psr\Http\Message\ResponseInterface|\Zend\Diactoros\Response
      */
     public function list(ListHandler $handler)
+    {
+        return $handler->toResponse()->generateHttpResponse();
+    }
+
+    /**
+     * @param \Notadd\Member\Handlers\Information\PatchHandler $handler
+     *
+     * @return \Notadd\Foundation\Passport\Responses\ApiResponse|\Psr\Http\Message\ResponseInterface|\Zend\Diactoros\Response
+     */
+    public function patch(PatchHandler $handler)
     {
         return $handler->toResponse()->generateHttpResponse();
     }
