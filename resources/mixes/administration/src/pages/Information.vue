@@ -93,10 +93,10 @@
             },
             remove(index) {
                 const self = this;
-                const item = self.list[index];
-                item.loading = true;
+                const information = self.list[index];
+                information.loading = true;
                 self.$http.post(`${window.api}/member/information/remove`, {
-                    id: item.id,
+                    id: information.id,
                 }).then(() => {
                     self.$notice.open({
                         title: '删除信息项成功！',
@@ -121,7 +121,7 @@
                         self.$loading.error();
                     });
                 }).finally(() => {
-                    item.loading = false;
+                    information.loading = false;
                 });
             },
         },
