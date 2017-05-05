@@ -68,13 +68,18 @@
                         title: ' ',
                     },
                     {
-                        align: 'center',
                         key: 'handle',
-                        render(row) {
-                            return `<i-button size="small" type="default" @click.native="edit(${row.id})">编辑</i-button>`;
+                        render(row, column, index) {
+                            return `
+                                    <i-button size="small" type="default" @click.native="edit(${row.id})">编辑</i-button>
+                                    <i-button :loading="list[${index}].loading" size="small" type="error" @click.native="remove(${index})">
+                                        <span v-if="!list[${index}].loading">删除</span>
+                                        <span v-else>正在删除...</span>
+                                    </i-button>
+                                    `;
                         },
                         title: '操作',
-                        width: 150,
+                        width: 300,
                     },
                 ],
                 list: [],
@@ -85,6 +90,39 @@
         methods: {
             edit(id) {
                 this.$router.push(`/member/information/${id}/edit`);
+            },
+            remove(index) {
+                const self = this;
+                const item = self.list[index];
+                item.loading = true;
+                self.$http.post(`${window.api}/member/information/remove`, {
+                    id: item.id,
+                }).then(() => {
+                    self.$notice.open({
+                        title: '删除信息项成功！',
+                    });
+                    self.$notice.open({
+                        title: '正在刷新数据...',
+                    });
+                    self.$loading.start();
+                    self.$http.post(`${window.api}/member/information/list`).then(response => {
+                        const data = response.data.data;
+                        const pagination = response.data.pagination;
+                        data.forEach(item => {
+                            item.loading = false;
+                        });
+                        self.$loading.finish();
+                        self.$notice.open({
+                            title: '刷新数据完成！',
+                        });
+                        self.list = data;
+                        self.pagination = pagination;
+                    }).catch(() => {
+                        self.$loading.error();
+                    });
+                }).finally(() => {
+                    item.loading = false;
+                });
             },
         },
     };
