@@ -3,15 +3,25 @@
 
     export default {
         beforeRouteEnter(to, from, next) {
-            next(() => {
-                injection.sidebar.active('member');
+            injection.loading.start();
+            injection.http.post(`${window.api}/member/information`, {
+                id: to.params.id,
+            }).then(response => {
+                const data = response.data.data;
+                next(vm => {
+                    vm.form = data;
+                    injection.loading.finish();
+                    injection.sidebar.active('member');
+                });
+            }).catch(() => {
+                injection.loading.error();
             });
         },
         data() {
             return {
                 form: {
                     description: '',
-                    detail: false,
+                    details: false,
                     groups: [],
                     name: '',
                     privacy: '',
@@ -29,10 +39,27 @@
                 privacies: [
                     {
                         label: '管理员可见',
-                        value: 'admin',
+                        value: 0,
+                    },
+                    {
+                        label: '自己可见',
+                        value: 1,
+                    },
+                    {
+                        label: '登录可见',
+                        value: 2,
                     },
                 ],
-                rules: {},
+                rules: {
+                    name: [
+                        {
+                            message: '请输入信息项名称',
+                            required: true,
+                            trigger: 'change',
+                            type: 'string',
+                        },
+                    ],
+                },
                 types: [
                     {
                         label: 'input',
@@ -64,6 +91,29 @@
                     },
                 ],
             };
+        },
+        methods: {
+            submit() {
+                const self = this;
+                self.loading = true;
+                self.$refs.form.validate(valid => {
+                    if (valid) {
+                        self.$http.post(`${window.api}/member/information/edit`, self.form).then(() => {
+                            self.$notice.open({
+                                title: '更新信息项数据成功！',
+                            });
+                            self.$router.push('/member/information');
+                        }).finally(() => {
+                            self.loading = false;
+                        });
+                    } else {
+                        self.$notice.error({
+                            title: '请正确填写信息项信息！',
+                        });
+                        self.loading = false;
+                    }
+                });
+            },
         },
     };
 </script>
@@ -100,16 +150,16 @@
                     </row>
                     <row>
                         <i-col span="12">
-                            <form-item label="大小限定" prop="description">
-                                <i-input placeholder="请输入信息项介绍" v-model="form.description"></i-input>
+                            <form-item label="大小限定" prop="length">
+                                <i-input placeholder="请输入信息项介绍" v-model="form.length"></i-input>
                                 <p>最多可填写的字符数或最多可选择的项数,图片类型时限制了上传图片大小(单位:KB)。</p>
                             </form-item>
                         </i-col>
                     </row>
                     <row>
                         <i-col span="12">
-                            <form-item label="可选值" prop="users">
-                                <i-input type="textarea" placeholder="请输入自我介绍" v-model="form.signature"
+                            <form-item label="可选值" prop="opinions">
+                                <i-input type="textarea" placeholder="请输入自我介绍" v-model="form.opinions"
                                          :autosize="{minRows: 5,maxRows: 9}"></i-input>
                                 <p>每行一个值，例如输入:</p>
                                 <p>北京</p>
@@ -130,7 +180,7 @@
                     <row>
                         <i-col span="12">
                             <form-item label="资料页显示">
-                                <i-switch v-model="form.detail" size="large">
+                                <i-switch v-model="form.details" size="large">
                                     <span slot="open">开启</span>
                                     <span slot="close">关闭</span>
                                 </i-switch>
@@ -169,8 +219,8 @@
                     </row>
                     <row>
                         <i-col span="12">
-                            <form-item label="显示顺序" prop="description">
-                                <i-input placeholder="请输入显示顺序" v-model="form.description"></i-input>
+                            <form-item label="显示顺序" prop="order">
+                                <i-input placeholder="请输入显示顺序" v-model="form.order"></i-input>
                                 <p>值越大显示越靠后。默认为 0 。</p>
                             </form-item>
                         </i-col>
