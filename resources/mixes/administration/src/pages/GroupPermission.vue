@@ -7,6 +7,6 @@
                 injection.sidebar.active('member');
             });
         },
-    }
+    };
 </script>
 <template></template>
