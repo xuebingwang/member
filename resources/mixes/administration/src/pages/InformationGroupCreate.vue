@@ -12,8 +12,8 @@
                 form: {
                     id: 1,
                     informations: [],
-                    name: '特别信息',
-                    order: '1',
+                    name: '',
+                    order: '0',
                     show: false,
                 },
                 informations: [
@@ -22,7 +22,41 @@
                         text: '真实姓名',
                     },
                 ],
+                loading: false,
+                rules: {
+                    name: [
+                        {
+                            message: '请输入分组名称',
+                            required: true,
+                            trigger: 'change',
+                            type: 'string',
+                        },
+                    ],
+                },
             };
+        },
+        methods: {
+            submit() {
+                const self = this;
+                self.loading = true;
+                self.$refs.form.validate(valid => {
+                    if (valid) {
+                        self.$http.post(`${window.api}/member/information/group/create`, self.form).then(() => {
+                            self.$notice.open({
+                                title: '创建信息分组成功！',
+                            });
+                            self.$router.push('/member/information/group');
+                        }).finally(() => {
+                            self.loading = false;
+                        });
+                    } else {
+                        self.$notice.error({
+                            title: '请填写完整信息！',
+                        });
+                        self.loading = false;
+                    }
+                });
+            },
         },
     };
 </script>
@@ -41,7 +75,7 @@
                     </row>
                     <row>
                         <i-col span="12">
-                            <form-item label="前台显示">
+                            <form-item label="是否显示">
                                 <i-switch v-model="form.show" size="large">
                                     <span slot="open">开启</span>
                                     <span slot="close">关闭</span>
@@ -58,7 +92,7 @@
                     </row>
                     <row>
                         <i-col span="12">
-                            <form-item label="用户资料分组">
+                            <form-item label="可选资料项">
                                 <checkbox-group v-model="form.group">
                                     <checkbox :label="item.label" v-for="item in informations">
                                         <span>{{ item.text }}</span>

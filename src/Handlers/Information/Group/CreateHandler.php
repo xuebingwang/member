@@ -9,10 +9,33 @@
 namespace Notadd\Member\Handlers\Information\Group;
 
 use Notadd\Foundation\Passport\Abstracts\SetHandler;
+use Notadd\Member\Models\MemberInformationGroup;
 
 /**
  * Class CreateHandler.
  */
 class CreateHandler extends SetHandler
 {
+    /**
+     * Execute Handler.
+     *
+     * @return bool
+     * @throws \Exception
+     */
+    public function execute()
+    {
+        $this->validate($this->request, [
+            'name' => 'required',
+        ], [
+            'name.required' => '必须填写分组名称！',
+        ]);
+        if (MemberInformationGroup::query()->create($this->request->all())) {
+            $this->messages->push($this->translator->trans('创建信息分组成功！'));
+
+            return true;
+        }
+        $this->errors->push($this->translator->trans('创建信息分组失败！'));
+
+        return false;
+    }
 }
