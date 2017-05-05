@@ -13,6 +13,7 @@ use Notadd\Member\Controllers\Api\EmailVerifyController;
 use Notadd\Member\Controllers\Api\GroupController;
 use Notadd\Member\Controllers\Api\InformationController;
 use Notadd\Member\Controllers\Api\InformationGroupController;
+use Notadd\Member\Controllers\Api\PermissionController;
 use Notadd\Member\Controllers\Api\TagController;
 use Notadd\Member\Controllers\Api\UserController;
 use Notadd\Member\Middleware\Group;
@@ -75,6 +76,7 @@ class RouteRegister extends AbstractRouteRegister
             $this->router->post('information/group/list', InformationGroupController::class . '@list');
             $this->router->post('information/group/patch', InformationGroupController::class . '@patch');
             $this->router->post('information/group/remove', InformationGroupController::class . '@remove');
+            $this->router->post('permission/get', PermissionController::class . '@get');
             $this->router->post('tag', TagController::class . '@tag');
             $this->router->post('tag/create', TagController::class . '@create');
             $this->router->post('tag/edit', TagController::class . '@edit');
