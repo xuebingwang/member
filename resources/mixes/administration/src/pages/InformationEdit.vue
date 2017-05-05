@@ -24,6 +24,8 @@
                     details: false,
                     groups: [],
                     name: '',
+                    opinions: '',
+                    order: 0,
                     privacy: '',
                     register: false,
                     required: false,

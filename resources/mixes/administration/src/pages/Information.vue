@@ -47,9 +47,9 @@
                     },
                     {
                         align: 'center',
-                        key: 'detail',
+                        key: 'details',
                         render(row, column, index) {
-                            return `<checkbox v-model="list[${index}].detail"></checkbox>`;
+                            return `<checkbox v-model="list[${index}].details"></checkbox>`;
                         },
                         title: '资料页是否显示',
                         width: 120,
