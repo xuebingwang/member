@@ -12,7 +12,7 @@ use Illuminate\Container\Container;
 use Illuminate\Support\Collection;
 use Notadd\Foundation\Passport\Abstracts\DataHandler;
 use Notadd\Foundation\Permission\PermissionManager;
-use Notadd\Member\Models\MemberGroup;
+use Notadd\Member\Models\Group;
 
 /**
  * Class GetHandler.
@@ -44,7 +44,7 @@ class GetHandler extends DataHandler
     public function data()
     {
         $data = new Collection();
-        $data->put('groups', MemberGroup::all());
+        $data->put('groups', Group::all());
         $data->put('permissions', $this->permission->groups());
 
         return $data->toArray();
