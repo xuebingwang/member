@@ -14,6 +14,7 @@ use Notadd\Member\Handlers\Tag\EditHandler;
 use Notadd\Member\Handlers\Tag\ListHandler;
 use Notadd\Member\Handlers\Tag\PatchHandler;
 use Notadd\Member\Handlers\Tag\TagHandler;
+use Notadd\Member\Handlers\Tag\UserHandler;
 
 /**
  * Class TagController.
@@ -66,6 +67,16 @@ class TagController extends Controller
      * @return \Notadd\Foundation\Passport\Responses\ApiResponse|\Psr\Http\Message\ResponseInterface|\Zend\Diactoros\Response
      */
     public function tag(TagHandler $handler)
+    {
+        return $handler->toResponse()->generateHttpResponse();
+    }
+
+    /**
+     * @param \Notadd\Member\Handlers\Tag\UserHandler $handler
+     *
+     * @return \Notadd\Foundation\Passport\Responses\ApiResponse|\Psr\Http\Message\ResponseInterface|\Zend\Diactoros\Response
+     */
+    public function user(UserHandler $handler)
     {
         return $handler->toResponse()->generateHttpResponse();
     }
