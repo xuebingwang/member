@@ -24,6 +24,7 @@ import UserCreate from '../pages/UserCreate.vue';
 import UserEdit from '../pages/UserEdit.vue';
 import UserGroup from '../pages/UserGroup.vue';
 import UserIntegral from '../pages/UserIntegral.vue';
+import UserTag from '../pages/UserTag.vue';
 
 export default function (injection) {
     injection.useModuleRoute([
@@ -153,6 +154,11 @@ export default function (injection) {
                     beforeEnter: injection.middleware.requireAuth,
                     component: UserIntegral,
                     path: 'user/:id/integral',
+                },
+                {
+                    beforeEnter: injection.middleware.requireAuth,
+                    component: UserTag,
+                    path: 'user/:id/tag',
                 },
             ],
             component: Layout,

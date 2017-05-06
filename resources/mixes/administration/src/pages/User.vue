@@ -99,6 +99,7 @@
                             return `
                                     <i-button size="small" type="default" @click.native="group(${row.id})">用户组</i-button>
                                     <i-button size="small" type="default" @click.native="integral(${row.id})">积分</i-button>
+                                    <i-button size="small" type="default" @click.native="tag(${row.id})">积分</i-button>
                                     <i-button size="small" type="default" @click.native="edit(${row.id})">编辑详情</i-button>
                                     <i-button size="small" type="default" @click.native="ban(${row.id})">封禁</i-button>
                                     <i-button size="small" type="error" @click.native="remove(${index})">删除</i-button>
@@ -146,6 +147,9 @@
             },
             selection(items) {
                 this.selections = items;
+            },
+            tag(id) {
+                this.$router.push(`/member/user/${id}/tag`);
             },
         },
         mounted() {
