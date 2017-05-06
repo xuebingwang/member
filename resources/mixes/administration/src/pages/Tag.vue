@@ -39,8 +39,8 @@
                         key: 'handle',
                         render(row, column, index) {
                             return `
-                                    <i-button size="small" type="default" @click.native="edit(${row.id})">合并用户组</i-button>
-                                    <i-button size="small" type="default" @click.native="edit(${row.id})">编辑用户组</i-button>
+                                    <i-button size="small" type="default" @click.native="notification(${row.id})">发送通知</i-button>
+                                    <i-button size="small" type="default" @click.native="list(${row.id})">用户列表</i-button>
                                     <i-button :loading="list[${index}].loading"  size="small" type="error" @click.native="remove(${index})">
                                         <span v-if="!list[${index}].loading">${injection.trans('content.global.delete.submit')}</span>
                                         <span v-else>${injection.trans('content.global.delete.loading')}</span>
@@ -71,7 +71,39 @@
             };
         },
         methods: {
-            selection() {
+            selection(items) {
+                const self = this;
+                self.form.tags = [];
+                items.forEach(item => {
+                    self.form.tags.push(item.id);
+                });
+            },
+            submit() {
+                const self = this;
+                self.loading = true;
+                if (!self.form.tags.length) {
+                    self.$notice.error({
+                        title: '请先选择标签！',
+                    });
+                    self.loading = false;
+                }
+                self.$http.post(`${window.api}/member/tag/patch`, self.form).then(() => {
+                    self.$notice.open({
+                        title: '批量更新标签数据成功！',
+                    });
+                    self.$notice.open({
+                        title: '准备更新标签数据...',
+                    });
+                    self.$loading.start();
+                    self.$http.post(`${window.api}/member/tag/list`).then(response => {
+                        self.list = response.data.data;
+                        self.$loading.finish();
+                    }).catch(() => {
+                        self.$loading.error();
+                    });
+                }).finally(() => {
+                    self.loading = false;
+                });
             },
         },
     };
