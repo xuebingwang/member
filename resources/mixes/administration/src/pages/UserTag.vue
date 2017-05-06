@@ -38,7 +38,6 @@
         },
         data() {
             return {
-                has: [],
                 loading: false,
                 tags: [],
                 user: {},
@@ -60,9 +59,9 @@
                         has.push(item.id);
                     }
                 });
-                window.console.log(has);
                 self.$http.post(`${window.api}/member/tag/user`, {
                     id: self.user.id,
+                    tags: has,
                 }).then(() => {
                     self.$notice.open({
                         title: '更新用户标签成功！',
@@ -99,11 +98,9 @@
                     <row>
                         <i-col span="12">
                             <form-item label="标签">
-                                <checkbox-group v-model="has">
-                                    <checkbox :label="item.id" v-for="item in tags" v-model="item.has">
-                                        <span>{{ item.tag }}</span>
-                                    </checkbox>
-                                </checkbox-group>
+                                <checkbox :label="item.id" v-for="item in tags" v-model="item.has">
+                                    <span>{{ item.tag }}</span>
+                                </checkbox>
                             </form-item>
                         </i-col>
                     </row>
