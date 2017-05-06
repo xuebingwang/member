@@ -39,8 +39,8 @@
                         key: 'handle',
                         render(row, column, index) {
                             return `
-                                    <i-button size="small" type="default" @click.native="notification(${row.id})">发送通知</i-button>
-                                    <i-button size="small" type="default" @click.native="list(${row.id})">用户列表</i-button>
+                                    <!--<i-button size="small" type="default" @click.native="notification(${row.id})">发送通知</i-button>
+                                    <i-button size="small" type="default" @click.native="list(${row.id})">用户列表</i-button>-->
                                     <i-button :loading="list[${index}].loading"  size="small" type="error" @click.native="remove(${index})">
                                         <span v-if="!list[${index}].loading">${injection.trans('content.global.delete.submit')}</span>
                                         <span v-else>${injection.trans('content.global.delete.loading')}</span>
@@ -61,10 +61,10 @@
                         label: 'delete',
                         text: '删除',
                     },
-                    {
-                        label: 'combine',
-                        text: '合并到',
-                    },
+//                    {
+//                        label: 'combine',
+//                        text: '合并到',
+//                    },
                 ],
                 list: [],
                 loading: false,
@@ -136,11 +136,11 @@
                                         <span>{{ item.text }}</span>
                                     </radio>
                                 </radio-group>
-                                <i-input placeholder="请输入标签名称"
-                                         size="small"
-                                         v-if="form.type === 'combine'"
-                                         v-model="form.target">
-                                </i-input>
+                                <!--<i-input placeholder="请输入标签名称"-->
+                                         <!--size="small"-->
+                                         <!--v-if="form.type === 'combine'"-->
+                                         <!--v-model="form.target">-->
+                                <!--</i-input>-->
                             </form-item>
                         </i-col>
                     </row>
