@@ -53,6 +53,7 @@
                 ],
                 form: {
                     tags: [],
+                    target: '',
                     type: 'delete',
                 },
                 types: [
@@ -87,23 +88,30 @@
                     });
                     self.loading = false;
                 }
-                self.$http.post(`${window.api}/member/tag/patch`, self.form).then(() => {
-                    self.$notice.open({
-                        title: '批量更新标签数据成功！',
+                if (self.form.type === 'combine' && self.form.target === '') {
+                    self.$notice.error({
+                        title: '请输入合并到的标签名称！',
                     });
-                    self.$notice.open({
-                        title: '准备更新标签数据...',
-                    });
-                    self.$loading.start();
-                    self.$http.post(`${window.api}/member/tag/list`).then(response => {
-                        self.list = response.data.data;
-                        self.$loading.finish();
-                    }).catch(() => {
-                        self.$loading.error();
-                    });
-                }).finally(() => {
                     self.loading = false;
-                });
+                } else {
+                    self.$http.post(`${window.api}/member/tag/patch`, self.form).then(() => {
+                        self.$notice.open({
+                            title: '批量更新标签数据成功！',
+                        });
+                        self.$notice.open({
+                            title: '准备更新标签数据...',
+                        });
+                        self.$loading.start();
+                        self.$http.post(`${window.api}/member/tag/list`).then(response => {
+                            self.list = response.data.data;
+                            self.$loading.finish();
+                        }).catch(() => {
+                            self.$loading.error();
+                        });
+                    }).finally(() => {
+                        self.loading = false;
+                    });
+                }
             },
         },
     };
@@ -131,7 +139,7 @@
                                 <i-input placeholder="请输入标签名称"
                                          size="small"
                                          v-if="form.type === 'combine'"
-                                         v-model="form.description">
+                                         v-model="form.target">
                                 </i-input>
                             </form-item>
                         </i-col>
