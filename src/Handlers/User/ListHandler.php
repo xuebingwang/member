@@ -79,6 +79,9 @@ class ListHandler extends DataHandler
                 $builder = $builder->with($with);
             }
         }
+        if ($this->request->has('search')) {
+            $builder = $builder->where('name', 'like', "%{$this->request->input('search')}%");
+        }
         $this->pagination = $builder->orderBy($this->order, $this->sort)->paginate($this->paginate);
         $data = [];
         switch ($this->format) {

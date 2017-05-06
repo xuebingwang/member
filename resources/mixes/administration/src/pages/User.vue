@@ -13,7 +13,6 @@
                 ],
             }).then(response => {
                 const data = response.data.data;
-                window.console.log(data);
                 const pagination = response.data.pagination;
                 next(vm => {
                     data.forEach(item => {
@@ -98,7 +97,7 @@
                         render(row, column, index) {
                             return `
                                     <i-button size="small" type="default" @click.native="group(${row.id})">用户组</i-button>
-                                    <i-button size="small" type="default" @click.native="integral(${row.id})">积分</i-button>
+                                    <!--<i-button size="small" type="default" @click.native="integral(${row.id})">积分</i-button>-->
                                     <i-button size="small" type="default" @click.native="tag(${row.id})">标签</i-button>
                                     <i-button size="small" type="default" @click.native="edit(${row.id})">编辑详情</i-button>
                                     <i-button size="small" type="default" @click.native="ban(${row.id})">封禁</i-button>
@@ -145,6 +144,40 @@
                 this.user = this.list[index];
                 this.modal.visible = true;
             },
+            search() {
+                const self = this;
+                if (self.keyword === '') {
+                    self.$notice.error({
+                        title: '请输入搜索关键词！',
+                    });
+                    return false;
+                }
+                self.$http.post(`${window.api}/member/user/list`, {
+                    format: 'beauty',
+                    search: self.keyword,
+                    with: [
+                        'ban',
+                        'groups',
+                        'groups.details',
+                    ],
+                }).then(response => {
+                    const data = response.data.data;
+                    const pagination = response.data.pagination;
+                    data.forEach(item => {
+                        if (item.ban) {
+                            item.ban = item.ban.type;
+                        } else {
+                            item.ban = 0;
+                        }
+                    });
+                    self.list = data;
+                    self.pagination = pagination;
+                    injection.loading.finish();
+                }).catch(() => {
+                    self.$loading.error();
+                });
+                return true;
+            },
             selection(items) {
                 this.selections = items;
             },
@@ -167,12 +200,12 @@
                         <router-link to="/member/user/create">
                             <i-button type="default">添加用户</i-button>
                         </router-link>
-                        <i-button type="default" @click.native="output">导出数据</i-button>
+                        <!--<i-button type="default" @click.native="output">导出数据</i-button>-->
                         <i-input :placeholder="trans('content.global.search.placeholder')" v-model="keyword">
-                            <i-select v-model="select3" slot="prepend" style="width: 80px">
-                                <Option value="day">日活</Option>
-                                <Option value="month">月活</Option>
-                            </i-select>
+                            <!--<i-select v-model="select3" slot="prepend" style="width: 80px">-->
+                                <!--<Option value="day">日活</Option>-->
+                                <!--<Option value="month">月活</Option>-->
+                            <!--</i-select>-->
                             <i-button slot="append" icon="ios-search" @click.native="search"></i-button>
                         </i-input>
                     </div>
