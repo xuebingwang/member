@@ -83,6 +83,7 @@ class RouteRegister extends AbstractRouteRegister
             $this->router->post('tag/edit', TagController::class . '@edit');
             $this->router->post('tag/list', TagController::class . '@list');
             $this->router->post('tag/patch', TagController::class . '@patch');
+            $this->router->post('tag/relation', TagController::class . '@relation');
             $this->router->post('tag/user', TagController::class . '@user');
             $this->router->post('upload', UploadController::class . '@handle');
             $this->router->post('user', UserController::class . '@user');

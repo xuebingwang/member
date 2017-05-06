@@ -72,14 +72,6 @@
                 });
             },
         },
-        watch: {
-            has: {
-                deep: true,
-                handler(val) {
-                    window.console.log(val);
-                },
-            },
-        },
     };
 </script>
 <template>
