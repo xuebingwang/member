@@ -90,6 +90,7 @@ class RouteRegister extends AbstractRouteRegister
             $this->router->post('user/edit', UserController::class . '@edit');
             $this->router->post('user/group', UserController::class . '@group');
             $this->router->post('user/list', UserController::class . '@list');
+            $this->router->post('user/tag', UserController::class . '@tag');
         });
 
         $this->router->aliasMiddleware('group', Group::class);

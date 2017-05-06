@@ -14,6 +14,7 @@ use Notadd\Member\Handlers\User\CreateHandler;
 use Notadd\Member\Handlers\User\EditHandler;
 use Notadd\Member\Handlers\User\GroupHandler;
 use Notadd\Member\Handlers\User\ListHandler;
+use Notadd\Member\Handlers\User\TagHandler;
 use Notadd\Member\Handlers\User\UserHandler;
 
 /**
@@ -67,6 +68,16 @@ class UserController extends Controller
      * @return \Notadd\Foundation\Passport\Responses\ApiResponse|\Psr\Http\Message\ResponseInterface|\Zend\Diactoros\Response
      */
     public function list(ListHandler $handler)
+    {
+        return $handler->toResponse()->generateHttpResponse();
+    }
+
+    /**
+     * @param \Notadd\Member\Handlers\User\TagHandler $handler
+     *
+     * @return \Notadd\Foundation\Passport\Responses\ApiResponse|\Psr\Http\Message\ResponseInterface|\Zend\Diactoros\Response
+     */
+    public function tag(TagHandler $handler)
     {
         return $handler->toResponse()->generateHttpResponse();
     }
