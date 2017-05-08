@@ -6,7 +6,7 @@
  * @copyright (c) 2017, iBenchu.org
  * @datetime 2017-05-08 18:14
  */
-namespace Notadd\Member\Handlers\Nofication;
+namespace Notadd\Member\Handlers\Notification;
 
 use Notadd\Foundation\Passport\Abstracts\SetHandler;
 
