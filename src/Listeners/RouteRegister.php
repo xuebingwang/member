@@ -16,6 +16,7 @@ use Notadd\Member\Controllers\Api\NotificationController;
 use Notadd\Member\Controllers\Api\PermissionController;
 use Notadd\Member\Controllers\Api\TagController;
 use Notadd\Member\Controllers\Api\UserController;
+use Notadd\Member\Controllers\Api\VerificationController;
 use Notadd\Member\Middleware\Group;
 use Notadd\Member\Middleware\Permission;
 use Notadd\Member\Middleware\FrontPermission;
@@ -76,6 +77,7 @@ class RouteRegister extends AbstractRouteRegister
             $this->router->post('user/group', UserController::class . '@group');
             $this->router->post('user/list', UserController::class . '@list');
             $this->router->post('user/tag', UserController::class . '@tag');
+            $this->router->post('verification/send', VerificationController::class . '@send');
         });
 
         $this->router->aliasMiddleware('group', Group::class);
