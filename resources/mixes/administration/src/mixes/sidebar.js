@@ -40,7 +40,7 @@ export default function (injection) {
                 },
             ],
             icon: 'plus',
-            title: '封禁',
+            title: '封禁管理',
         },
         {
             children: [
@@ -55,6 +55,20 @@ export default function (injection) {
             ],
             icon: 'plus',
             title: '用户组管理',
+        },
+        {
+            children: [
+                {
+                    path: '/member/notification',
+                    title: '消息列表',
+                },
+                {
+                    path: '/member/notification/create',
+                    title: '群发消息',
+                },
+            ],
+            icon: 'plus',
+            title: '消息管理',
         },
     ]);
 }

@@ -14,7 +14,7 @@ import InformationGroup from '../pages/InformationGroup.vue';
 import InformationGroupCreate from '../pages/InformationGroupCreate.vue';
 import InformationGroupEdit from '../pages/InformationGroupEdit.vue';
 import Layout from '../layouts/Layout.vue';
-import Security from '../pages/Security.vue';
+import Notification from '../pages/Notification.vue';
 import Tag from '../pages/Tag.vue';
 import TagCreate from '../pages/TagCreate.vue';
 import TagNotify from '../pages/TagNotify.vue';
@@ -107,8 +107,8 @@ export default function (injection) {
                 },
                 {
                     beforeEnter: injection.middleware.requireAuth,
-                    component: Security,
-                    path: 'security',
+                    component: Notification,
+                    path: 'notification',
                 },
                 {
                     beforeEnter: injection.middleware.requireAuth,
