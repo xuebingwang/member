@@ -13,6 +13,7 @@ use Notadd\Member\Controllers\Api\EmailVerifyController;
 use Notadd\Member\Controllers\Api\GroupController;
 use Notadd\Member\Controllers\Api\InformationController;
 use Notadd\Member\Controllers\Api\InformationGroupController;
+use Notadd\Member\Controllers\Api\NotificationController;
 use Notadd\Member\Controllers\Api\PermissionController;
 use Notadd\Member\Controllers\Api\TagController;
 use Notadd\Member\Controllers\Api\UserController;
@@ -40,12 +41,6 @@ class RouteRegister extends AbstractRouteRegister
             // 发送邮件激活和验证
             $this->router->post('members/email-verification/send/{email}', EmailVerifyController::class . '@sendEmailVerify');
             $this->router->get('members/email-verification/check/{token}', EmailVerifyController::class . '@activeEmail');
-
-            // 权限
-            $this->router->post('permissions/index', ApiPermissionController::class . '@index');
-            $this->router->post('permissions/{perm_id}/show', ApiPermissionController::class . '@show');
-            $this->router->patch('permissions/store', ApiPermissionController::class . '@store');
-            $this->router->delete('permissions/{perm_id}/delete', ApiPermissionController::class . '@destroy');
             // 行为积分
             $this->router->post('points/index', ApiActionPointsController::class . '@index');
             $this->router->post('points/{points_id}/show', ApiActionPointsController::class . '@show');
@@ -76,6 +71,7 @@ class RouteRegister extends AbstractRouteRegister
             $this->router->post('information/group/list', InformationGroupController::class . '@list');
             $this->router->post('information/group/patch', InformationGroupController::class . '@patch');
             $this->router->post('information/group/remove', InformationGroupController::class . '@remove');
+            $this->router->post('notification/create', NotificationController::class . '@create');
             $this->router->post('permission/get', PermissionController::class . '@get');
             $this->router->post('permission/set', PermissionController::class . '@set');
             $this->router->post('tag', TagController::class . '@tag');
