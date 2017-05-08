@@ -9,7 +9,6 @@
 namespace Notadd\Member\Listeners;
 
 use Notadd\Member\Controllers\Api\BanController;
-use Notadd\Member\Controllers\Api\EmailVerifyController;
 use Notadd\Member\Controllers\Api\GroupController;
 use Notadd\Member\Controllers\Api\InformationController;
 use Notadd\Member\Controllers\Api\InformationGroupController;
@@ -22,9 +21,6 @@ use Notadd\Member\Middleware\Permission;
 use Notadd\Member\Middleware\FrontPermission;
 use Notadd\Member\Middleware\AdminPermission;
 use Notadd\Foundation\Routing\Abstracts\RouteRegister as AbstractRouteRegister;
-use Notadd\Member\Controllers\Api\PermissionController as ApiPermissionController;
-use Notadd\Member\Controllers\Api\ActionPointsController as ApiActionPointsController;
-use Notadd\Member\Controllers\Api\NotificationController as ApiNotificationController;
 use Notadd\Member\Controllers\Api\UploadController;
 
 /**
@@ -37,19 +33,6 @@ class RouteRegister extends AbstractRouteRegister
      */
     public function handle()
     {
-        $this->router->group(['middleware' => ['api'], 'prefix' => 'api/member'], function () {
-            // 发送邮件激活和验证
-            $this->router->post('members/email-verification/send/{email}', EmailVerifyController::class . '@sendEmailVerify');
-            $this->router->get('members/email-verification/check/{token}', EmailVerifyController::class . '@activeEmail');
-            // 行为积分
-            $this->router->post('points/index', ApiActionPointsController::class . '@index');
-            $this->router->post('points/{points_id}/show', ApiActionPointsController::class . '@show');
-            // 发送系统通知
-            $this->router->post('notifies/system_notify', ApiNotificationController::class . '@systemNotify');
-            // 批量发送系统通知
-            $this->router->post('notifies/batch_system_notify', ApiNotificationController::class . '@batchSystemNotify');
-        });
-
         $this->router->group(['middleware' => ['auth:api', 'cross', 'web'], 'prefix' => 'api/member'], function () {
             $this->router->post('ban/create', BanController::class . '@create');
             $this->router->post('ban/ip', BanController::class . '@ip');

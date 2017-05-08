@@ -8,17 +8,17 @@
  */
 namespace Notadd\Member\Controllers\Api;
 
+use Notadd\Foundation\Routing\Abstracts\Controller;
 use Notadd\Member\Handlers\Group\CreateHandler;
 use Notadd\Member\Handlers\Group\EditHandler;
 use Notadd\Member\Handlers\Group\GroupHandler;
 use Notadd\Member\Handlers\Group\ListHandler;
-use Notadd\Member\Abstracts\AbstractApiController;
 use Notadd\Member\Handlers\Group\RemoveHandler;
 
 /**
  * Class GroupController.
  */
-class GroupController extends AbstractApiController
+class GroupController extends Controller
 {
     /**
      * @param \Notadd\Member\Handlers\Group\CreateHandler $handler
