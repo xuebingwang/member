@@ -8,6 +8,7 @@
  */
 namespace Notadd\Member\Models;
 
+use Illuminate\Notifications\Notifiable;
 use Notadd\Member\Traits\InjectionFunction;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Notadd\Foundation\Member\Member as BaseMember;
@@ -34,7 +35,7 @@ use Notadd\Foundation\Member\Member as BaseMember;
  */
 class Member extends BaseMember
 {
-    use SoftDeletes, InjectionFunction;
+    use SoftDeletes, InjectionFunction, Notifiable;
 
     /**
      * Founder role
