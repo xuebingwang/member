@@ -20,7 +20,7 @@ class CreateMemberGroupsTable extends Migration
      */
     public function up()
     {
-        $this->schema->create('member_groups', function (Blueprint $table) {
+        $this->schema->create('member_group_relations', function (Blueprint $table) {
             $table->increments('id');
             $table->timestamp('end')->nullable();
             $table->integer('group_id');
@@ -38,6 +38,6 @@ class CreateMemberGroupsTable extends Migration
      */
     public function down()
     {
-        $this->schema->drop('member_groups');
+        $this->schema->drop('member_group_relations');
     }
 }
