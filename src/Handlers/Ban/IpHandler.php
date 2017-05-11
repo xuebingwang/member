@@ -86,18 +86,21 @@ class IpHandler extends DataHandler
     public function toResponse()
     {
         $response = parent::toResponse();
-
-        return $response->withParams([
-            'pagination' => [
-                'count'    => $this->pagination->total(),
-                'current'  => $this->pagination->currentPage(),
-                'from'     => $this->pagination->firstItem(),
-                'next'     => $this->pagination->nextPageUrl(),
-                'paginate' => $this->paginate,
-                'prev'     => $this->pagination->previousPageUrl(),
-                'to'       => $this->pagination->lastItem(),
-                'total'    => $this->pagination->lastPage(),
-            ],
-        ]);
+        if ($this->pagination) {
+            return $response->withParams([
+                'pagination' => [
+                    'count'    => $this->pagination->total(),
+                    'current'  => $this->pagination->currentPage(),
+                    'from'     => $this->pagination->firstItem(),
+                    'next'     => $this->pagination->nextPageUrl(),
+                    'paginate' => $this->paginate,
+                    'prev'     => $this->pagination->previousPageUrl(),
+                    'to'       => $this->pagination->lastItem(),
+                    'total'    => $this->pagination->lastPage(),
+                ],
+            ]);
+        } else {
+            return $response;
+        }
     }
 }
