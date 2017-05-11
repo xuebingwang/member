@@ -41,7 +41,7 @@ class MemberGroup extends Model
     /**
      * @var string
      */
-    protected $table = 'groups';
+    protected $table = 'member_groups';
 
     /**
      * Group constructor.

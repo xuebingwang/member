@@ -29,7 +29,7 @@ class MemberGroupRelation extends Model
     /**
      * @var string
      */
-    protected $table = 'member_groups';
+    protected $table = 'member_group_relations';
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
