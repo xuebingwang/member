@@ -12,7 +12,7 @@ use Carbon\Carbon;
 use Illuminate\Container\Container;
 use Notadd\Foundation\Passport\Abstracts\SetHandler;
 use Notadd\Member\Models\Member;
-use Notadd\Member\Models\MemberGroup;
+use Notadd\Member\Models\MemberGroupRelation;
 
 /**
  * Class GroupHandler.
@@ -35,7 +35,7 @@ class GroupHandler extends SetHandler
     private $groups;
 
     /**
-     * @var \Notadd\Member\Models\MemberGroup
+     * @var \Notadd\Member\Models\MemberGroupRelation
      */
     protected $memberGroup;
 
@@ -64,7 +64,7 @@ class GroupHandler extends SetHandler
 
             return false;
         }
-        $this->exits = MemberGroup::query()->where('member_id', $this->request->input('member_id'))->get();
+        $this->exits = MemberGroupRelation::query()->where('member_id', $this->request->input('member_id'))->get();
         collect($this->request->input('data'))->each(function ($data) {
             $has = $this->exits->where('group_id', '=', $data['group_id']);
             if ($has->count()) {
@@ -72,20 +72,20 @@ class GroupHandler extends SetHandler
             }
             $data['end'] = Carbon::createFromTimestampUTC(strtotime($data['end']));
 
-            if (MemberGroup::query()
+            if (MemberGroupRelation::query()
                 ->where('member_id', $data['member_id'])
                 ->where('group_id', $data['group_id'])
                 ->count()) {
-                $group = MemberGroup::query()
+                $group = MemberGroupRelation::query()
                     ->where('member_id', $data['member_id'])
                     ->where('group_id', $data['group_id'])
                     ->first();
                 $group->update($data);
             } else {
-                MemberGroup::query()->create($data);
+                MemberGroupRelation::query()->create($data);
             }
         });
-        $this->exits->each(function (MemberGroup $group) {
+        $this->exits->each(function (MemberGroupRelation $group) {
             $group->delete();
         });
         $this->messages->push($this->translator->trans('更新用户用户组信息成功！'));

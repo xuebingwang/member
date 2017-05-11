@@ -13,7 +13,7 @@ use Notadd\Foundation\Database\Model;
 /**
  * Class MemberGroup.
  */
-class MemberGroup extends Model
+class MemberGroupRelation extends Model
 {
     /**
      * @var array

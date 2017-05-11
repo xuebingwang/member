@@ -100,7 +100,7 @@ class Member extends BaseMember
      */
     public function groups()
     {
-        return $this->hasMany(MemberGroup::class, 'member_id');
+        return $this->hasMany(MemberGroupRelation::class, 'member_id');
     }
 
     /**

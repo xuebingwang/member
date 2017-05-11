@@ -11,7 +11,7 @@ namespace Notadd\Member\Handlers\User;
 use Illuminate\Container\Container;
 use Notadd\Foundation\Passport\Abstracts\DataHandler;
 use Notadd\Member\Models\Member;
-use Notadd\Member\Models\MemberGroup;
+use Notadd\Member\Models\MemberGroupRelation;
 
 /**
  * Class ListHandler.
@@ -111,7 +111,7 @@ class ListHandler extends DataHandler
             }
             $groups = collect($member->getAttribute('groups'));
             if ($groups->count()) {
-                $groups->each(function (MemberGroup $group) use ($member) {
+                $groups->each(function (MemberGroupRelation $group) use ($member) {
                     if ($group->getAttribute('type') === 'default') {
                         $details = $group->details()->getResults();
                         $member->setAttribute('group', $details->name);
