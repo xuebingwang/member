@@ -51,6 +51,14 @@ class EditHandler extends SetHandler
      */
     public function execute()
     {
+        $this->validate($this->request, [
+            'email' => 'required|email',
+            'name' => 'required',
+        ], [
+            'email.required' => $this->translator->trans('必须填写电子邮箱账号！'),
+            'email.email' => $this->translator->trans('请填写格式正确的电子邮箱账号！'),
+            'name.required' => $this->translator->trans('必须填写用户名！'),
+        ]);
         $this->configurations();
         $member = $this->model->newQuery()->find($this->id);
         if ($member) {
