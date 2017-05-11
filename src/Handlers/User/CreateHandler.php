@@ -34,9 +34,20 @@ class CreateHandler extends SetHandler
      */
     public function execute()
     {
+        $this->validate($this->request, [
+            'email' => 'required|email',
+            'name' => 'required',
+            'password' => 'required',
+        ], [
+            'email.required' => $this->translator->trans('必须填写电子邮箱账号！'),
+            'email.email' => $this->translator->trans('请填写格式正确的电子邮箱账号！'),
+            'name.required' => $this->translator->trans('必须填写用户名！'),
+            'password.required' => $this->translator->trans('必须填写密码！'),
+        ]);
         if (!$this->request->has('birthday')) {
             $this->request->offsetSet('birthday', null);
         }
+        $this->request->offsetSet('password', bcrypt($this->request->input('password')));
         if ($this->model->newQuery()->create($this->request->all())) {
             $this->messages->push($this->translator->trans('创建用户成功！'));
 
