@@ -10,7 +10,7 @@ namespace Notadd\Member\Handlers\Group;
 
 use Illuminate\Container\Container;
 use Notadd\Foundation\Passport\Abstracts\SetHandler;
-use Notadd\Member\Models\Group;
+use Notadd\Member\Models\MemberGroup;
 
 /**
  * Class RemoveHandler.
@@ -20,10 +20,10 @@ class RemoveHandler extends SetHandler
     /**
      * RemoveHandler constructor.
      *
-     * @param \Illuminate\Container\Container $container
-     * @param \Notadd\Member\Models\Group     $group
+     * @param \Illuminate\Container\Container   $container
+     * @param \Notadd\Member\Models\MemberGroup $group
      */
-    public function __construct(Container $container, Group $group)
+    public function __construct(Container $container, MemberGroup $group)
     {
         parent::__construct($container);
         $this->model = $group;

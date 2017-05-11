@@ -36,6 +36,6 @@ class MemberGroupRelation extends Model
      */
     public function details()
     {
-        return $this->hasOne(Group::class, 'id', 'group_id');
+        return $this->hasOne(MemberGroup::class, 'id', 'group_id');
     }
 }

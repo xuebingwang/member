@@ -21,7 +21,7 @@ use Notadd\Foundation\Database\Model;
  * @property \Carbon\Carbon|null $created_at
  * @property \Carbon\Carbon|null $updated_at
  */
-class Group extends Model
+class MemberGroup extends Model
 {
     /**
      * @var \Illuminate\Cache\CacheManager
@@ -119,7 +119,7 @@ class Group extends Model
     public static function boot()
     {
         parent::boot();
-        static::deleting(function (Group $group) {
+        static::deleting(function (MemberGroup $group) {
             $group->members()->sync([]);
             $group->permissions()->sync([]);
         });
@@ -181,7 +181,7 @@ class Group extends Model
      * @param null $icon
      * @param null $description
      *
-     * @return \Illuminate\Database\Eloquent\Builder|\Notadd\Member\Models\Group
+     * @return \Illuminate\Database\Eloquent\Builder|\Notadd\Member\Models\MemberGroup
      */
     public static function addGroup($name, $display_name = null, $icon = null, $description = null)
     {

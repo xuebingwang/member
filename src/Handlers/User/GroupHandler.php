@@ -25,7 +25,7 @@ class GroupHandler extends SetHandler
     protected $exits;
 
     /**
-     * @var \Notadd\Member\Models\Group
+     * @var \Notadd\Member\Models\MemberGroup
      */
     protected $group;
 

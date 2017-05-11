@@ -29,6 +29,6 @@ class Permission extends BasePermission
      */
     public function groups()
     {
-        return $this->belongsToMany(Group::class, 'group_permission', 'permission_id', 'group_id');
+        return $this->belongsToMany(MemberGroup::class, 'group_permission', 'permission_id', 'group_id');
     }
 }

@@ -42,8 +42,6 @@ class ModuleServiceProvider extends Module
             realpath(__DIR__ . '/../resources/mixes/administration/dist/assets/member/administration') => public_path('assets/member/administration'),
         ], 'public');
 
-        // Passport::routes();
-
         $this->app->make('setting')->set('member.user.create.rules', collect([
             'name'     => 'required|unique:members,name',
             'email'    => 'required|unique:members,email',
