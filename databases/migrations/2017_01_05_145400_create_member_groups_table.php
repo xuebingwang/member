@@ -10,7 +10,7 @@ use Notadd\Foundation\Database\Migrations\Migration;
 /**
  * Class CreateGroupsTable.
  */
-class CreateGroupsTable extends Migration
+class CreateMemberGroupsTable extends Migration
 {
     /**
      * Run the migrations.

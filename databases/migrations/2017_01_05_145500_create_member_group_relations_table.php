@@ -11,7 +11,7 @@ use Notadd\Foundation\Database\Migrations\Migration;
 /**
  * Class CreateMemberGroupsTable.
  */
-class CreateMemberGroupsTable extends Migration
+class CreateMemberGroupRelationsTable extends Migration
 {
     /**
      * Run the migrations.
