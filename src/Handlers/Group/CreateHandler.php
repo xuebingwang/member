@@ -34,6 +34,13 @@ class CreateHandler extends SetHandler
      */
     public function execute()
     {
+        $this->validate($this->request, [
+            'identification' => 'required',
+            'name'           => 'required',
+        ], [
+            'identification.required' => $this->translator->trans('必须填写用户组标识！'),
+            'name.required'           => $this->translator->trans('必须填写用户组名称！'),
+        ]);
         if ($this->model->newQuery()->create($this->request->all())) {
             $this->messages->push($this->translator->trans('创建用户组成功！'));
 

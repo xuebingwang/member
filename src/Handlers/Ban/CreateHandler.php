@@ -27,8 +27,8 @@ class CreateHandler extends SetHandler
         $this->validate($this->request, [
             'ip' => 'required|regex:/^(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$/',
         ], [
-            'ip.required' => '必须填写封禁 IP ！',
-            'ip.regex'    => '必须填写正确格式的 IP 地址！',
+            'ip.required' => $this->translator->trans('必须填写封禁 IP ！'),
+            'ip.regex'    => $this->translator->trans('必须填写正确格式的 IP 地址！'),
         ]);
         $builder = MemberBanIp::query();
         if ($builder->where('ip', $this->request->input('ip'))->count()) {
