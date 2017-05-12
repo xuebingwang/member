@@ -24,12 +24,13 @@ class EditHandler extends SetHandler
      */
     public function execute()
     {
-        if (!$this->request->has('id')) {
-            $this->code = 500;
-            $this->errors->push($this->translator->trans('参数缺失！'));
-
-            return false;
-        }
+        $this->validate($this->request, [
+            'id'   => 'required',
+            'name' => 'required',
+        ], [
+            'id.required'   => $this->translator->trans('参数缺失！'),
+            'name.required' => $this->translator->trans('必须填写信息项名称！'),
+        ]);
         if (MemberInformation::query()->where('id', $this->request->input('id'))->count()) {
             MemberInformation::query()->find($this->request->input('id'))->update($this->request->all());
             $this->messages->push($this->translator->trans('更新信息项数据成功！'));
