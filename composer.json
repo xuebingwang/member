@@ -11,13 +11,6 @@
             "email": "notadd@ibenchu.com"
         }
     ],
-    "require": {
-        "php": ">=7.0"
-    },
-    "require-dev": {
-        "notadd/installers": "0.5.*",
-        "phpunit/phpunit": "~5.7"
-    },
     "autoload": {
         "psr-4": {
             "Notadd\\Member\\": "src/"
@@ -25,5 +18,17 @@
         "files": [
             "src/helpers.php"
         ]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Notadd\\Member\\Tests\\": "tests/"
+        }
+    },
+    "require": {
+        "php": ">=7.0"
+    },
+    "require-dev": {
+        "notadd/installers": "0.5.*",
+        "phpunit/phpunit": "~5.7"
     }
 }
