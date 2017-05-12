@@ -51,6 +51,14 @@ class EditHandler extends SetHandler
      */
     public function execute()
     {
+        $this->validate($this->request, [
+            'identification' => 'required|unique:member_groups,identification,' . $this->request->input('id') . '.id',
+            'name'           => 'required',
+        ], [
+            'identification.required' => $this->translator->trans('必须填写用户组标识！'),
+            'identification.unique'   => $this->translator->trans('用户标识必须唯一！'),
+            'name.required'           => $this->translator->trans('必须填写用户组名称！'),
+        ]);
         $this->configurations();
         $group = $this->model->newQuery()->find($this->id);
         if ($group) {

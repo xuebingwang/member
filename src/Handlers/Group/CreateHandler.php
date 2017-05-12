@@ -35,10 +35,11 @@ class CreateHandler extends SetHandler
     public function execute()
     {
         $this->validate($this->request, [
-            'identification' => 'required',
+            'identification' => 'required|unique:member_groups,identification',
             'name'           => 'required',
         ], [
             'identification.required' => $this->translator->trans('必须填写用户组标识！'),
+            'identification.unique'   => $this->translator->trans('用户标识必须唯一！'),
             'name.required'           => $this->translator->trans('必须填写用户组名称！'),
         ]);
         if ($this->model->newQuery()->create($this->request->all())) {
