@@ -15,7 +15,8 @@
         "php": ">=7.0"
     },
     "require-dev": {
-        "notadd/installers": "0.5.*"
+        "notadd/installers": "0.5.*",
+        "phpunit/phpunit": "~5.7"
     },
     "autoload": {
         "psr-4": {
