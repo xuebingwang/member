@@ -1,3 +1,6 @@
+![Packagist](https://img.shields.io/packagist/v/notadd/member.svg) 
+![Downloads](https://img.shields.io/packagist/dt/notadd/member.svg)
+
 # Notadd Member
 
 Notadd Framework 的用户模块。
