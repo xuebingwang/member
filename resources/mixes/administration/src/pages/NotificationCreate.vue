@@ -98,18 +98,18 @@
                         label: 'system',
                         text: '系统消息',
                     },
-                    {
-                        label: 'wechat',
-                        text: '微信',
-                    },
-                    {
-                        label: 'message',
-                        text: '手机短信',
-                    },
-                    {
-                        label: 'email',
-                        text: '电子邮件',
-                    },
+//                    {
+//                        label: 'wechat',
+//                        text: '微信',
+//                    },
+//                    {
+//                        label: 'message',
+//                        text: '手机短信',
+//                    },
+//                    {
+//                        label: 'email',
+//                        text: '电子邮件',
+//                    },
                 ],
             };
         },
