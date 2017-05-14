@@ -14,6 +14,7 @@ use Notadd\Member\Handlers\Notification\EditHandler;
 use Notadd\Member\Handlers\Notification\ListHandler;
 use Notadd\Member\Handlers\Notification\NotificationHandler;
 use Notadd\Member\Handlers\Notification\RemoveHandler;
+use Notadd\Member\Handlers\Notification\SendHandler;
 
 /**
  * Class NotificationController.
@@ -66,6 +67,16 @@ class NotificationController extends Controller
      * @return \Notadd\Foundation\Passport\Responses\ApiResponse|\Psr\Http\Message\ResponseInterface|\Zend\Diactoros\Response
      */
     public function remove(RemoveHandler $handler)
+    {
+        return $handler->toResponse()->generateHttpResponse();
+    }
+
+    /**
+     * @param \Notadd\Member\Handlers\Notification\SendHandler $handler
+     *
+     * @return \Notadd\Foundation\Passport\Responses\ApiResponse|\Psr\Http\Message\ResponseInterface|\Zend\Diactoros\Response
+     */
+    public function send(SendHandler $handler)
     {
         return $handler->toResponse()->generateHttpResponse();
     }
