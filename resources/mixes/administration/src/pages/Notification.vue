@@ -46,7 +46,6 @@
                     {
                         key: 'handle',
                         render(row, column, index) {
-                            window.console.log(row.id);
                             return `
                                     <i-button :loading="list[${index}].loading" size="small" type="error" @click.native="remove(${index})">
                                         <span v-if="!list[${index}].loading">删除</span>
@@ -109,14 +108,14 @@
     };
 </script>
 <template>
-    <div class="member-warp">
+    <div class="member-wrap">
         <div class="user-notification">
             <card>
                 <template slot="title">
                     <span class="text">通知消息</span>
                 </template>
                 <i-table :columns="columns" :context="self" :data="list" @on-selection-change="selection"></i-table>
-                <div class="user-page-wrap">
+                <div class="notification-page-wrap">
                     <page :current="pagination.current" :page-size="pagination.paginate" :total="pagination.total"
                           @on-change="paginator"></page>
                 </div>
