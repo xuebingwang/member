@@ -104,16 +104,6 @@ class Member extends BaseMember
     }
 
     /**
-     * @return mixed
-     */
-    public function notifications()
-    {
-        return $this->hasMany(Notification::class, 'user_id', 'id')
-            ->with('sender')
-            ->orderBy('created_at', 'desc');
-    }
-
-    /**
      * @return string
      */
     public function getCacheGroupKey()
@@ -121,143 +111,6 @@ class Member extends BaseMember
         $userPrimaryKey = $this->primaryKey;
 
         return 'groups_for_member_' . $this->$userPrimaryKey;
-    }
-
-    /**
-     * 从缓存中获取当前用户的所属用户组, 如果没有就从数据库获取
-     *
-     * @return mixed
-     */
-    public function cachedGroups()
-    {
-        return $this->cache->remember($this->getCacheGroupKey(), 60, function () {
-            return $this->groups()->get();
-        });
-    }
-
-    /**
-     * 判断用户是否有某个用户组
-     *
-     * @param      $name
-     * @param bool $requireAll
-     *
-     * @return bool
-     * @internal param array|string $group
-     *
-     */
-    public function hasGroup($name, $requireAll = false)
-    {
-        if (is_array($name)) {
-            foreach ($name as $groupName) {
-                $hasGroup = $this->hasGroup($groupName);
-                if ($hasGroup && !$requireAll) {
-                    return true;
-                } elseif (!$hasGroup && $requireAll) {
-                    return false;
-                }
-            }
-
-            return $requireAll;
-        } else {
-            foreach ($this->cachedGroups() as $group) {
-                if ($group->name == $name) {
-                    return true;
-                }
-            }
-        }
-
-        return false;
-    }
-
-    /**
-     * Check if user has a permission by its name.
-     *
-     * @param string|array $permission
-     * @param bool         $requireAll
-     *
-     * @return bool
-     */
-    public function may($permission, $requireAll = false)
-    {
-        if ($this->hasPermission($permission, $requireAll)) {
-            return true;
-        }
-        if (is_array($permission)) {
-            foreach ($permission as $permName) {
-                $hasPerm = $this->may($permName);
-                if ($hasPerm && !$requireAll) {
-                    return true;
-                } elseif (!$hasPerm && $requireAll) {
-                    return false;
-                }
-            }
-
-            return $requireAll;
-        } else {
-            foreach ($this->cachedGroups() as $group) {
-                foreach ($group->cachedPermissions() as $perm) {
-                    if (str_is($permission, $perm->name)) {
-                        return true;
-                    }
-                }
-            }
-        }
-
-        return false;
-    }
-
-    /**
-     * 是否有权限执行前台的权限判断
-     *
-     * @param      $permission
-     * @param bool $requireAll
-     *
-     * @return bool
-     */
-    public function frontMay($permission, $requireAll = false)
-    {
-        if (is_array($permission)) {
-            $permission = array_map(function ($val) {
-                if (ends_with($val, '*')) {
-                    return $val;
-                }
-
-                return Permission::FRONT_PREFIX . $val;
-            }, $permission);
-        } else {
-            if (!ends_with($permission, '*')) {
-                $permission = Permission::FRONT_PREFIX . $permission;
-            }
-        }
-
-        return $this->may($permission, $requireAll);
-    }
-
-    /**
-     * Check if user has a admin permission by its name.
-     *
-     * @param string|array $permission
-     * @param bool         $requireAll
-     *
-     * @return bool
-     */
-    public function adminMay($permission, $requireAll = false)
-    {
-        if (is_array($permission)) {
-            $permission = array_map(function ($val) {
-                if (ends_with($val, '*')) {
-                    return $val;
-                }
-
-                return Permission::ADMIN_PREFIX . $val;
-            }, $permission);
-        } else {
-            if (!ends_with($permission, '*')) {
-                $permission = Permission::ADMIN_PREFIX . $permission;
-            }
-        }
-
-        return $this->may($permission, $requireAll);
     }
 
     /**
@@ -295,18 +148,6 @@ class Member extends BaseMember
         return $result;
     }
 
-    public static function boot()
-    {
-        parent::boot();
-        static::deleting(function ($user) {
-            if (!method_exists(static::class, 'bootSoftDeletes')) {
-                $user->groups()->sync([]);
-            }
-
-            return true;
-        });
-    }
-
     /**
      * Setting the password
      *
@@ -331,57 +172,6 @@ class Member extends BaseMember
     public function checkPassword($password)
     {
         return app()->make('hash')->check($password, $this->password);
-    }
-
-    /**
-     * @param $group
-     */
-    public function attachGroup($group)
-    {
-        if (is_object($group)) {
-            $group = $group->getKey();
-        }
-        if (is_array($group)) {
-            $group = $group['id'];
-        }
-        $this->groups()->attach($group);
-    }
-
-    /**
-     * @param $group
-     */
-    public function detachGroup($group)
-    {
-        if (is_object($group)) {
-            $group = $group->getKey();
-        }
-        if (is_array($group)) {
-            $group = $group['id'];
-        }
-        $this->groups()->detach($group);
-    }
-
-    /**
-     * @param $groups
-     */
-    public function attachGroups($groups)
-    {
-        foreach ($groups as $group) {
-            $this->attachGroup($group);
-        }
-    }
-
-    /**
-     * @param null $groups
-     */
-    public function detachGroups($groups = null)
-    {
-        if (!$groups) {
-            $groups = $this->groups()->get();
-        }
-        foreach ($groups as $group) {
-            $this->detachGroup($group);
-        }
     }
 
     /**
