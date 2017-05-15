@@ -12,6 +12,7 @@ use Illuminate\Container\Container;
 use Illuminate\Support\Collection;
 use Notadd\Foundation\Passport\Abstracts\DataHandler;
 use Notadd\Foundation\Permission\PermissionManager;
+use Notadd\Foundation\Permission\PermissionTypeManager;
 use Notadd\Member\Models\MemberGroup;
 
 /**
@@ -25,15 +26,22 @@ class GetHandler extends DataHandler
     protected $permission;
 
     /**
+     * @var \Notadd\Foundation\Permission\PermissionTypeManager
+     */
+    protected $type;
+
+    /**
      * GetHandler constructor.
      *
-     * @param \Illuminate\Container\Container                 $container
-     * @param \Notadd\Foundation\Permission\PermissionManager $permission
+     * @param \Illuminate\Container\Container                     $container
+     * @param \Notadd\Foundation\Permission\PermissionManager     $permission
+     * @param \Notadd\Foundation\Permission\PermissionTypeManager $type
      */
-    public function __construct(Container $container, PermissionManager $permission)
+    public function __construct(Container $container, PermissionManager $permission, PermissionTypeManager $type)
     {
         parent::__construct($container);
         $this->permission = $permission;
+        $this->type = $type;
     }
 
     /**
@@ -46,6 +54,7 @@ class GetHandler extends DataHandler
         $data = new Collection();
         $data->put('groups', MemberGroup::all());
         $data->put('permissions', $this->permission->groups());
+        $data->put('types', $this->type->types());
 
         return $data->toArray();
     }
