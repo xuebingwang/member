@@ -3,7 +3,7 @@
  * This file is part of Notadd.
  *
  * @author Qiyueshiyi <qiyueshiyi@outlook.com>
- * @copyright (c) 2017, iBenchu.org
+ * @copyright (c) 2017, notadd.com
  * @datetime 2017-02-09 11:20
  */
 namespace Notadd\Member\Listeners;
