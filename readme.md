@@ -13,3 +13,14 @@ Notadd Framework 的用户模块。
 * 完整的用户积分体系
 * 完整的用户权限管理体系
 * 完整的用户数据统计体系
+
+## 安装
+
+安装前，请确保 **[Notadd](https://github.com/notadd/notadd)** 已经完成安装。
+
+```bash
+cd notadd/modules
+git clone https://github.com/notadd/mall.git
+cd content
+composer install --no-dev
+```
