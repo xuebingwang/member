@@ -90,23 +90,9 @@ class ModuleServiceProvider extends Module
      */
     public function register()
     {
-        $this->app->bind('points', function ($app) {
-            return new PointsManager;
-        });
-
-        $this->app->singleton('notifier', function ($app) {
-            return new Notifier;
-        });
-
         $this->app->singleton('integral', function ($app) {
             return new IntegralManager($app);
         });
-
-        $this->app->bind('email.verification', function ($app) {
-            return new EmailVerification($app['mailer'], $app['db']->connection());
-        });
-
-        $this->app->alias('email.verification', EmailVerification::class);
     }
 
     /**
