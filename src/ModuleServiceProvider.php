@@ -98,6 +98,10 @@ class ModuleServiceProvider extends Module
             return new Notifier;
         });
 
+        $this->app->singleton('integral', function ($app) {
+            return new IntegralManager($app);
+        });
+
         $this->app->bind('email.verification', function ($app) {
             return new EmailVerification($app['mailer'], $app['db']->connection());
         });
