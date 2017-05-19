@@ -14,4 +14,6 @@ install: travis_retry composer install --no-interaction --prefer-dist --no-sugge
 script: vendor/bin/phpunit --verbose
 
 notifications:
-    webhooks: https://hook.bearychat.com/=bwA22/travis/52fa443470377f35e5a3d068b8d2d5ca
+    webhooks:
+        - https://hook.bearychat.com/=bwA22/travis/52fa443470377f35e5a3d068b8d2d5ca
+        - https://hook.bearychat.com/=bwA7K/travis/be3a424672c7774fa68d7cb8016025f1
