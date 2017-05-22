@@ -27,7 +27,6 @@ use Notadd\Foundation\Member\Member as BaseMember;
  * @property string              $signature
  * @property string              $introduction
  * @property string              $avatar
- * @property integer             $points
  * @property string              $status normal banned deleted activated
  * @property \Carbon\Carbon|null $created_at
  * @property \Carbon\Carbon|null $updated_at

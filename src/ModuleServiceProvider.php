@@ -10,7 +10,6 @@ namespace Notadd\Member;
 
 use Illuminate\Events\Dispatcher;
 use Notadd\Member\Injections\Installer;
-use Notadd\Member\Commands\PointsCommand;
 use Notadd\Member\Injections\Uninstaller;
 use Notadd\Member\Listeners\RouteRegister;
 use Notadd\Member\Listeners\CsrfTokenRegister;
@@ -31,9 +30,6 @@ class ModuleServiceProvider extends Module
         $this->app->make(Dispatcher::class)->subscribe(CsrfTokenRegister::class);
         $this->app->make(Dispatcher::class)->subscribe(RouteRegister::class);
         $this->app->make(MemberManagement::class)->registerManager($manager);
-        $this->commands([
-            PointsCommand::class,
-        ]);
         $this->loadMigrationsFrom(realpath(__DIR__ . '/../databases/migrations'));
         $this->loadViewsFrom(realpath(__DIR__ . '/../resources/views'), 'member');
         $this->loadTranslationsFrom(realpath(__DIR__ . '/../resources/translations'), 'member');
