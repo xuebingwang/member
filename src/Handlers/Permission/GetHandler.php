@@ -14,6 +14,7 @@ use Notadd\Foundation\Passport\Abstracts\DataHandler;
 use Notadd\Foundation\Permission\Permission;
 use Notadd\Foundation\Permission\PermissionGroup;
 use Notadd\Foundation\Permission\PermissionManager;
+use Notadd\Foundation\Permission\PermissionType;
 use Notadd\Foundation\Permission\PermissionTypeManager;
 use Notadd\Member\Models\MemberGroup;
 
@@ -53,8 +54,9 @@ class GetHandler extends DataHandler
      */
     public function data()
     {
-        $permissions = $this->permission->groups();
-        $permissions->transform(function (PermissionGroup $group) {
+        $data = new Collection();
+        $data->put('groups', MemberGroup::all());
+        $data->put('permissions', $this->permission->groups()->transform(function (PermissionGroup $group) {
             $attributes = $group->attributes();
             $permissions = $group->permissions()->transform(function (Permission $permission) {
                 return $permission->attributes();
@@ -64,11 +66,10 @@ class GetHandler extends DataHandler
                 'attributes'  => $attributes,
                 'permissions' => $permissions,
             ];
-        });
-        $data = new Collection();
-        $data->put('groups', MemberGroup::all());
-        $data->put('permissions', $permissions->toArray());
-        $data->put('types', $this->type->types());
+        })->toArray());
+        $data->put('types', $this->type->types()->transform(function (PermissionType $type) {
+            return $type->attributes();
+        })->toArray());
 
         return $data->toArray();
     }
