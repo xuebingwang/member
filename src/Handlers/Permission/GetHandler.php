@@ -56,20 +56,27 @@ class GetHandler extends DataHandler
     {
         $data = new Collection();
         $data->put('groups', MemberGroup::all());
-        $data->put('permissions', $this->permission->groups()->transform(function (PermissionGroup $group) {
+        $permissions = new Collection();
+        $this->permission->groups()->each(function (PermissionGroup $group) use ($permissions) {
             $attributes = $group->attributes();
-            $permissions = $group->permissions()->transform(function (Permission $permission) {
-                return $permission->attributes();
-            })->toArray();
-
-            return [
+            $list = new Collection();
+            $group->permissions()->each(function (Permission $permission) use ($list) {
+                $list->push($permission->attributes());
+            });
+            $permissions->push([
                 'attributes'  => $attributes,
-                'permissions' => $permissions,
-            ];
-        })->toArray());
-        $data->put('types', $this->type->types()->transform(function (PermissionType $type) {
-            return $type->attributes();
-        })->toArray());
+                'permissions' => $list,
+            ]);
+        });
+        $data->put('permissions', $permissions->toArray());
+        $types = new Collection();
+        $this->type->types()->transform(function (PermissionType $type) use ($types) {
+            $types->push([
+                'attributes' => $type->attributes(),
+                'has'        => $type->has(),
+            ]);
+        });
+        $data->put('types', $types->toArray());
 
         return $data->toArray();
     }
