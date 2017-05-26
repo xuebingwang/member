@@ -25,12 +25,12 @@ use Notadd\Foundation\Routing\Abstracts\RouteRegister as AbstractRouteRegister;
 use Notadd\Member\Controllers\Api\UploadController;
 
 /**
- * Class RouteRegistrar.
+ * Class RouteRegister.
  */
 class RouteRegister extends AbstractRouteRegister
 {
     /**
-     * Handle Route Registrar.
+     * Handle Route Register.
      */
     public function handle()
     {
