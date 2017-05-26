@@ -110,7 +110,7 @@
 <template>
     <div class="member-wrap">
         <div class="user-notification">
-            <card>
+            <card :bordered="false">
                 <template slot="title">
                     <span class="text">通知消息</span>
                 </template>

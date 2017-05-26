@@ -106,7 +106,7 @@
 <template>
     <div class="member-warp">
         <div class="user-ban">
-            <card>
+            <card :bordered="false">
                 <p slot="title">封禁用户</p>
                 <i-form :label-width="200" :model="form" ref="form" :rules="rules">
                     <row>

@@ -158,7 +158,7 @@
 <template>
     <div class="member-wrap">
         <div class="user-notification">
-            <card>
+            <card :bordered="false">
                 <template slot="title">
                     <span class="text">发送通知</span>
                 </template>

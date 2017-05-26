@@ -60,7 +60,7 @@
 <template>
     <div class="member-warp">
         <div class="group-create">
-            <card>
+            <card :bordered="false">
                 <p slot="title">添加标签</p>
                 <div class="extend-info">
                     <p>提示</p>

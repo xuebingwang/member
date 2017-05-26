@@ -156,7 +156,7 @@
 <template>
     <div class="member-warp">
         <div class="user-create">
-            <card>
+            <card :bordered="false">
                 <p slot="title">用户详情</p>
                 <i-form :label-width="200" :model="form" ref="form" :rules="rules">
                     <p class="extend-title">基本资料</p>

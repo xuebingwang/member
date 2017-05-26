@@ -123,7 +123,7 @@
 <template>
     <div class="member-warp">
         <div class="user-create">
-            <card>
+            <card :bordered="false">
                 <p slot="title">编辑用户组</p>
                 <i-form :label-width="200" :model="form" ref="form" :rules="rules">
                     <p class="extend-title">用户组</p>

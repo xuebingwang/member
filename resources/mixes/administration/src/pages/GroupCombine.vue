@@ -70,7 +70,7 @@
 <template>
     <div class="member-warp">
         <div class="group-create">
-            <card>
+            <card :bordered="false">
                 <p slot="title">合并用户组</p>
                 <div class="extend-info">
                     <p>提示</p>

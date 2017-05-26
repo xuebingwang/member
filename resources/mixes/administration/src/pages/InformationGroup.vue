@@ -141,7 +141,7 @@
 <template>
     <div class="member-wrap">
         <div class="user-information">
-            <card>
+            <card :bordered="false">
                 <template slot="title">
                     <span class="text">信息分组</span>
                     <router-link class="extend" to="/member/information/group/create">

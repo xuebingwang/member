@@ -109,7 +109,7 @@
 <template>
     <div class="member-warp">
         <div class="user-ban">
-            <card>
+            <card :bordered="false">
                 <template slot="title">
                     <span class="text">封禁 IP</span>
                     <div class="search">

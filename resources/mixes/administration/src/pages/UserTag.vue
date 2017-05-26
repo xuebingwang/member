@@ -77,7 +77,7 @@
 <template>
     <div class="member-warp">
         <div class="user-create">
-            <card>
+            <card :bordered="false">
                 <p slot="title">编辑用户标签</p>
                 <i-form :label-width="200">
                     <row>

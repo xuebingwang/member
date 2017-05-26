@@ -119,7 +119,7 @@
 <template>
     <div class="member-warp">
         <div class="user-tag">
-            <card>
+            <card :bordered="false">
                 <template slot="title">
                     <span class="text">用户标签</span>
                     <router-link class="extend" to="/member/tag/create">

@@ -71,7 +71,7 @@
 <template>
     <div class="member-warp">
         <div class="user-create">
-            <card>
+            <card :bordered="false">
                 <p slot="title">编辑用户积分</p>
                 <div class="extend-info">
                     <p>提示</p>
