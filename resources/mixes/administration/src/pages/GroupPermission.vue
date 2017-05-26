@@ -21,6 +21,7 @@
         data() {
             return {
                 groups: [],
+                open: 'global',
                 permissions: [],
                 types: [],
             };
@@ -40,7 +41,7 @@
                     self.$notice.open({
                         desc: '可以继续操作了...',
                         title: '批量更新权限值成功！',
-                    })
+                    });
                 }).catch(() => {
                     self.$loading.error();
                 });
@@ -56,8 +57,8 @@
                 <ul class="groups">
                     <li v-for="type in types">{{ type.attributes.name }}</li>
                 </ul>
-                <collapse value="global">
-                    <panel :name="permission.attributes.identification" v-for="permission in permissions">
+                <collapse accordion>
+                    <panel v-for="permission in permissions">
                         {{ permission.attributes.name }}
                         <template slot="content">
                             <div class="list" v-for="p in permission.permissions">
