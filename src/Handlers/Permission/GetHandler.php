@@ -10,7 +10,7 @@ namespace Notadd\Member\Handlers\Permission;
 
 use Illuminate\Container\Container;
 use Illuminate\Support\Collection;
-use Notadd\Foundation\Passport\Abstracts\DataHandler;
+use Notadd\Foundation\Passport\Abstracts\Handler;
 use Notadd\Foundation\Permission\Permission;
 use Notadd\Foundation\Permission\PermissionGroup;
 use Notadd\Foundation\Permission\PermissionManager;
@@ -21,7 +21,7 @@ use Notadd\Member\Models\MemberGroup;
 /**
  * Class GetHandler.
  */
-class GetHandler extends DataHandler
+class GetHandler extends Handler
 {
     /**
      * @var \Notadd\Foundation\Permission\PermissionManager
@@ -48,12 +48,13 @@ class GetHandler extends DataHandler
     }
 
     /**
-     * Data for handler.
+     * Execute Handler.
      *
-     * @return array
+     * @throws \Exception
      */
-    public function data()
+    protected function execute()
     {
+
         $data = new Collection();
         $data->put('groups', MemberGroup::all());
         $permissions = new Collection();
@@ -77,7 +78,6 @@ class GetHandler extends DataHandler
             ]);
         });
         $data->put('types', $types->toArray());
-
-        return $data->toArray();
+        $this->success()->withData($data->toArray())->withMessage('');
     }
 }

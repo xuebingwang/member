@@ -9,13 +9,13 @@
 namespace Notadd\Member\Handlers\Group;
 
 use Illuminate\Container\Container;
-use Notadd\Foundation\Passport\Abstracts\DataHandler;
+use Notadd\Foundation\Passport\Abstracts\Handler;
 use Notadd\Member\Models\MemberGroup;
 
 /**
  * Class GroupHandler.
  */
-class GroupHandler extends DataHandler
+class GroupHandler extends Handler
 {
     /**
      * @var string
@@ -30,15 +30,13 @@ class GroupHandler extends DataHandler
     /**
      * UserHandler constructor.
      *
-     * @param \Illuminate\Container\Container   $container
-     * @param \Notadd\Member\Models\MemberGroup $group
+     * @param \Illuminate\Container\Container $container
      */
-    public function __construct(Container $container, MemberGroup $group)
+    public function __construct(Container $container)
     {
         parent::__construct($container);
         $this->format = 'raw';
         $this->id = 1;
-        $this->model = $group;
     }
 
     /**
@@ -54,12 +52,13 @@ class GroupHandler extends DataHandler
     }
 
     /**
-     * @return mixed
+     * Execute Handler.
+     *
+     * @throws \Exception
      */
-    public function data()
+    protected function execute()
     {
         $this->configurations();
-
-        return $this->model->newQuery()->find($this->id);
+        $this->success()->withData(MemberGroup::query()->find($this->id))->withMessage('获取分组成功！');
     }
 }

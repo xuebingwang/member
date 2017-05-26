@@ -9,13 +9,13 @@
 namespace Notadd\Member\Handlers\Ban;
 
 use Illuminate\Container\Container;
-use Notadd\Foundation\Passport\Abstracts\DataHandler;
+use Notadd\Foundation\Passport\Abstracts\Handler;
 use Notadd\Member\Models\MemberBan;
 
 /**
  * Class ListHandler.
  */
-class ListHandler extends DataHandler
+class ListHandler extends Handler
 {
     /**
      * @var string
@@ -65,11 +65,11 @@ class ListHandler extends DataHandler
     }
 
     /**
-     * Data for handler.
+     * Execute Handler.
      *
-     * @return array
+     * @throws \Exception
      */
-    public function data()
+    protected function execute()
     {
         $this->configurations();
         $builder = MemberBan::query()->with('member');
@@ -80,21 +80,11 @@ class ListHandler extends DataHandler
         }
         $builder = $builder->where('type', '>', 0);
         $this->pagination = $builder->orderBy($this->order, $this->sort)->paginate($this->paginate);
-
-        return $this->pagination->items();
-    }
-
-    /**
-     * Make data to response with errors or messages.
-     *
-     * @return \Notadd\Foundation\Passport\Responses\ApiResponse
-     * @throws \Exception
-     */
-    public function toResponse()
-    {
-        $response = parent::toResponse();
         if ($this->pagination) {
-            return $response->withParams([
+            $this->success()
+                ->withData($this->pagination->items())
+                ->withMessage('')
+                ->withExtra([
                 'pagination' => [
                     'count'    => $this->pagination->total(),
                     'current'  => $this->pagination->currentPage(),
@@ -106,8 +96,6 @@ class ListHandler extends DataHandler
                     'total'    => $this->pagination->lastPage(),
                 ],
             ]);
-        } else {
-            return $response;
         }
     }
 }

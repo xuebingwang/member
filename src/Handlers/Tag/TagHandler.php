@@ -8,11 +8,20 @@
  */
 namespace Notadd\Member\Handlers\Tag;
 
-use Notadd\Foundation\Passport\Abstracts\DataHandler;
+use Notadd\Foundation\Passport\Abstracts\Handler;
 
 /**
  * Class TagHandler.
  */
-class TagHandler extends DataHandler
+class TagHandler extends Handler
 {
+    /**
+     * Execute Handler.
+     *
+     * @throws \Exception
+     */
+    protected function execute()
+    {
+        // TODO: Implement execute() method.
+    }
 }

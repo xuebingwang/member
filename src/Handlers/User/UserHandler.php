@@ -9,13 +9,13 @@
 namespace Notadd\Member\Handlers\User;
 
 use Illuminate\Container\Container;
-use Notadd\Foundation\Passport\Abstracts\DataHandler;
+use Notadd\Foundation\Passport\Abstracts\Handler;
 use Notadd\Member\Models\Member;
 
 /**
  * Class UserHandler.
  */
-class UserHandler extends DataHandler
+class UserHandler extends Handler
 {
     /**
      * @var string
@@ -31,14 +31,12 @@ class UserHandler extends DataHandler
      * UserHandler constructor.
      *
      * @param \Illuminate\Container\Container $container
-     * @param \Notadd\Member\Models\Member    $member
      */
-    public function __construct(Container $container, Member $member)
+    public function __construct(Container $container)
     {
         parent::__construct($container);
         $this->format = 'raw';
         $this->id = 1;
-        $this->model = $member;
     }
 
     /**
@@ -54,19 +52,20 @@ class UserHandler extends DataHandler
     }
 
     /**
-     * @return mixed
+     * Execute Handler.
+     *
+     * @throws \Exception
      */
-    public function data()
+    protected function execute()
     {
         $this->configurations();
-        $builder = $this->model->newQuery();
+        $builder = Member::query();
         $builder = $builder->where('id', $this->id);
         if ($withs = $this->request->input('with')) {
             foreach ((array)$withs as $with) {
                 $builder = $builder->with($with);
             }
         }
-
-        return $builder->first();
+        $this->success()->withData($builder->first())->withMessage('');
     }
 }

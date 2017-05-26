@@ -8,36 +8,31 @@
  */
 namespace Notadd\Member\Handlers\Information;
 
-use Notadd\Foundation\Passport\Abstracts\DataHandler;
+use Notadd\Foundation\Passport\Abstracts\Handler;
 use Notadd\Member\Models\MemberInformation;
 
 /**
  * Class InformationHandler.
  */
-class InformationHandler extends DataHandler
+class InformationHandler extends Handler
 {
     /**
-     * Data for handler.
+     * Execute Handler.
      *
-     * @return array
+     * @throws \Exception
      */
-    public function data()
+    protected function execute()
     {
         if (!$this->request->has('id')) {
-            $this->code = 500;
-            $this->errors->push($this->translator->trans('参数缺失！'));
-
-            return [];
-        }
-        if (MemberInformation::query()->where('id', $this->request->input('id'))->count()) {
-            $this->messages->push($this->translator->trans('获取信息项成功！'));
-
-            return MemberInformation::query()->find($this->request->input('id'));
+            $this->withCode(500)->withError('参数缺失！');
         } else {
-            $this->code = 500;
-            $this->errors->push($this->translator->trans('获取信息项失败！'));
-
-            return [];
+            if (MemberInformation::query()->where('id', $this->request->input('id'))->count()) {
+                $this->success()
+                    ->withData(MemberInformation::query()->find($this->request->input('id')))
+                    ->withMessage('获取信息项成功！');
+            } else {
+                $this->withCode(500)->withError('获取信息项失败！');
+            }
         }
     }
 }

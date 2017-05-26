@@ -9,13 +9,13 @@
 namespace Notadd\Member\Handlers\Ban;
 
 use Illuminate\Container\Container;
-use Notadd\Foundation\Passport\Abstracts\DataHandler;
+use Notadd\Foundation\Passport\Abstracts\Handler;
 use Notadd\Member\Models\MemberBanIp;
 
 /**
  * Class IpHandler.
  */
-class IpHandler extends DataHandler
+class IpHandler extends Handler
 {
     /**
      * @var string
@@ -65,29 +65,19 @@ class IpHandler extends DataHandler
     }
 
     /**
-     * Data for handler.
+     * Execute Handler.
      *
-     * @return array
+     * @throws \Exception
      */
-    public function data()
+    protected function execute()
     {
         $this->configurations();
         $this->pagination = MemberBanIp::query()->orderBy($this->order, $this->sort)->paginate($this->paginate);
-
-        return $this->pagination->items();
-    }
-
-    /**
-     * Make data to response with errors or messages.
-     *
-     * @return \Notadd\Foundation\Passport\Responses\ApiResponse
-     * @throws \Exception
-     */
-    public function toResponse()
-    {
-        $response = parent::toResponse();
         if ($this->pagination) {
-            return $response->withParams([
+            $this->success()
+                ->withData($this->pagination->items())
+                ->withMessage('获取 IP 列表成功！')
+                ->withExtra([
                 'pagination' => [
                     'count'    => $this->pagination->total(),
                     'current'  => $this->pagination->currentPage(),
@@ -99,8 +89,6 @@ class IpHandler extends DataHandler
                     'total'    => $this->pagination->lastPage(),
                 ],
             ]);
-        } else {
-            return $response;
         }
     }
 }
