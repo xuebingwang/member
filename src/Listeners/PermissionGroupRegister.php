@@ -20,9 +20,10 @@ class PermissionGroupRegister extends AbstractPermissionGroupRegister
      */
     public function handle()
     {
-        $this->manager->group([
+        $this->manager->extend([
             'description'    => '用户中心权限定义。',
             'identification' => 'member',
+            'module'         => 'member',
             'name'           => '用户中心权限',
         ]);
     }
