@@ -13,6 +13,7 @@ use Notadd\Member\Injections\Installer;
 use Notadd\Member\Injections\Uninstaller;
 use Notadd\Member\Listeners\PermissionGroupRegister;
 use Notadd\Member\Listeners\PermissionModuleRegister;
+use Notadd\Member\Listeners\PermissionTypeRegister;
 use Notadd\Member\Listeners\RouteRegister;
 use Notadd\Member\Listeners\CsrfTokenRegister;
 use Notadd\Foundation\Member\MemberManagement;
@@ -32,6 +33,7 @@ class ModuleServiceProvider extends Module
         $this->app->make(Dispatcher::class)->subscribe(CsrfTokenRegister::class);
         $this->app->make(Dispatcher::class)->subscribe(PermissionGroupRegister::class);
         $this->app->make(Dispatcher::class)->subscribe(PermissionModuleRegister::class);
+        $this->app->make(Dispatcher::class)->subscribe(PermissionTypeRegister::class);
         $this->app->make(Dispatcher::class)->subscribe(RouteRegister::class);
         $this->app->make(MemberManagement::class)->registerManager($manager);
         $this->loadMigrationsFrom(realpath(__DIR__ . '/../databases/migrations'));
