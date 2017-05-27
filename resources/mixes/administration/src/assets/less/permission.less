@@ -1,81 +1,70 @@
 .member-warp {
     > .group-permission {
-        > .ivu-card {
-            > .ivu-card-body {
-                > .groups {
-                    border-bottom: 1px solid #e3e8ee;
-                    border-top: 1px solid #e3e8ee;
-                    margin-bottom: 20px;
-                    padding: 25px 25px 25px 200px;
-                    &:after {
-                        clear: both;
-                        content: " ";
-                        display: table;
-                        font-size: 0;
-                        height: 0;
-                    }
-                    &:before {
-                        clear: both;
-                        content: " ";
-                        display: table;
-                    }
-                    > li {
-                        float: left;
-                        font-size: 14px;
-                        font-weight: bold;
-                        margin-right: 20px;
-                        text-align: center;
-                        width: 160px;
-                    }
-                }
-                > .ivu-collapse {
-                    border-left: none;
-                    border-radius: 0;
-                    border-right: none;
-                    > .ivu-collapse-item {
-                        > .ivu-collapse-content {
-                            padding: 0;
-                            > .ivu-collapse-content-box {
-                                padding-bottom: 0;
-                                padding-top: 20px;
-                                > .list {
+        > .ivu-tabs {
+            > .ivu-tabs-content {
+                > .ivu-tabs-tabpane {
+                    > .ivu-card {
+                        > .ivu-card-body {
+                            > .groups {
+                                margin-bottom: 20px;
+                                > .header {
+                                    background: #f5f7f9;
+                                    font-weight: bold;
+                                    height: 40px;
+                                    line-height: 40px;
                                     margin-bottom: 20px;
-                                    > ul {
-                                        &:after {
-                                            clear: both;
-                                            content: " ";
-                                            display: table;
-                                            font-size: 0;
-                                            height: 0;
-                                        }
-                                        &:before {
-                                            clear: both;
-                                            content: " ";
-                                            display: table;
-                                        }
-                                        > li {
-                                            float: left;
-                                            font-size: 14px;
-                                            font-weight: bold;
+                                    padding: 0 20px;
+                                }
+                                > ul {
+                                    margin-bottom: 20px;
+                                    &:after {
+                                        clear: both;
+                                        content: " ";
+                                        display: table;
+                                        font-size: 0;
+                                        height: 0;
+                                    }
+                                    &:before {
+                                        clear: both;
+                                        content: " ";
+                                        display: table;
+                                    }
+                                    > li {
+                                        float: left;
+                                        margin-right: 20px;
+                                        width: 160px;
+                                        &:first-child {
                                             line-height: 32px;
-                                            margin-right: 20px;
-                                            width: 160px;
-                                            &:first-child {
-                                                font-weight: 300;
-                                                padding-left: 20px;
-                                                text-align: right;
-                                                width: 180px;
-                                            }
+                                            text-align: right;
                                         }
                                     }
                                 }
                             }
-                        }
-                        > .ivu-collapse-header {
-                            font-weight: bold;
-                            padding-left: 20px;
-                            > .ivu-icon {
-                                margin-right: 10px;
+                            > .types {
+                                border-bottom: 1px solid #e3e8ee;
+                                border-top: 1px solid #e3e8ee;
+                                margin-bottom: 20px;
+                                padding: 25px 25px 25px 200px;
+                                &:after {
+                                    clear: both;
+                                    content: " ";
+                                    display: table;
+                                    font-size: 0;
+                                    height: 0;
+                                }
+                                &:before {
+                                    clear: both;
+                                    content: " ";
+                                    display: table;
+                                }
+                                > li {
+                                    float: left;
+                                    font-size: 14px;
+                                    font-weight: bold;
+                                    margin-right: 20px;
+                                    text-align: center;
+                                    width: 160px;
+                                }
                             }
                         }
                     }

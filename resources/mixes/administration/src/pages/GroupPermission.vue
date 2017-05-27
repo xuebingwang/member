@@ -9,6 +9,7 @@
                 const data = response.data.data;
                 next(vm => {
                     vm.groups = data.groups;
+                    vm.modules = data.modules;
                     vm.permissions = data.permissions;
                     vm.types = data.types;
                     injection.loading.finish();
@@ -23,6 +24,7 @@
                 groups: [],
                 open: 'global',
                 permissions: [],
+                modules: [],
                 types: [],
             };
         },
@@ -52,31 +54,28 @@
 <template>
     <div class="member-warp">
         <div class="group-permission">
-            <card :bordered="false">
-                <p slot="title">用户组权限</p>
-                <ul class="groups">
-                    <li v-for="type in types">{{ type.attributes.name }}</li>
-                </ul>
-                <collapse accordion>
-                    <panel v-for="permission in permissions">
-                        {{ permission.attributes.name }}
-                        <template slot="content">
-                            <div class="list" v-for="p in permission.permissions">
-                                <ul>
-                                    <li>{{ p.description }}</li>
-                                    <li v-for="(t, index) in types">
-                                        <i-select multiple
-                                                  v-model="types[index].has[t.attributes.identification + '::' + permission.attributes.identification + '::' + p.identification]"
-                                                  @on-change="change">
-                                            <i-option :key="g" :value="g.identification" v-for="g in groups">{{ g.name }}</i-option>
-                                        </i-select>
-                                    </li>
-                                </ul>
-                            </div>
-                        </template>
-                    </panel>
-                </collapse>
-            </card>
+            <tabs value="global">
+                <tab-pane :label="module.attributes.name" :name="module.attributes.identification" v-for="(module, key) in modules">
+                    <card :bordered="false">
+                        <ul class="types">
+                            <li v-for="type in types">{{ type.attributes.name }}</li>
+                        </ul>
+                        <div class="groups" v-for="group in module.groups">
+                            <div class="header">{{ group.attributes.name }}</div>
+                            <ul v-for="permission in group.permissions">
+                                <li>{{ permission.description }}</li>
+                                <li v-for="(type, index) in types">
+                                    <i-select multiple
+                                              v-model="types[index].has[type.attributes.identification + '::' + module.attributes.identification + '::' + group.attributes.identification + '::' + permission.identification]"
+                                              @on-change="change">
+                                        <i-option :key="g" :value="g.identification" v-for="g in groups">{{ g.name }}</i-option>
+                                    </i-select>
+                                </li>
+                            </ul>
+                        </div>
+                    </card>
+                </tab-pane>
+            </tabs>
         </div>
     </div>
 </template>
