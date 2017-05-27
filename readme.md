@@ -20,8 +20,8 @@ Notadd Framework 的用户模块。
 
 ```bash
 cd notadd/modules
-git clone https://github.com/notadd/mall.git
-cd content
+git clone https://github.com/notadd/member.git
+cd member
 composer install --no-dev
 ```
 
