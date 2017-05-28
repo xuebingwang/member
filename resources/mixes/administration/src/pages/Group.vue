@@ -127,7 +127,7 @@
 <template>
     <div class="member-warp">
         <div class="group-list">
-            <card>
+            <card :bordered="false">
                 <template slot="title">
                     <span class="text">用户组列表</span>
                     <router-link class="extend" to="/member/group/create">

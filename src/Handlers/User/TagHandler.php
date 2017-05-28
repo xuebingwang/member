@@ -8,23 +8,27 @@
  */
 namespace Notadd\Member\Handlers\User;
 
-use Notadd\Foundation\Passport\Abstracts\DataHandler;
+use Notadd\Foundation\Passport\Abstracts\Handler;
 use Notadd\Member\Models\MemberTagRelation;
 
 /**
  * Class TagHandler.
  */
-class TagHandler extends DataHandler
+class TagHandler extends Handler
 {
-    public function data()
+    /**
+     * Execute Handler.
+     *
+     * @throws \Exception
+     */
+    protected function execute()
     {
         if (!$this->request->has('id')) {
-            $this->code = 500;
-            $this->errors->push($this->translator->trans('参数缺失！'));
-
-            return false;
+            $this->withCode(500)->withError('参数缺失！');
+        } else {
+            $this->success()
+                ->withData(MemberTagRelation::query()->where('member_id', $this->request->input('id'))->get())
+                ->withMessage('');
         }
-
-        return MemberTagRelation::query()->where('member_id', $this->request->input('id'))->get();
     }
 }

@@ -9,14 +9,14 @@
 namespace Notadd\Member\Handlers\User;
 
 use Illuminate\Container\Container;
-use Notadd\Foundation\Passport\Abstracts\DataHandler;
+use Notadd\Foundation\Passport\Abstracts\Handler;
 use Notadd\Member\Models\Member;
 use Notadd\Member\Models\MemberGroupRelation;
 
 /**
  * Class ListHandler.
  */
-class ListHandler extends DataHandler
+class ListHandler extends Handler
 {
     /**
      * @var string
@@ -47,13 +47,11 @@ class ListHandler extends DataHandler
      * ListHandler constructor.
      *
      * @param \Illuminate\Container\Container $container
-     * @param \Notadd\Member\Models\Member    $member
      */
-    public function __construct(Container $container, Member $member)
+    public function __construct(Container $container)
     {
         parent::__construct($container);
         $this->format = 'raw';
-        $this->model = $member;
         $this->order = 'created_at';
         $this->paginate = 20;
         $this->sort = 'desc';
@@ -68,12 +66,14 @@ class ListHandler extends DataHandler
     }
 
     /**
-     * @return array
+     * Execute Handler.
+     *
+     * @throws \Exception
      */
-    public function data()
+    protected function execute()
     {
         $this->configurations();
-        $builder = $this->model->newQuery();
+        $builder = Member::query();
         if ($withs = $this->request->input('with', [])) {
             foreach ((array)$withs as $with) {
                 $builder = $builder->with($with);
@@ -92,8 +92,19 @@ class ListHandler extends DataHandler
                 $data = $this->format($this->pagination->items());
                 break;
         }
+        $this->success()->withData($data)->withMessage('')->withExtra([
+            'pagination' => [
+                'count'    => $this->pagination->total(),
+                'current'  => $this->pagination->currentPage(),
+                'from'     => $this->pagination->firstItem(),
+                'next'     => $this->pagination->nextPageUrl(),
+                'paginate' => $this->paginate,
+                'prev'     => $this->pagination->previousPageUrl(),
+                'to'       => $this->pagination->lastItem(),
+                'total'    => $this->pagination->lastPage(),
+            ],
 
-        return $data;
+        ]);
     }
 
     /**
@@ -123,32 +134,5 @@ class ListHandler extends DataHandler
 
             return $member;
         })->toArray();
-    }
-
-    /**
-     * Make data to response with errors or messages.
-     *
-     * @return \Notadd\Foundation\Passport\Responses\ApiResponse
-     * @throws \Exception
-     */
-    public function toResponse()
-    {
-        $response = parent::toResponse();
-        if ($this->pagination) {
-            return $response->withParams([
-                'pagination' => [
-                    'count'    => $this->pagination->total(),
-                    'current'  => $this->pagination->currentPage(),
-                    'from'     => $this->pagination->firstItem(),
-                    'next'     => $this->pagination->nextPageUrl(),
-                    'paginate' => $this->paginate,
-                    'prev'     => $this->pagination->previousPageUrl(),
-                    'to'       => $this->pagination->lastItem(),
-                    'total'    => $this->pagination->lastPage(),
-                ],
-            ]);
-        } else {
-            return $response;
-        }
     }
 }

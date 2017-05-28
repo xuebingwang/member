@@ -8,11 +8,20 @@
  */
 namespace Notadd\Member\Handlers\Notification;
 
-use Notadd\Foundation\Passport\Abstracts\DataHandler;
+use Notadd\Foundation\Passport\Abstracts\Handler;
 
 /**
  * Class NotificationHandler.
  */
-class NotificationHandler extends DataHandler
+class NotificationHandler extends Handler
 {
+    /**
+     * Execute Handler.
+     *
+     * @throws \Exception
+     */
+    protected function execute()
+    {
+        // TODO: Implement execute() method.
+    }
 }

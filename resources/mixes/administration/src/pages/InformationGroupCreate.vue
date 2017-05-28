@@ -63,7 +63,7 @@
 <template>
     <div class="member-warp">
         <div class="user-information-create">
-            <card>
+            <card :bordered="false">
                 <p slot="title">添加信息分组</p>
                 <i-form :label-width="200" :model="form" ref="form" :rules="rules">
                     <row>

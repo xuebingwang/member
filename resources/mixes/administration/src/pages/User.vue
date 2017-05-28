@@ -193,7 +193,7 @@
 <template>
     <div class="member-warp">
         <div class="user-list">
-            <card>
+            <card :bordered="false">
                 <template slot="title">
                     <span class="text">用户列表</span>
                     <div class="search">
