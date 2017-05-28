@@ -2,7 +2,7 @@
     "name": "notadd-content",
     "version": "1.0.1",
     "description": "A extension template for Notadd.",
-    "author": "twilroad <269044570@qq.com>",
+    "author": "twilroad <heshudong@ibenchu.com>",
     "private": true,
     "scripts": {
         "build": "node build/build.js",
