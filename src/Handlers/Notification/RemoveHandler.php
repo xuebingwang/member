@@ -9,37 +9,29 @@
 namespace Notadd\Member\Handlers\Notification;
 
 use Illuminate\Notifications\DatabaseNotification;
-use Notadd\Foundation\Passport\Abstracts\SetHandler;
+use Notadd\Foundation\Routing\Abstracts\Handler;
 
 /**
  * Class RemoveHandler.
  */
-class RemoveHandler extends SetHandler
+class RemoveHandler extends Handler
 {
     /**
      * Execute Handler.
      *
-     * @return bool
      * @throws \Exception
      */
     public function execute()
     {
         if (!$this->request->has('id')) {
-            $this->code = 500;
-            $this->errors->push($this->translator->trans('参数缺失！'));
-
-            return false;
-        }
-        if (DatabaseNotification::query()->where('id', $this->request->input('id'))->count()) {
-            DatabaseNotification::query()->find($this->request->input('id'))->delete();
-            $this->messages->push($this->translator->trans('删除通知消息成功！'));
-
-            return true;
+            $this->withCode(500)->withError('参数缺失！');
         } else {
-            $this->code = 500;
-            $this->errors->push($this->translator->trans('通知消息不存在！'));
-
-            return false;
+            if (DatabaseNotification::query()->where('id', $this->request->input('id'))->count()) {
+                DatabaseNotification::query()->find($this->request->input('id'))->delete();
+                $this->withCode(200)->withMessage('删除通知消息成功！');
+            } else {
+                $this->withCode(500)->withError('通知消息不存在！');
+            }
         }
     }
 }

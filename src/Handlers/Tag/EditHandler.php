@@ -8,11 +8,20 @@
  */
 namespace Notadd\Member\Handlers\Tag;
 
-use Notadd\Foundation\Passport\Abstracts\SetHandler;
+use Notadd\Foundation\Routing\Abstracts\Handler;
 
 /**
  * Class EditHandler.
  */
-class EditHandler extends SetHandler
+class EditHandler extends Handler
 {
+    /**
+     * Execute Handler.
+     *
+     * @throws \Exception
+     */
+    protected function execute()
+    {
+        // TODO: Implement execute() method.
+    }
 }

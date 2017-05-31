@@ -8,18 +8,17 @@
  */
 namespace Notadd\Member\Handlers\Information;
 
-use Notadd\Foundation\Passport\Abstracts\SetHandler;
+use Notadd\Foundation\Routing\Abstracts\Handler;
 use Notadd\Member\Models\MemberInformation;
 
 /**
  * Class CreateHandler.
  */
-class CreateHandler extends SetHandler
+class CreateHandler extends Handler
 {
     /**
      * Execute Handler.
      *
-     * @return bool
      * @throws \Exception
      */
     public function execute()
@@ -30,12 +29,9 @@ class CreateHandler extends SetHandler
             'name.required' => $this->translator->trans('必须填写信息项名称！'),
         ]);
         if (MemberInformation::query()->create($this->request->all())) {
-            $this->messages->push($this->translator->trans('创建信息项成功！'));
-
-            return true;
+            $this->withCode(200)->withMessage('创建信息项成功！');
+        } else {
+            $this->withCode(500)->withError('创建信息项失败！');
         }
-        $this->errors->push($this->translator->trans('创建信息项失败！'));
-
-        return false;
     }
 }

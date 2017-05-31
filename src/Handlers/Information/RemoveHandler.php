@@ -8,36 +8,30 @@
  */
 namespace Notadd\Member\Handlers\Information;
 
-use Notadd\Foundation\Passport\Abstracts\SetHandler;
+use Notadd\Foundation\Routing\Abstracts\Handler;
 use Notadd\Member\Models\MemberInformation;
 
 /**
  * Class RemoveHandler.
  */
-class RemoveHandler extends SetHandler
+class RemoveHandler extends Handler
 {
     /**
      * Execute Handler.
      *
-     * @return bool
      * @throws \Exception
      */
     public function execute()
     {
         if (!$this->request->has('id')) {
-            $this->code = 500;
-            $this->errors->push($this->translator->trans('参数缺失！'));
-
-            return false;
+            $this->withCode(500)->withError('参数缺失！');
+        } else {
+            if (MemberInformation::query()->where('id', $this->request->input('id'))->count()) {
+                MemberInformation::query()->find($this->request->input('id'))->delete();
+                $this->withCode(200)->withMessage('删除信息项成功！');
+            } else {
+                $this->withCode(500)->withError('删除信息项失败！');
+            }
         }
-        if (MemberInformation::query()->where('id', $this->request->input('id'))->count()) {
-            MemberInformation::query()->find($this->request->input('id'))->delete();
-            $this->messages->push($this->translator->trans('删除信息项成功！'));
-
-            return true;
-        }
-        $this->errors->push($this->translator->trans('删除信息项失败！'));
-
-        return false;
     }
 }

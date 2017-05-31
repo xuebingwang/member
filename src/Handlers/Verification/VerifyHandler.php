@@ -8,11 +8,20 @@
  */
 namespace Notadd\Member\Handlers\Verification;
 
-use Notadd\Foundation\Passport\Abstracts\SetHandler;
+use Notadd\Foundation\Routing\Abstracts\Handler;
 
 /**
  * Class VerifyHandler.
  */
-class VerifyHandler extends SetHandler
+class VerifyHandler extends Handler
 {
+    /**
+     * Execute Handler.
+     *
+     * @throws \Exception
+     */
+    protected function execute()
+    {
+        // TODO: Implement execute() method.
+    }
 }

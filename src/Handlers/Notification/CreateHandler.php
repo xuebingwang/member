@@ -8,11 +8,20 @@
  */
 namespace Notadd\Member\Handlers\Notification;
 
-use Notadd\Foundation\Passport\Abstracts\SetHandler;
+use Notadd\Foundation\Routing\Abstracts\Handler;
 
 /**
  * Class CreateHandler.
  */
-class CreateHandler extends SetHandler
+class CreateHandler extends Handler
 {
+    /**
+     * Execute Handler.
+     *
+     * @throws \Exception
+     */
+    protected function execute()
+    {
+        // TODO: Implement execute() method.
+    }
 }

@@ -8,44 +8,26 @@
  */
 namespace Notadd\Member\Handlers\Group;
 
-use Illuminate\Container\Container;
-use Notadd\Foundation\Passport\Abstracts\SetHandler;
+use Notadd\Foundation\Routing\Abstracts\Handler;
 use Notadd\Member\Models\MemberGroup;
 
 /**
  * Class RemoveHandler.
  */
-class RemoveHandler extends SetHandler
+class RemoveHandler extends Handler
 {
-    /**
-     * RemoveHandler constructor.
-     *
-     * @param \Illuminate\Container\Container   $container
-     * @param \Notadd\Member\Models\MemberGroup $group
-     */
-    public function __construct(Container $container, MemberGroup $group)
-    {
-        parent::__construct($container);
-        $this->model = $group;
-    }
-
     /**
      * Execute Handler.
      *
-     * @return bool
      * @throws \Exception
      */
     public function execute()
     {
-        $group = $this->model->newQuery()->find($this->request->input('id'));
-        if ($group) {
-            $group->delete();
-            $this->messages->push($this->translator->trans('删除用户组成功！'));
-
-            return true;
+        $group = MemberGroup::query()->find($this->request->input('id'));
+        if ($group && $group->delete()) {
+            $this->withCode(200)->withMessage('删除用户组成功！');
+        } else {
+            $this->withCode(500)->withError('删除用户组失败！');
         }
-        $this->errors->push($this->translator->trans('删除用户组失败！'));
-
-        return false;
     }
 }

@@ -8,35 +8,30 @@
  */
 namespace Notadd\Member\Handlers\Information\Group;
 
-use Notadd\Foundation\Passport\Abstracts\SetHandler;
+use Notadd\Foundation\Routing\Abstracts\Handler;
 use Notadd\Member\Models\MemberInformationGroup;
 
 /**
  * Class RemoveHandler.
  */
-class RemoveHandler extends SetHandler
+class RemoveHandler extends Handler
 {
     /**
      * Execute Handler.
      *
-     * @return bool
      * @throws \Exception
      */
     public function execute()
     {
         if (!$this->request->has('id')) {
-            $this->errors->push($this->translator->trans('缺少参数！'));
-
-            return false;
+            $this->withCode(500)->withError('缺少参数！');
+        } else {
+            if (MemberInformationGroup::query()->where('id', $this->request->input('id'))->count()) {
+                MemberInformationGroup::query()->find($this->request->input('id'))->delete();
+                $this->withCode(200)->withMessage('删除信息分组成功！');
+            } else {
+                $this->withCode(500)->withError('删除信息分组失败！');
+            }
         }
-        if (MemberInformationGroup::query()->where('id', $this->request->input('id'))->count()) {
-            MemberInformationGroup::query()->find($this->request->input('id'))->delete();
-            $this->messages->push($this->translator->trans('删除信息分组成功！'));
-
-            return true;
-        }
-        $this->errors->push($this->translator->trans('删除信息分组失败！'));
-
-        return false;
     }
 }

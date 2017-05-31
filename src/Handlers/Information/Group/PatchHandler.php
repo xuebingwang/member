@@ -8,35 +8,30 @@
  */
 namespace Notadd\Member\Handlers\Information\Group;
 
-use Notadd\Foundation\Passport\Abstracts\SetHandler;
+use Notadd\Foundation\Routing\Abstracts\Handler;
 use Notadd\Member\Models\MemberInformationGroup;
 
 /**
  * Class PatchHandler.
  */
-class PatchHandler extends SetHandler
+class PatchHandler extends Handler
 {
     /**
      * Execute Handler.
      *
-     * @return bool
      * @throws \Exception
      */
     public function execute()
     {
         if (!$this->request->has('data')) {
-            $this->code = 500;
-            $this->errors->push($this->translator->trans('参数缺失！'));
-
-            return false;
+            $this->withCode(500)->withError('参数缺失！');
+        } else {
+            collect((array)$this->request->input('data'))->each(function (array $attributes) {
+                if (isset($attributes['id']) && MemberInformationGroup::query()->where('id', $attributes['id'])->count()) {
+                    MemberInformationGroup::query()->find($attributes['id'])->update($attributes);
+                }
+            });
+            $this->withCode(200)->withMessage('批量更新数据成功！');
         }
-        collect((array)$this->request->input('data'))->each(function (array $attributes) {
-            if (isset($attributes['id']) && MemberInformationGroup::query()->where('id', $attributes['id'])->count()) {
-                MemberInformationGroup::query()->find($attributes['id'])->update($attributes);
-            }
-        });
-        $this->messages->push($this->translator->trans('批量更新数据成功！'));
-
-        return true;
     }
 }
