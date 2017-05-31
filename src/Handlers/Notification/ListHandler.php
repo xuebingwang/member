@@ -2,7 +2,7 @@
 /**
  * This file is part of Notadd.
  *
- * @author TwilRoad <269044570@qq.com>
+ * @author TwilRoad <heshudong@ibenchu.com>
  * @copyright (c) 2017, notadd.com
  * @datetime 2017-05-08 18:17
  */
@@ -10,7 +10,7 @@ namespace Notadd\Member\Handlers\Notification;
 
 use Illuminate\Container\Container;
 use Illuminate\Notifications\DatabaseNotification;
-use Notadd\Foundation\Passport\Abstracts\Handler;
+use Notadd\Foundation\Routing\Abstracts\Handler;
 
 /**
  * Class ListHandler.

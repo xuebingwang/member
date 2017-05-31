@@ -2,7 +2,7 @@
 /**
  * This file is part of Notadd.
  *
- * @author        TwilRoad <269044570@qq.com>
+ * @author        TwilRoad <heshudong@ibenchu.com>
  * @copyright (c) 2017, notadd.com
  * @datetime      2017-05-05 20:48
  */
@@ -10,7 +10,7 @@ namespace Notadd\Member\Handlers\Permission;
 
 use Illuminate\Container\Container;
 use Illuminate\Support\Collection;
-use Notadd\Foundation\Passport\Abstracts\Handler;
+use Notadd\Foundation\Routing\Abstracts\Handler;
 use Notadd\Foundation\Permission\Permission;
 use Notadd\Foundation\Permission\PermissionGroup;
 use Notadd\Foundation\Permission\PermissionGroupManager;

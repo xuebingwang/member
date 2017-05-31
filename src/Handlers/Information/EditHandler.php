@@ -2,24 +2,23 @@
 /**
  * This file is part of Notadd.
  *
- * @author TwilRoad <269044570@qq.com>
+ * @author TwilRoad <heshudong@ibenchu.com>
  * @copyright (c) 2017, notadd.com
  * @datetime 2017-04-21 18:14
  */
 namespace Notadd\Member\Handlers\Information;
 
-use Notadd\Foundation\Passport\Abstracts\SetHandler;
+use Notadd\Foundation\Routing\Abstracts\Handler;
 use Notadd\Member\Models\MemberInformation;
 
 /**
  * Class EditHandler.
  */
-class EditHandler extends SetHandler
+class EditHandler extends Handler
 {
     /**
      * Execute Handler.
      *
-     * @return bool
      * @throws \Exception
      */
     public function execute()
@@ -33,13 +32,9 @@ class EditHandler extends SetHandler
         ]);
         if (MemberInformation::query()->where('id', $this->request->input('id'))->count()) {
             MemberInformation::query()->find($this->request->input('id'))->update($this->request->all());
-            $this->messages->push($this->translator->trans('更新信息项数据成功！'));
-
-            return true;
+            $this->withCode(200)->withMessage('更新信息项数据成功！');
+        } else {
+            $this->withCode(500)->withError('信息项不存在！');
         }
-        $this->code = 500;
-        $this->errors->push($this->translator->trans('信息项不存在！'));
-
-        return false;
     }
 }

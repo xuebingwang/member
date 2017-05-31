@@ -2,20 +2,20 @@
 /**
  * This file is part of Notadd.
  *
- * @author TwilRoad <269044570@qq.com>
+ * @author TwilRoad <heshudong@ibenchu.com>
  * @copyright (c) 2017, notadd.com
  * @datetime 2017-04-21 17:22
  */
 namespace Notadd\Member\Handlers\User;
 
 use Illuminate\Container\Container;
-use Notadd\Foundation\Passport\Abstracts\SetHandler;
+use Notadd\Foundation\Routing\Abstracts\Handler;
 use Notadd\Member\Models\Member;
 
 /**
  * Class EditHandler.
  */
-class EditHandler extends SetHandler
+class EditHandler extends Handler
 {
     /**
      * @var int
@@ -26,13 +26,11 @@ class EditHandler extends SetHandler
      * EditHandler constructor.
      *
      * @param \Illuminate\Container\Container $container
-     * @param \Notadd\Member\Models\Member    $member
      */
-    public function __construct(Container $container, Member $member)
+    public function __construct(Container $container)
     {
         parent::__construct($container);
         $this->id = 0;
-        $this->model = $member;
     }
 
     /**
@@ -47,7 +45,9 @@ class EditHandler extends SetHandler
     }
 
     /**
-     * @return bool
+     * Execute Handler.
+     *
+     * @throws \Exception
      */
     public function execute()
     {
@@ -60,14 +60,11 @@ class EditHandler extends SetHandler
             'name.required' => $this->translator->trans('必须填写用户名！'),
         ]);
         $this->configurations();
-        $member = $this->model->newQuery()->find($this->id);
-        if ($member) {
-            $member->update($this->request->all());
-
-            return true;
+        $member = Member::query()->find($this->id);
+        if ($member && $member->update($this->request->all())) {
+            $this->withCode(200)->withMessage('');
+        } else {
+            $this->withCode(500)->withError('');
         }
-        $this->errors->push($this->translator->trans('Member is not exists!'));
-
-        return false;
     }
 }

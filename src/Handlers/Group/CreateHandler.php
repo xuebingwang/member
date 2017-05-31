@@ -2,35 +2,25 @@
 /**
  * This file is part of Notadd.
  *
- * @author TwilRoad <269044570@qq.com>
+ * @author TwilRoad <heshudong@ibenchu.com>
  * @copyright (c) 2017, notadd.com
  * @datetime 2017-04-21 17:49
  */
 namespace Notadd\Member\Handlers\Group;
 
 use Illuminate\Container\Container;
-use Notadd\Foundation\Passport\Abstracts\SetHandler;
+use Notadd\Foundation\Routing\Abstracts\Handler;
 use Notadd\Member\Models\MemberGroup;
 
 /**
  * Class CreateHandler.
  */
-class CreateHandler extends SetHandler
+class CreateHandler extends Handler
 {
     /**
-     * Create constructor.
+     * Execute Handler.
      *
-     * @param \Illuminate\Container\Container   $container
-     * @param \Notadd\Member\Models\MemberGroup $group
-     */
-    public function __construct(Container $container, MemberGroup $group)
-    {
-        parent::__construct($container);
-        $this->model = $group;
-    }
-
-    /**
-     * @return bool
+     * @throws \Exception
      */
     public function execute()
     {
@@ -42,13 +32,10 @@ class CreateHandler extends SetHandler
             'identification.unique'   => $this->translator->trans('用户标识必须唯一！'),
             'name.required'           => $this->translator->trans('必须填写用户组名称！'),
         ]);
-        if ($this->model->newQuery()->create($this->request->all())) {
-            $this->messages->push($this->translator->trans('创建用户组成功！'));
-
-            return true;
+        if (MemberGroup::query()->create($this->request->all())) {
+            $this->withCode(200)->withMessage('创建用户组成功！');
+        } else {
+            $this->withCode(500)->withError('创建用户失败！');
         }
-        $this->errors->push($this->translator->trans('创建用户失败！'));
-
-        return false;
     }
 }

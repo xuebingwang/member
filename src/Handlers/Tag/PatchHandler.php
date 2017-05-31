@@ -2,24 +2,23 @@
 /**
  * This file is part of Notadd.
  *
- * @author TwilRoad <269044570@qq.com>
+ * @author TwilRoad <heshudong@ibenchu.com>
  * @copyright (c) 2017, notadd.com
  * @datetime 2017-05-06 15:38
  */
 namespace Notadd\Member\Handlers\Tag;
 
-use Notadd\Foundation\Passport\Abstracts\SetHandler;
+use Notadd\Foundation\Routing\Abstracts\Handler;
 use Notadd\Member\Models\MemberTag;
 
 /**
  * Class PatchHandler.
  */
-class PatchHandler extends SetHandler
+class PatchHandler extends Handler
 {
     /**
      * Execute Handler.
      *
-     * @return bool
      * @throws \Exception
      */
     public function execute()
@@ -44,8 +43,6 @@ class PatchHandler extends SetHandler
                 }
             }
         });
-        $this->messages->push($this->translator->trans('批量更新标签数据成功！'));
-
-        return true;
+        $this->withCode(200)->withMessage('批量更新标签数据成功！');
     }
 }

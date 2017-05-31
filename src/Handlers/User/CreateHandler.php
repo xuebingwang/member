@@ -2,35 +2,24 @@
 /**
  * This file is part of Notadd.
  *
- * @author TwilRoad <269044570@qq.com>
+ * @author TwilRoad <heshudong@ibenchu.com>
  * @copyright (c) 2017, notadd.com
  * @datetime 2017-04-21 17:13
  */
 namespace Notadd\Member\Handlers\User;
 
-use Illuminate\Container\Container;
-use Notadd\Foundation\Passport\Abstracts\SetHandler;
+use Notadd\Foundation\Routing\Abstracts\Handler;
 use Notadd\Member\Models\Member;
 
 /**
  * Class Create.
  */
-class CreateHandler extends SetHandler
+class CreateHandler extends Handler
 {
     /**
-     * Create constructor.
+     * Execute Handler.
      *
-     * @param \Illuminate\Container\Container $container
-     * @param \Notadd\Member\Models\Member    $member
-     */
-    public function __construct(Container $container, Member $member)
-    {
-        parent::__construct($container);
-        $this->model = $member;
-    }
-
-    /**
-     * @return bool
+     * @throws \Exception
      */
     public function execute()
     {
@@ -48,13 +37,10 @@ class CreateHandler extends SetHandler
             $this->request->offsetSet('birthday', null);
         }
         $this->request->offsetSet('password', bcrypt($this->request->input('password')));
-        if ($this->model->newQuery()->create($this->request->all())) {
-            $this->messages->push($this->translator->trans('创建用户成功！'));
-
-            return true;
+        if (Member::query()->create($this->request->all())) {
+            $this->withCode(200)->withMessage('创建用户成功！');
+        } else {
+            $this->withCode(500)->withError('创建用户失败！');
         }
-        $this->errors->push($this->translator->trans('创建用户失败！'));
-
-        return false;
     }
 }

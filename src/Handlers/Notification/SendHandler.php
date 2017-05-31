@@ -2,20 +2,20 @@
 /**
  * This file is part of Notadd.
  *
- * @author TwilRoad <269044570@qq.com>
+ * @author TwilRoad <heshudong@ibenchu.com>
  * @copyright (c) 2017, notadd.com
  * @datetime 2017-05-14 16:23
  */
 namespace Notadd\Member\Handlers\Notification;
 
-use Notadd\Foundation\Passport\Abstracts\SetHandler;
+use Notadd\Foundation\Routing\Abstracts\Handler;
 use Notadd\Member\Models\Member;
 use Notadd\Member\Notifications\CommonNotify;
 
 /**
  * Class SendHandler.
  */
-class SendHandler extends SetHandler
+class SendHandler extends Handler
 {
     public function execute()
     {
@@ -32,25 +32,22 @@ class SendHandler extends SetHandler
         ]);
         $users = collect($this->request->input('users'));
         if ($users->isEmpty()) {
-            $this->code = 500;
-            $this->errors->push($this->translator->trans('发送用户列表为空！'));
-
-            return false;
+            $this->withCode(500)->withError('发送用户列表为空！');
+        } else {
+            $users->transform(function ($id) {
+                if (Member::query()->where('id', $id)->count()) {
+                    return Member::query()->find($id);
+                } else {
+                    return Member::query()->find(1);
+                }
+            });
+            $users->each(function (Member $user) {
+                $user->notify(new CommonNotify([
+                    'content' => $this->request->input('content'),
+                    'title' => $this->request->input('title'),
+                ]));
+            });
+            $this->withCode(200)->withMessage('');
         }
-        $users->transform(function ($id) {
-            if (Member::query()->where('id', $id)->count()) {
-                return Member::query()->find($id);
-            } else {
-                return Member::query()->find(1);
-            }
-        });
-        $users->each(function (Member $user) {
-            $user->notify(new CommonNotify([
-                'content' => $this->request->input('content'),
-                'title' => $this->request->input('title'),
-            ]));
-        });
-
-        return true;
     }
 }

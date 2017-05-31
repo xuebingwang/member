@@ -2,7 +2,7 @@
 /**
  * This file is part of Notadd.
  *
- * @author TwilRoad <269044570@qq.com>
+ * @author TwilRoad <heshudong@ibenchu.com>
  * @copyright (c) 2017, notadd.com
  * @datetime 2017-04-18 15:51
  */
@@ -12,12 +12,12 @@ use Illuminate\Container\Container;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
-use Notadd\Foundation\Passport\Abstracts\SetHandler;
+use Notadd\Foundation\Routing\Abstracts\Handler;
 
 /**
  * Class UploadHandler.
  */
-class UploadHandler extends SetHandler
+class UploadHandler extends Handler
 {
     /**
      * @var \Illuminate\Filesystem\Filesystem
@@ -40,7 +40,8 @@ class UploadHandler extends SetHandler
     /**
      * Execute Handler.
      *
-     * @return bool
+     * @throws \Illuminate\Contracts\Container\BindingResolutionException
+     * @throws \Illuminate\Validation\ValidationException
      */
     public function execute()
     {
@@ -62,8 +63,7 @@ class UploadHandler extends SetHandler
         $this->data['path'] = $this->pathSplit($hash, '12,20', Collection::make([
                 'uploads',
             ]))->implode('/') . '.' . $avatar->getClientOriginalExtension();
-
-        return true;
+        $this->withCode(200)->withMessage('');
     }
 
     /**

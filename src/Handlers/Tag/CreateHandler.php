@@ -2,7 +2,7 @@
 /**
  * This file is part of Notadd.
  *
- * @author TwilRoad <269044570@qq.com>
+ * @author TwilRoad <heshudong@ibenchu.com>
  * @copyright (c) 2017, notadd.com
  * @datetime 2017-04-21 18:22
  */
@@ -10,18 +10,17 @@ namespace Notadd\Member\Handlers\Tag;
 
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
-use Notadd\Foundation\Passport\Abstracts\SetHandler;
+use Notadd\Foundation\Routing\Abstracts\Handler;
 use Notadd\Member\Models\MemberTag;
 
 /**
  * Class CreateHandler.
  */
-class CreateHandler extends SetHandler
+class CreateHandler extends Handler
 {
     /**
      * Execute Handler.
      *
-     * @return bool
      * @throws \Exception
      */
     public function execute()
@@ -52,9 +51,6 @@ class CreateHandler extends SetHandler
         if ($users = $this->request->input('users')) {
             $users = explode(PHP_EOL, $users);
         }
-
-        $this->messages->push($this->translator->trans('创建用户标签成功！'));
-
-        return true;
+        $this->withCode(200)->withMessage('创建用户标签成功！');
     }
 }

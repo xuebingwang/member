@@ -2,20 +2,20 @@
 /**
  * This file is part of Notadd.
  *
- * @author TwilRoad <269044570@qq.com>
+ * @author TwilRoad <heshudong@ibenchu.com>
  * @copyright (c) 2017, notadd.com
  * @datetime 2017-04-21 17:52
  */
 namespace Notadd\Member\Handlers\Group;
 
 use Illuminate\Container\Container;
-use Notadd\Foundation\Passport\Abstracts\SetHandler;
+use Notadd\Foundation\Routing\Abstracts\Handler;
 use Notadd\Member\Models\MemberGroup;
 
 /**
  * Class EditHandler.
  */
-class EditHandler extends SetHandler
+class EditHandler extends Handler
 {
     /**
      * @var int
@@ -25,14 +25,12 @@ class EditHandler extends SetHandler
     /**
      * EditHandler constructor.
      *
-     * @param \Illuminate\Container\Container   $container
-     * @param \Notadd\Member\Models\MemberGroup $group
+     * @param \Illuminate\Container\Container $container
      */
-    public function __construct(Container $container, MemberGroup $group)
+    public function __construct(Container $container)
     {
         parent::__construct($container);
         $this->id = 0;
-        $this->model = $group;
     }
 
     /**
@@ -47,7 +45,9 @@ class EditHandler extends SetHandler
     }
 
     /**
-     * @return bool
+     * Execute Handler.
+     *
+     * @throws \Exception
      */
     public function execute()
     {
@@ -60,15 +60,11 @@ class EditHandler extends SetHandler
             'name.required'           => $this->translator->trans('必须填写用户组名称！'),
         ]);
         $this->configurations();
-        $group = $this->model->newQuery()->find($this->id);
-        if ($group) {
-            $group->update($this->request->all());
-            $this->messages->push($this->translator->trans('用户组件编辑成功！'));
-
-            return true;
+        $group = MemberGroup::query()->find($this->id);
+        if ($group && $group->update($this->request->all())) {
+            $this->withCode(200)->withMessage('用户组件编辑成功！');
+        } else {
+            $this->withCode(500)->withError('Member is not exists!');
         }
-        $this->errors->push($this->translator->trans('Member is not exists!'));
-
-        return false;
     }
 }

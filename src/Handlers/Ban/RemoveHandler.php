@@ -2,43 +2,37 @@
 /**
  * This file is part of Notadd.
  *
- * @author TwilRoad <269044570@qq.com>
+ * @author TwilRoad <heshudong@ibenchu.com>
  * @copyright (c) 2017, notadd.com
  * @datetime 2017-05-02 11:32
  */
 namespace Notadd\Member\Handlers\Ban;
 
-use Notadd\Foundation\Passport\Abstracts\SetHandler;
+use Notadd\Foundation\Routing\Abstracts\Handler;
 use Notadd\Member\Models\MemberBanIp;
 
 /**
  * Class RemoveHandler.
  */
-class RemoveHandler extends SetHandler
+class RemoveHandler extends Handler
 {
     /**
      * Execute Handler.
      *
-     * @return bool
      * @throws \Exception
      */
     public function execute()
     {
         if (!$this->request->has('id')) {
-            $this->errors->push($this->translator->trans('参数缺失！'));
-
-            return false;
-        }
-        $builder = MemberBanIp::query();
-        if ($builder->where('id', $this->request->input('id'))->count()) {
-            $builder->find($this->request->input('id'))->delete();
-            $this->messages->push($this->translator->trans('删除封禁 IP 成功！'));
-
-            return true;
+            $this->withCode(500)->withError('参数缺失！');
         } else {
-            $this->errors->push($this->translator->trans('封禁 IP 不存在！'));
-
-            return false;
+            $builder = MemberBanIp::query();
+            if ($builder->where('id', $this->request->input('id'))->count()) {
+                $builder->find($this->request->input('id'))->delete();
+                $this->withCode(200)->withMessage('删除封禁 IP 成功！');
+            } else {
+                $this->withCode(500)->withError('封禁 IP 不存在！');
+            }
         }
     }
 }
