@@ -8,7 +8,7 @@
  */
 namespace Notadd\Member\Handlers\Information;
 
-use Notadd\Foundation\Passport\Abstracts\Handler;
+use Notadd\Foundation\Routing\Abstracts\Handler;
 use Notadd\Member\Models\MemberInformation;
 
 /**

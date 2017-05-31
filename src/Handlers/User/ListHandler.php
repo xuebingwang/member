@@ -9,7 +9,7 @@
 namespace Notadd\Member\Handlers\User;
 
 use Illuminate\Container\Container;
-use Notadd\Foundation\Passport\Abstracts\Handler;
+use Notadd\Foundation\Routing\Abstracts\Handler;
 use Notadd\Member\Models\Member;
 use Notadd\Member\Models\MemberGroupRelation;
 

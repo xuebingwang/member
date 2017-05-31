@@ -10,7 +10,7 @@ namespace Notadd\Member\Handlers\Notification;
 
 use Illuminate\Container\Container;
 use Illuminate\Notifications\DatabaseNotification;
-use Notadd\Foundation\Passport\Abstracts\Handler;
+use Notadd\Foundation\Routing\Abstracts\Handler;
 
 /**
  * Class ListHandler.

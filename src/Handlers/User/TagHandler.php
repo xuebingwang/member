@@ -8,7 +8,7 @@
  */
 namespace Notadd\Member\Handlers\User;
 
-use Notadd\Foundation\Passport\Abstracts\Handler;
+use Notadd\Foundation\Routing\Abstracts\Handler;
 use Notadd\Member\Models\MemberTagRelation;
 
 /**

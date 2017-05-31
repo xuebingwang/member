@@ -10,7 +10,7 @@ namespace Notadd\Member\Handlers\Permission;
 
 use Illuminate\Container\Container;
 use Illuminate\Support\Collection;
-use Notadd\Foundation\Passport\Abstracts\Handler;
+use Notadd\Foundation\Routing\Abstracts\Handler;
 use Notadd\Foundation\Permission\Permission;
 use Notadd\Foundation\Permission\PermissionGroup;
 use Notadd\Foundation\Permission\PermissionGroupManager;

@@ -8,7 +8,7 @@
  */
 namespace Notadd\Member\Handlers\Notification;
 
-use Notadd\Foundation\Passport\Abstracts\Handler;
+use Notadd\Foundation\Routing\Abstracts\Handler;
 
 /**
  * Class NotificationHandler.

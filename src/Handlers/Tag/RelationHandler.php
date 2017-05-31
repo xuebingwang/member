@@ -8,7 +8,7 @@
  */
 namespace Notadd\Member\Handlers\Tag;
 
-use Notadd\Foundation\Passport\Abstracts\Handler;
+use Notadd\Foundation\Routing\Abstracts\Handler;
 
 /**
  * Class RelationHandler.
