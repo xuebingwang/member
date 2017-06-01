@@ -16,10 +16,20 @@ use Notadd\Foundation\Flow\Abstracts\FlowRegister as AbstractFlowRegister;
 class FlowRegister extends AbstractFlowRegister
 {
     /**
+     * @var array
+     */
+    protected $definitions = [
+    ];
+
+    /**
      * Register flow or flows.
      */
     public function handle()
     {
-        // TODO: Implement handle() method.
+        foreach ($this->definitions as $definition) {
+            if (method_exists($this, 'register' . ucfirst($definition) . 'Flow')) {
+                $this->{'register' . ucfirst($definition) . 'Flow'}();
+            }
+        }
     }
 }
