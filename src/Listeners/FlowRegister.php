@@ -9,6 +9,14 @@
 namespace Notadd\Member\Listeners;
 
 use Notadd\Foundation\Flow\Abstracts\FlowRegister as AbstractFlowRegister;
+use Notadd\Member\Entities\Member;
+use Notadd\Member\Entities\MemberBan;
+use Notadd\Member\Entities\MemberGroup;
+use Notadd\Member\Entities\MemberInformation;
+use Notadd\Member\Entities\MemberNotification;
+use Notadd\Member\Entities\MemberPermission;
+use Notadd\Member\Entities\MemberTag;
+use Notadd\Member\Entities\MemberVerification;
 
 /**
  * Class FlowRegister.
@@ -16,20 +24,17 @@ use Notadd\Foundation\Flow\Abstracts\FlowRegister as AbstractFlowRegister;
 class FlowRegister extends AbstractFlowRegister
 {
     /**
-     * @var array
-     */
-    protected $definitions = [
-    ];
-
-    /**
      * Register flow or flows.
      */
     public function handle()
     {
-        foreach ($this->definitions as $definition) {
-            if (method_exists($this, 'register' . ucfirst($definition) . 'Flow')) {
-                $this->{'register' . ucfirst($definition) . 'Flow'}();
-            }
-        }
+        $this->flow->register(Member::class);
+        $this->flow->register(MemberBan::class);
+        $this->flow->register(MemberGroup::class);
+        $this->flow->register(MemberInformation::class);
+        $this->flow->register(MemberNotification::class);
+        $this->flow->register(MemberPermission::class);
+        $this->flow->register(MemberTag::class);
+        $this->flow->register(MemberVerification::class);
     }
 }
