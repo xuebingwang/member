@@ -22,4 +22,12 @@ class MemberVerification extends Entity
     {
         return 'member.verification';
     }
+
+    /**
+     * @return array
+     */
+    public function places()
+    {
+        return [];
+    }
 }

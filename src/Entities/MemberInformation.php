@@ -22,4 +22,12 @@ class MemberInformation extends Entity
     {
         return 'member.information';
     }
+
+    /**
+     * @return array
+     */
+    public function places()
+    {
+        return [];
+    }
 }

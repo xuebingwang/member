@@ -22,4 +22,12 @@ class MemberGroup extends Entity
     {
         return 'member.group';
     }
+
+    /**
+     * @return array
+     */
+    public function places()
+    {
+        return [];
+    }
 }

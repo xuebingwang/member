@@ -22,4 +22,12 @@ class MemberNotification extends Entity
     {
         return 'member.notification';
     }
+
+    /**
+     * @return array
+     */
+    public function places()
+    {
+        return [];
+    }
 }

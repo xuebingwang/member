@@ -22,4 +22,12 @@ class MemberTag extends Entity
     {
         return 'member.tag';
     }
+
+    /**
+     * @return array
+     */
+    public function places()
+    {
+        return [];
+    }
 }

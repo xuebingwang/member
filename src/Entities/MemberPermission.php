@@ -22,4 +22,12 @@ class MemberPermission extends Entity
     {
         return 'member.permission';
     }
+
+    /**
+     * @return array
+     */
+    public function places()
+    {
+        return [];
+    }
 }

@@ -22,4 +22,12 @@ class MemberBan extends Entity
     {
         return 'member.ban';
     }
+
+    /**
+     * @return array
+     */
+    public function places()
+    {
+        return [];
+    }
 }
