@@ -46,4 +46,52 @@ class MemberBan extends Entity
     {
         return [];
     }
+
+    /**
+     * Announce a transition.
+     */
+    public function announce()
+    {
+        // TODO: Implement announce() method.
+    }
+
+    /**
+     * Enter a place.
+     */
+    public function enter()
+    {
+        // TODO: Implement enter() method.
+    }
+
+    /**
+     * Entered a place.
+     */
+    public function entered()
+    {
+        // TODO: Implement entered() method.
+    }
+
+    /**
+     * Guard a transition.
+     */
+    public function guard()
+    {
+        // TODO: Implement guard() method.
+    }
+
+    /**
+     * Leave a place.
+     */
+    public function leave()
+    {
+        // TODO: Implement leave() method.
+    }
+
+    /**
+     * Into a transition.
+     */
+    public function transition()
+    {
+        // TODO: Implement transition() method.
+    }
 }
