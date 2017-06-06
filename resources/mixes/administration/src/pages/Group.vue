@@ -55,6 +55,7 @@
                     {
                         key: 'created_at',
                         title: injection.trans('创建时间'),
+                        width: 150,
                     },
                     {
                         key: 'handle',

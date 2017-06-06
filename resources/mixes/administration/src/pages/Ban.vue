@@ -26,8 +26,8 @@
                     {
                         key: 'avatar',
                         render(row) {
-                            if (row.avatar) {
-                                return `<img class="user-list-image" src="${row.avatar}">`;
+                            if (row.member.avatar) {
+                                return `<img class="user-list-image" src="${row.member.avatar}">`;
                             }
                             return '';
                         },
@@ -37,21 +37,14 @@
                     {
                         key: 'name',
                         title: injection.trans('member.user.table.title'),
-                        width: 100,
-                    },
-                    {
-                        key: 'status',
-                        title: injection.trans('member.user.table.status'),
-                        width: 100,
-                    },
-                    {
-                        key: 'group',
-                        title: injection.trans('member.user.table.group'),
-                        width: 100,
+                        render(row) {
+                            return row.member.name;
+                        },
+                        width: 130,
                     },
                     {
                         key: 'created_at',
-                        title: injection.trans('member.user.table.date'),
+                        title: injection.trans('member.ban.table.date'),
                     },
                     {
                         key: 'handle',

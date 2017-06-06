@@ -66,6 +66,6 @@ class UserHandler extends Handler
                 $builder = $builder->with($with);
             }
         }
-        $this->success()->withData($builder->first())->withMessage('');
+        $this->success()->withData($builder->first()->toArray())->withMessage('');
     }
 }

@@ -91,6 +91,7 @@
                     {
                         key: 'created_at',
                         title: injection.trans('member.user.table.date'),
+                        width: 150,
                     },
                     {
                         key: 'handle',
